@@ -6,13 +6,31 @@ const previewImageUrl = 'https://meko1984.github.io/ECG-Reading-Lab/og.png';
 const siteTitle = '心電図よみときラボ | ECG Reading Lab';
 const siteDescription =
   '心電図を読む前の考え方を、図と波形で見える化する非診断用の学習Webアプリ。';
+const publicBasePath = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
+const publicAsset = (path: string) => `${publicBasePath}${path}`;
 
 export const dynamic = 'force-static';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
+  applicationName: '心電図ラボ',
   title: siteTitle,
   description: siteDescription,
+  manifest: publicAsset('/manifest.webmanifest'),
+  icons: {
+    icon: [
+      { url: publicAsset('/favicon.svg'), type: 'image/svg+xml' },
+      { url: publicAsset('/icon-192.png'), sizes: '192x192', type: 'image/png' },
+    ],
+    apple: [
+      { url: publicAsset('/apple-touch-icon.png'), sizes: '180x180', type: 'image/png' },
+    ],
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: '心電図ラボ',
+  },
   openGraph: {
     type: 'website',
     locale: 'ja_JP',

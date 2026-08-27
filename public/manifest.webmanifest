@@ -1,0 +1,26 @@
+{
+  "id": "./",
+  "name": "心電図よみときラボ",
+  "short_name": "心電図ラボ",
+  "description": "心電図を読む前の考え方を、図と波形で見える化する非診断用の学習Webアプリ。",
+  "lang": "ja",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5fcff",
+  "theme_color": "#f5fcff",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
