@@ -1,5 +1,6 @@
 import {
   PAC_WAVEFORM_SCALE,
+  continueSvgPath,
   polarityLabel,
   polarityPath,
   type PACLead,
@@ -78,6 +79,18 @@ export function PACWaveform({ lead, polarity, color, morphology, pWaveScale = 1 
   const sinusBefore = polarityPath(shape.sinusPolarity, firstP, baseline, shape.sinusScale);
   const premature = polarityPath(polarity, pacP, baseline, 0.82 * pWaveScale, pacMorphology(lead, polarity, morphology));
   const sinusAfter = polarityPath(shape.sinusPolarity, nextSinusP, baseline, shape.sinusScale);
+  const continuousTrace = [
+    `M7 ${baseline} H${firstP - 16}`,
+    continueSvgPath(sinusBefore),
+    continueSvgPath(ventricularPath(firstP, shape)),
+    `H${pacP - 22}`,
+    continueSvgPath(premature),
+    continueSvgPath(ventricularPath(pacP, shape)),
+    `H${nextSinusP - 16}`,
+    continueSvgPath(sinusAfter),
+    continueSvgPath(ventricularPath(nextSinusP, shape)),
+    'H513',
+  ].join(' ');
   const summary = `${lead}誘導の連続模式心電図。洞調律、${polarityLabel(polarity)}のPダッシュ波を伴う心房期外収縮、洞調律の順に3拍を示します。`;
 
   return (
@@ -95,7 +108,7 @@ export function PACWaveform({ lead, polarity, color, morphology, pWaveScale = 1 
         <rect width="520" height="132" className="pac-paper" />
         <rect width="520" height="132" fill={`url(#pac-grid-${lead})`} />
         <rect x={pacP - 20} y="5" width="122" height="122" className="pac-beat-window" />
-        <path d={`M7 ${baseline} H${firstP - 16} ${sinusBefore} ${ventricularPath(firstP, shape)} H${pacP - 22} ${premature} ${ventricularPath(pacP, shape)} H${nextSinusP - 16} ${sinusAfter} ${ventricularPath(nextSinusP, shape)} H513`} className="pac-trace" />
+        <path d={continuousTrace} className="pac-trace" />
         <path d={premature} className="pac-p-prime" style={{ stroke: color }} />
         <text x={firstP + 28} y="18" className="pac-beat-label">洞調律</text>
         <text x={pacP + 30} y="18" className="pac-beat-label pac-beat-label-accent" style={{ fill: color }}>PAC</text>

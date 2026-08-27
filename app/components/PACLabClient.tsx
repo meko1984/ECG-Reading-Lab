@@ -54,7 +54,7 @@ export function PACLabClient() {
           <span className="unit-badge">候補9部位</span>
         </div>
 
-        <p className="pac-interaction-hint">図の番号か下の部位名を選ぶと、6誘導のP′波と連続波形が連動します。</p>
+        <p className="pac-interaction-hint">心臓図の番号を選ぶと、6誘導のP′波と連続波形が連動します。</p>
 
         <div className="pac-atria-map">
           <img
@@ -115,23 +115,6 @@ export function PACLabClient() {
             <span><i className="pac-key-four-chambers" />薄い点線＝4部屋の大まかな位置</span>
           </div>
         </div>
-
-        <div className="pac-origin-index" aria-label="起源候補9部位">
-          {PAC_ORIGINS.map((origin) => (
-            <button
-              type="button"
-              key={origin.id}
-              className={activeOriginId === origin.id ? 'is-active' : ''}
-              aria-pressed={activeOriginId === origin.id}
-              style={{ '--origin-color': origin.color } as React.CSSProperties}
-              onClick={() => setActiveOriginId(origin.id)}
-            >
-              <b>{origin.markerNumber}</b>
-              <span>{origin.shortName}</span>
-            </button>
-          ))}
-        </div>
-        <p className="pac-waveform-color-note"><i aria-hidden="true" />左心耳と左上肺静脈は同じ灰紫＝同じ代表P′波。ほかは落ち着いた青に統一。</p>
 
         <div className="pac-selected-origin" aria-live="polite">
           <p>{activeOrigin.chamber}</p>

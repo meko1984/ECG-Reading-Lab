@@ -4,6 +4,7 @@ import {
   PAC_LEADS,
   PAC_ORIGINS,
   PAC_WAVEFORM_SCALE,
+  continueSvgPath,
   pacOrigin,
   polarityLabel,
   polarityPath,
@@ -122,6 +123,11 @@ test('polarity labels and SVG paths cover all waveform directions', () => {
     polarityPath('negative', 30, 20, 1, 'notched'),
     polarityPath('negative', 30, 20, 1, 'smooth'),
   );
+});
+
+test('separate ECG SVG segments can be joined into one continuous path', () => {
+  assert.equal(continueSvgPath('M12 30 H40'), 'L12 30 H40');
+  assert.throws(() => continueSvgPath('L12 30 H40'), /must start with M/);
 });
 
 test('PAC waveform scale represents a premature narrow-complex beat', () => {
