@@ -19,7 +19,8 @@ export const metadata: Metadata = {
   manifest: publicAsset('/manifest.webmanifest'),
   icons: {
     icon: [
-      { url: publicAsset('/favicon.svg'), type: 'image/svg+xml' },
+      { url: publicAsset('/favicon-heart-32.png'), sizes: '32x32', type: 'image/png' },
+      { url: publicAsset('/favicon-heart-48.png'), sizes: '48x48', type: 'image/png' },
       { url: publicAsset('/icon-192.png'), sizes: '192x192', type: 'image/png' },
     ],
     apple: [
