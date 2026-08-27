@@ -16,7 +16,7 @@ const markerLabels: Record<PACOriginId, string> = {
   'left-superior-pv': '左上肺静脈付近',
 };
 
-const pacHeartImage = `${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/pac-posterior-heart-v4.png`;
+const pacHeartImage = `${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/pac-posterior-heart-v5.png`;
 
 const anatomyLabels = [
   { id: 'svc', text: '上大静脈' },
@@ -60,11 +60,14 @@ export function PACLabClient() {
           <img
             className="pac-heart-anatomy"
             src={pacHeartImage}
-            alt="心臓を後面から見た模式図。薄い心臓全体を背景に、右房と左房、上下大静脈、4本の肺静脈、冠静脈洞を示しています。"
+            alt="患者の背中側から見た心臓の模式図。画面左が患者の左、画面右が患者の右。中央の左房に4本の肺静脈が入り、右側の右房に上下大静脈が入ります。"
           />
           <span className="pac-view-badge">後面から見る</span>
-          <span className="pac-side-guide"><b>患者の右</b><i aria-hidden="true">←　→</i><b>患者の左</b></span>
-          <span className="pac-whole-heart-note">薄い部分＝心臓全体</span>
+          <span className="pac-side-guide"><b>患者の左</b><i aria-hidden="true">←　→</i><b>患者の右</b></span>
+          <span className="pac-whole-heart-note">細い輪郭＝心臓全体</span>
+
+          <span className="pac-hidden-pv pac-hidden-pv-superior" aria-hidden="true" />
+          <span className="pac-hidden-pv pac-hidden-pv-inferior" aria-hidden="true" />
 
           {anatomyLabels.map((label) => (
             <span className={`pac-anatomy-label pac-label-${label.id}`} key={label.id}>
@@ -86,6 +89,16 @@ export function PACLabClient() {
               <small>{origin.shortName}</small>
             </button>
           ))}
+        </div>
+
+        <div className="pac-anatomy-key" aria-label="心臓図の色分けと向き">
+          <p><strong>向き：</strong>患者の背中側から同じ方向を向いて見るため、画面左が患者の左です。</p>
+          <div>
+            <span><i className="pac-key-left-atrium" />左房・肺静脈</span>
+            <span><i className="pac-key-right-atrium" />右房・上下大静脈</span>
+            <span><i className="pac-key-coronary-sinus" />冠静脈洞</span>
+            <span><i className="pac-key-hidden" />右房の後ろを通る部分</span>
+          </div>
         </div>
 
         <div className="pac-selected-origin" aria-live="polite">
