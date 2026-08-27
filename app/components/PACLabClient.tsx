@@ -18,6 +18,8 @@ const markerLabels: Record<PACOriginId, string> = {
   'left-superior-pv': '左上肺静脈付近',
 };
 
+const pacHeartImage = `${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/pac-posterior-heart-v1.png`;
+
 export function PACLabClient() {
   const [activeOriginId, setActiveOriginId] = useState<PACOriginId>('crista-terminalis');
   const [activeLead, setActiveLead] = useState<PACLead>('V1');
@@ -44,14 +46,14 @@ export function PACLabClient() {
 
         <p className="pac-interaction-hint">色のついた点を選ぶと、6誘導のP′波とリズム波形が連動します。</p>
 
-        <div className="pac-atria-map" role="img" aria-label="右房と左房を正面から見た模式図。3つの代表起源を選べます。">
-          <div className="pac-vessel pac-svc" aria-hidden="true" />
-          <div className="pac-vessel pac-ivc" aria-hidden="true" />
-          <div className="pac-vessel pac-pv-left" aria-hidden="true" />
-          <div className="pac-vessel pac-pv-right" aria-hidden="true" />
-          <div className="pac-atrium pac-right-atrium" aria-hidden="true"><span>右房</span></div>
-          <div className="pac-atrium pac-left-atrium" aria-hidden="true"><span>左房</span></div>
-          <div className="pac-septum" aria-hidden="true" />
+        <div className="pac-atria-map">
+          <img
+            className="pac-heart-anatomy"
+            src={pacHeartImage}
+            alt="心臓を後面から見た模式図。薄い心臓全体を背景に、右房と左房、上下大静脈、4本の肺静脈、冠静脈洞を示しています。"
+          />
+          <span className="pac-view-badge">後面から見る</span>
+          <span className="pac-whole-heart-note">薄い部分＝心臓全体</span>
 
           {PAC_ORIGINS.map((origin) => (
             <button
