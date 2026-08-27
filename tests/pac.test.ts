@@ -36,7 +36,7 @@ test('representative polarity clues match each location', () => {
   assert.equal(csOstium.polarities.V1, 'negative-positive');
 
   const leftPv = pacOrigin('left-superior-pv');
-  assert.equal(leftPv.polarities.I, 'negative');
+  assert.equal(leftPv.polarities.I, 'positive-negative');
   assert.equal(leftPv.polarities.V1, 'positive');
 });
 
@@ -54,6 +54,15 @@ test('polarity labels and SVG paths cover all waveform directions', () => {
   ];
   assert.equal(new Set(paths).size, 4);
   paths.forEach((path) => assert.match(path, /^M/));
+
+  assert.notEqual(
+    polarityPath('positive', 30, 20, 1, 'notched'),
+    polarityPath('positive', 30, 20, 1, 'smooth'),
+  );
+  assert.notEqual(
+    polarityPath('positive', 30, 20, 1, 'broad'),
+    polarityPath('positive', 30, 20, 1, 'smooth'),
+  );
 });
 
 test('PAC waveform scale represents a premature narrow-complex beat', () => {

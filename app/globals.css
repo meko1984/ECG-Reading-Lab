@@ -856,7 +856,8 @@ button { color: inherit; }
 }
 
 .pac-view-badge,
-.pac-whole-heart-note {
+.pac-whole-heart-note,
+.pac-side-guide {
   position: absolute;
   z-index: 3;
   padding: 4px 8px;
@@ -870,6 +871,8 @@ button { color: inherit; }
 }
 
 .pac-view-badge { top: 4px; left: 4px; }
+.pac-side-guide { top: 4px; left: 50%; display: flex; gap: 5px; transform: translateX(-50%); }
+.pac-side-guide i { color: rgba(20, 110, 214, 0.7); font-style: normal; }
 .pac-whole-heart-note { right: 4px; bottom: 4px; }
 
 .pac-anatomy-label {
@@ -896,25 +899,25 @@ button { color: inherit; }
   transform-origin: left center;
 }
 
-.pac-label-svc { top: 12%; left: 18%; }
+.pac-label-svc { top: 13%; left: 20%; }
 .pac-label-svc::after { top: 120%; left: 70%; transform: rotate(58deg); }
-.pac-label-ivc { right: 43%; bottom: 9%; }
+.pac-label-ivc { left: 25%; bottom: 8%; }
 .pac-label-ivc::after { bottom: 120%; left: 72%; transform: rotate(-65deg); }
-.pac-label-rupv { top: 33%; left: 0; }
+.pac-label-rupv { top: 35%; left: 0; }
 .pac-label-rupv::after { top: 60%; left: 100%; transform: rotate(8deg); }
-.pac-label-rlpv { top: 46%; left: 0; }
+.pac-label-rlpv { top: 48%; left: 0; }
 .pac-label-rlpv::after { top: 45%; left: 100%; transform: rotate(-7deg); }
-.pac-label-lupv { top: 33%; right: 0; }
+.pac-label-lupv { top: 36%; right: 0; }
 .pac-label-lupv::after { top: 58%; right: 100%; transform: rotate(172deg); }
-.pac-label-llpv { top: 47%; right: 0; }
+.pac-label-llpv { top: 51%; right: 0; }
 .pac-label-llpv::after { top: 45%; right: 100%; transform: rotate(187deg); }
-.pac-label-laa { top: 25%; right: 4%; }
+.pac-label-laa { top: 28%; right: 8%; }
 .pac-label-laa::after { top: 110%; right: 80%; transform: rotate(140deg); }
-.pac-label-cs { right: 21%; bottom: 26%; }
+.pac-label-cs { right: 25%; bottom: 29%; }
 .pac-label-cs::after { bottom: 105%; right: 72%; transform: rotate(205deg); }
-.pac-label-sa-node { top: 27%; left: 35%; }
+.pac-label-sa-node { top: 28%; left: 29%; }
 .pac-label-sa-node::after { top: 110%; left: 50%; transform: rotate(75deg); }
-.pac-label-his { top: 51%; left: 43%; }
+.pac-label-his { top: 50%; left: 36%; }
 .pac-label-his::after { top: 110%; left: 45%; transform: rotate(77deg); }
 
 .pac-origin-marker {
@@ -955,10 +958,11 @@ button { color: inherit; }
 
 .pac-origin-marker.is-active { color: var(--origin-color); }
 .pac-origin-marker.is-active > span { transform: scale(1.25); box-shadow: 0 0 0 6px color-mix(in srgb, var(--origin-color) 24%, transparent); }
-.pac-origin-marker:focus-visible { outline: 3px solid var(--navy); outline-offset: 2px; border-radius: 12px; }
-.pac-marker-crista-terminalis { top: 33%; left: 29%; }
-.pac-marker-cs-ostium { top: 55%; left: 36%; }
-.pac-marker-left-superior-pv { top: 34%; left: 64%; }
+.pac-origin-marker:focus-visible { outline: none; }
+.pac-origin-marker:focus-visible > span { box-shadow: 0 0 0 5px color-mix(in srgb, var(--origin-color) 24%, transparent), 0 0 0 7px var(--navy); }
+.pac-marker-crista-terminalis { top: 34%; left: 27%; }
+.pac-marker-cs-ostium { top: 56%; left: 34%; }
+.pac-marker-left-superior-pv { top: 37%; left: 68%; }
 
 .pac-selected-origin {
   display: grid;
@@ -1008,6 +1012,7 @@ button { color: inherit; }
 .pac-p-label { font-size: 9px; font-weight: 900; text-anchor: middle; }
 .pac-beat-label { fill: rgba(10, 31, 87, 0.54); font-size: 9px; font-weight: 900; text-anchor: middle; }
 .pac-beat-label-accent { font-size: 10px; }
+.pac-scale-label { fill: rgba(10, 31, 87, 0.5); font-size: 8px; font-weight: 800; }
 
 .pac-waveform-figure figcaption {
   display: flex;

@@ -11,12 +11,12 @@ import {
 } from '@/app/domain/pac';
 
 const markerLabels: Record<PACOriginId, string> = {
-  'crista-terminalis': '分界稜付近',
+  'crista-terminalis': '上位分界稜付近',
   'cs-ostium': '冠静脈洞入口部',
   'left-superior-pv': '左上肺静脈付近',
 };
 
-const pacHeartImage = `${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/pac-posterior-heart-v3.png`;
+const pacHeartImage = `${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/pac-posterior-heart-v4.png`;
 
 const anatomyLabels = [
   { id: 'svc', text: '上大静脈' },
@@ -28,7 +28,7 @@ const anatomyLabels = [
   { id: 'laa', text: '左心耳' },
   { id: 'cs', text: '冠静脈洞' },
   { id: 'sa-node', text: '洞結節' },
-  { id: 'his', text: 'ヒス束近辺' },
+  { id: 'his', text: 'ヒス束近辺（投影）' },
 ] as const;
 
 export function PACLabClient() {
@@ -63,6 +63,7 @@ export function PACLabClient() {
             alt="心臓を後面から見た模式図。薄い心臓全体を背景に、右房と左房、上下大静脈、4本の肺静脈、冠静脈洞を示しています。"
           />
           <span className="pac-view-badge">後面から見る</span>
+          <span className="pac-side-guide"><b>患者の右</b><i aria-hidden="true">←　→</i><b>患者の左</b></span>
           <span className="pac-whole-heart-note">薄い部分＝心臓全体</span>
 
           {anatomyLabels.map((label) => (
@@ -102,7 +103,7 @@ export function PACLabClient() {
           </div>
         </div>
 
-        <p className="pac-wave-overview-intro">各誘導を「洞調律 → PAC → 洞調律」の同じ時間軸で表示。中央の早いP′波を縦方向に見比べられます。</p>
+        <p className="pac-wave-overview-intro">各誘導を「洞調律 → PAC → 洞調律」の同じ時間軸で表示。洞性P波とQRS・Tも誘導ごとの代表形にし、中央の早いP′波を縦方向に揃えています（横1小マス＝40 ms）。</p>
 
         <div className="pac-lead-stack" aria-label={`${activeOrigin.siteName}の6誘導連続波形`}>
           {PAC_LEADS.map((lead) => {
@@ -131,7 +132,7 @@ export function PACLabClient() {
 
       <details className="pac-sources">
         <summary>正確さの範囲と参考文献</summary>
-        <p>表示したP′波は患者の実記録ではなく、各部位で報告された代表的な極性を単純化した模式波形です。起源推定アルゴリズムは主に焦点性心房頻拍で検証されたもので、単発PACへの適用は同じ心房興奮の方向を手がかりにする学習上の外挿です。</p>
+        <p>表示した波形は患者の実記録ではなく、正常電気軸を想定した洞性P・QRS・Tと、各部位で報告された代表的なP′波を組み合わせた模式図です。個人差、電気軸偏位、胸部誘導の移行帯などは再現していません。起源推定アルゴリズムは主に焦点性心房頻拍で検証されたもので、単発PACへの適用は同じ心房興奮の方向を手がかりにする学習上の外挿です。</p>
         <ul>
           <li><a href="https://onlinelibrary.wiley.com/doi/10.1002/joa3.13052" target="_blank" rel="noreferrer">JCS/JHRS 2022 不整脈診断・リスク評価ガイドライン</a></li>
           <li><a href="https://www.jacc.org/doi/10.1016/j.jacep.2021.05.005" target="_blank" rel="noreferrer">Kistlerら：P波形による焦点性心房頻拍起源の更新アルゴリズム</a></li>

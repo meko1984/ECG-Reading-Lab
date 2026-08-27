@@ -1,7 +1,9 @@
 import {
+  PAC_WAVEFORM_SCALE,
   polarityLabel,
   polarityPath,
   type PACLead,
+  type PWaveMorphology,
   type PWavePolarity,
 } from '@/app/domain/pac';
 
@@ -15,16 +17,48 @@ type PACMiniWaveProps = {
   polarity: PWavePolarity;
 };
 
-const baseline = 76;
+const baseline = 80;
+const pxPerMs = 8 / 40;
+const firstP = 76;
+const pacP = firstP + PAC_WAVEFORM_SCALE.prematureCouplingMs * pxPerMs;
+const nextSinusP = pacP + PAC_WAVEFORM_SCALE.normalCycleMs * pxPerMs;
+const prIntervalPx = 160 * pxPerMs;
+const qrsWidthPx = PAC_WAVEFORM_SCALE.qrsDurationMs * pxPerMs;
 
-function normalBeat(startX: number): string {
-  const p = polarityPath('positive', startX + 17, baseline, 0.72);
-  return `${p} L${startX + 39} ${baseline} L${startX + 42} ${baseline + 3} L${startX + 45} ${baseline - 23} L${startX + 49} ${baseline + 30} L${startX + 54} ${baseline - 7} L${startX + 60} ${baseline} L${startX + 72} ${baseline} C${startX + 78} ${baseline} ${startX + 81} ${baseline - 10} ${startX + 88} ${baseline - 10} C${startX + 95} ${baseline - 10} ${startX + 99} ${baseline} ${startX + 106} ${baseline}`;
+type LeadShape = {
+  sinusPolarity: PWavePolarity;
+  sinusScale: number;
+  q: number;
+  r: number;
+  s: number;
+  t: number;
+};
+
+const LEAD_SHAPES: Record<PACLead, LeadShape> = {
+  I: { sinusPolarity: 'positive', sinusScale: 0.62, q: 2, r: -20, s: 5, t: -8 },
+  II: { sinusPolarity: 'positive', sinusScale: 0.78, q: 3, r: -27, s: 8, t: -11 },
+  III: { sinusPolarity: 'positive', sinusScale: 0.48, q: 3, r: -15, s: 7, t: -7 },
+  aVL: { sinusPolarity: 'positive', sinusScale: 0.38, q: 2, r: -9, s: 4, t: -5 },
+  aVF: { sinusPolarity: 'positive', sinusScale: 0.68, q: 3, r: -23, s: 7, t: -9 },
+  V1: { sinusPolarity: 'positive-negative', sinusScale: 0.52, q: 1, r: -6, s: 24, t: 7 },
+};
+
+function ventricularPath(pCenter: number, shape: LeadShape): string {
+  const qrsStart = pCenter + prIntervalPx;
+  const q = qrsStart + qrsWidthPx * 0.18;
+  const r = qrsStart + qrsWidthPx * 0.42;
+  const s = qrsStart + qrsWidthPx * 0.7;
+  const qrsEnd = qrsStart + qrsWidthPx;
+  const tStart = qrsEnd + 12;
+  const tPeak = tStart + 16;
+  const tEnd = tStart + 34;
+  return `M${pCenter + 16} ${baseline} H${qrsStart} L${q} ${baseline + shape.q} L${r} ${baseline + shape.r} L${s} ${baseline + shape.s} L${qrsEnd} ${baseline} H${tStart} C${tStart + 7} ${baseline} ${tPeak - 6} ${baseline + shape.t} ${tPeak} ${baseline + shape.t} C${tPeak + 7} ${baseline + shape.t} ${tEnd - 7} ${baseline} ${tEnd} ${baseline}`;
 }
 
-function prematureBeat(startX: number, polarity: PWavePolarity): string {
-  const p = polarityPath(polarity, startX + 17, baseline, 0.88);
-  return `${p} L${startX + 37} ${baseline} L${startX + 40} ${baseline + 3} L${startX + 43} ${baseline - 23} L${startX + 47} ${baseline + 30} L${startX + 52} ${baseline - 7} L${startX + 58} ${baseline} L${startX + 70} ${baseline} C${startX + 76} ${baseline} ${startX + 79} ${baseline - 10} ${startX + 86} ${baseline - 10} C${startX + 93} ${baseline - 10} ${startX + 97} ${baseline} ${startX + 104} ${baseline}`;
+function pacMorphology(lead: PACLead, polarity: PWavePolarity): PWaveMorphology {
+  if (lead === 'V1' && polarity === 'positive') return 'broad';
+  if ((lead === 'II' || lead === 'V1') && polarity === 'positive') return 'notched';
+  return 'smooth';
 }
 
 export function PACMiniWave({ polarity }: PACMiniWaveProps) {
@@ -37,16 +71,15 @@ export function PACMiniWave({ polarity }: PACMiniWaveProps) {
 }
 
 export function PACWaveform({ lead, polarity, color }: PACWaveformProps) {
-  const normalBefore = normalBeat(40);
-  const pacStart = 160;
-  const pac = prematureBeat(pacStart, polarity);
-  const normalAfter = normalBeat(345);
-  const pCenter = pacStart + 17;
+  const shape = LEAD_SHAPES[lead];
+  const sinusBefore = polarityPath(shape.sinusPolarity, firstP, baseline, shape.sinusScale);
+  const premature = polarityPath(polarity, pacP, baseline, 0.82, pacMorphology(lead, polarity));
+  const sinusAfter = polarityPath(shape.sinusPolarity, nextSinusP, baseline, shape.sinusScale);
   const summary = `${lead}誘導の連続模式心電図。洞調律、${polarityLabel(polarity)}のPダッシュ波を伴う心房期外収縮、洞調律の順に3拍を示します。`;
 
   return (
     <figure className="pac-waveform-figure">
-      <svg viewBox="0 0 480 124" role="img" aria-label={summary}>
+      <svg viewBox="0 0 520 132" role="img" aria-label={summary}>
         <defs>
           <pattern id={`pac-small-grid-${lead}`} width="8" height="8" patternUnits="userSpaceOnUse">
             <path d="M8 0L0 0 0 8" className="pac-grid-small" />
@@ -56,19 +89,20 @@ export function PACWaveform({ lead, polarity, color }: PACWaveformProps) {
             <path d="M40 0L0 0 0 40" className="pac-grid-large" />
           </pattern>
         </defs>
-        <rect width="480" height="124" className="pac-paper" />
-        <rect width="480" height="124" fill={`url(#pac-grid-${lead})`} />
-        <rect x={pacStart - 7} y="5" width="118" height="114" className="pac-beat-window" />
-        <path d={`M7 ${baseline} ${normalBefore} L160 ${baseline} ${pac} L345 ${baseline} ${normalAfter} L473 ${baseline}`} className="pac-trace" />
-        <path d={polarityPath(polarity, pCenter, baseline, 0.88)} className="pac-p-prime" style={{ stroke: color }} />
-        <text x="93" y="18" className="pac-beat-label">洞調律</text>
-        <text x="216" y="18" className="pac-beat-label pac-beat-label-accent" style={{ fill: color }}>PAC</text>
-        <text x="399" y="18" className="pac-beat-label">洞調律</text>
+        <rect width="520" height="132" className="pac-paper" />
+        <rect width="520" height="132" fill={`url(#pac-grid-${lead})`} />
+        <rect x={pacP - 20} y="5" width="122" height="122" className="pac-beat-window" />
+        <path d={`M7 ${baseline} H${firstP - 16} ${sinusBefore} ${ventricularPath(firstP, shape)} H${pacP - 22} ${premature} ${ventricularPath(pacP, shape)} H${nextSinusP - 16} ${sinusAfter} ${ventricularPath(nextSinusP, shape)} H513`} className="pac-trace" />
+        <path d={premature} className="pac-p-prime" style={{ stroke: color }} />
+        <text x={firstP + 28} y="18" className="pac-beat-label">洞調律</text>
+        <text x={pacP + 30} y="18" className="pac-beat-label pac-beat-label-accent" style={{ fill: color }}>PAC</text>
+        <text x={nextSinusP + 28} y="18" className="pac-beat-label">洞調律</text>
         <text x="14" y="42" className="lead-label">{lead}</text>
+        <text x="506" y="122" className="pac-scale-label" textAnchor="end">25 mm/s</text>
       </svg>
       <figcaption>
         <strong>{lead}：P′は{polarityLabel(polarity)}</strong>
-        <span>洞調律 → PAC → 洞調律</span>
+        <span>洞性P・QRS・Tも誘導別</span>
       </figcaption>
     </figure>
   );
