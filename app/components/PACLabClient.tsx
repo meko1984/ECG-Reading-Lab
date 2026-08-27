@@ -16,7 +16,7 @@ const markerLabels: Record<PACOriginId, string> = {
   'left-superior-pv': '左上肺静脈付近',
 };
 
-const pacHeartImage = `${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/pac-posterior-heart-v5.png`;
+const pacHeartImage = `${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/pac-posterior-heart-v6.png`;
 
 const anatomyLabels = [
   { id: 'svc', text: '上大静脈' },
@@ -64,7 +64,7 @@ export function PACLabClient() {
           />
           <span className="pac-view-badge">後面から見る</span>
           <span className="pac-side-guide"><b>患者の左</b><i aria-hidden="true">←　→</i><b>患者の右</b></span>
-          <span className="pac-whole-heart-note">細い輪郭＝心臓全体</span>
+          <span className="pac-whole-heart-note">淡い青白＝心臓全体</span>
 
           <span className="pac-hidden-pv pac-hidden-pv-superior" aria-hidden="true" />
           <span className="pac-hidden-pv pac-hidden-pv-inferior" aria-hidden="true" />
