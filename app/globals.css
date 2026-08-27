@@ -541,6 +541,257 @@ button { color: inherit; }
 .calculation-card dd { margin: 0; color: rgba(10, 31, 87, 0.72); font-size: 0.87rem; text-align: right; font-variant-numeric: tabular-nums; }
 .calculation-card strong { color: var(--blue); }
 
+.wpw-explorer,
+.wpw-wave-card {
+  margin-top: 14px;
+  padding: 18px;
+}
+
+.wpw-interaction-hint {
+  margin: 0;
+  color: rgba(10, 31, 87, 0.66);
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
+
+.wpw-heart-diagram {
+  display: block;
+  width: min(100%, 350px);
+  height: auto;
+  margin: 10px auto 0;
+  overflow: visible;
+}
+
+.anatomical-heart-wall {
+  fill: rgba(229, 74, 74, 0.11);
+  stroke: rgba(10, 31, 87, 0.42);
+  stroke-width: 3;
+  stroke-linejoin: round;
+}
+
+.atrium {
+  fill: rgba(20, 110, 214, 0.09);
+  stroke: rgba(10, 31, 87, 0.38);
+  stroke-width: 2.4;
+}
+
+.ventricle {
+  fill: rgba(255, 255, 255, 0.58);
+  stroke: rgba(10, 31, 87, 0.42);
+  stroke-width: 3;
+}
+
+.ventricle-left {
+  stroke: rgba(10, 31, 87, 0.52);
+  stroke-width: 7;
+}
+
+.heart-septum {
+  fill: rgba(229, 74, 74, 0.2);
+  stroke: rgba(146, 47, 56, 0.66);
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+
+.valve-ring {
+  fill: none;
+  stroke: rgba(10, 31, 87, 0.55);
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+
+.kent-choice {
+  cursor: pointer;
+  outline: none;
+}
+
+.kent-hit-target {
+  fill: transparent;
+  stroke: none;
+}
+
+.kent-bundle {
+  fill: none;
+  stroke: rgba(20, 110, 214, 0.3);
+  stroke-width: 8;
+  stroke-linecap: round;
+  transition: stroke 140ms ease, stroke-width 140ms ease;
+}
+
+.kent-end { fill: rgba(20, 110, 214, 0.3); }
+
+.kent-label {
+  fill: rgba(10, 31, 87, 0.58);
+  font-size: 12px;
+  font-weight: 900;
+  text-anchor: middle;
+  dominant-baseline: middle;
+}
+
+.kent-choice.is-active .kent-bundle {
+  stroke: var(--blue);
+  stroke-width: 10;
+}
+
+.kent-choice.is-active .kent-end { fill: var(--blue); }
+.kent-choice.is-active .kent-label { fill: var(--blue); }
+
+.kent-choice:focus-visible .kent-bundle {
+  stroke: var(--navy);
+  stroke-width: 12;
+}
+
+.diagram-labels text {
+  fill: rgba(10, 31, 87, 0.7);
+  font-size: 11px;
+  font-weight: 800;
+  text-anchor: middle;
+}
+
+.diagram-labels .septum-label {
+  fill: rgba(116, 37, 47, 0.88);
+  font-size: 10px;
+  letter-spacing: 0.02em;
+  text-anchor: end;
+}
+
+.septum-callout {
+  fill: none;
+  stroke: rgba(116, 37, 47, 0.72);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+}
+
+.v1-eye {
+  fill: rgba(255, 255, 255, 0.75);
+  stroke: rgba(10, 31, 87, 0.62);
+  stroke-width: 2.5;
+}
+
+.v1-viewpoint circle { fill: rgba(10, 31, 87, 0.72); }
+
+.v1-sightline {
+  fill: none;
+  stroke: rgba(10, 31, 87, 0.58);
+  stroke-width: 2;
+}
+
+.v1-viewpoint marker path { fill: rgba(10, 31, 87, 0.58); }
+
+.v1-viewpoint text {
+  fill: rgba(10, 31, 87, 0.7);
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.wpw-selected-region {
+  display: grid;
+  gap: 3px;
+  padding: 12px 13px;
+  border-radius: 13px;
+  background: var(--light-blue);
+  line-height: 1.5;
+}
+
+.wpw-selected-region strong { color: var(--blue); font-size: 0.95rem; }
+.wpw-selected-region span { color: rgba(10, 31, 87, 0.7); font-size: 0.8rem; }
+.wpw-selected-region small { color: rgba(10, 31, 87, 0.6); font-size: 0.72rem; }
+
+.wpw-wave-picker {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 7px;
+  margin-bottom: 16px;
+}
+
+.wpw-wave-picker button {
+  display: grid;
+  min-width: 0;
+  min-height: 94px;
+  align-content: center;
+  gap: 1px;
+  padding: 6px;
+  border: 1px solid var(--card-border);
+  border-radius: 13px;
+  background: #fff;
+  color: rgba(10, 31, 87, 0.66);
+  cursor: pointer;
+}
+
+.wpw-wave-picker button[aria-pressed="true"] {
+  border: 2px solid var(--blue);
+  background: var(--light-blue);
+  color: var(--blue);
+}
+
+.wpw-wave-picker button span { font-size: 0.66rem; font-weight: 800; }
+.wpw-wave-picker button strong { font-size: 0.75rem; }
+
+.wpw-mini-waveform { display: block; width: 100%; height: auto; }
+.wpw-mini-baseline { fill: none; stroke: rgba(10, 31, 87, 0.2); stroke-width: 1; }
+.wpw-mini-trace { fill: none; stroke: currentColor; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+
+.wpw-wave-detail h3 {
+  margin: 0 0 10px;
+  font-size: 1rem;
+}
+
+.wpw-waveform-figure { margin: 0; }
+.wpw-waveform-figure svg { display: block; width: 100%; height: auto; border-radius: 13px; }
+.wpw-paper { fill: rgba(245, 252, 255, 0.85); }
+.wpw-grid-small { fill: none; stroke: rgba(20, 110, 214, 0.09); stroke-width: 0.7; }
+.wpw-grid-large { fill: none; stroke: rgba(20, 110, 214, 0.16); stroke-width: 1; }
+.delta-window { fill: rgba(246, 184, 62, 0.19); }
+.wpw-trace { fill: none; stroke: var(--navy); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+.delta-emphasis { fill: none; stroke: #d67700; stroke-width: 4.5; stroke-linecap: round; }
+.delta-measure { fill: none; stroke: #9a5700; stroke-width: 1; }
+.delta-window-label { fill: #9a5700; font-size: 8px; font-weight: 900; text-anchor: start; }
+.lead-label { fill: var(--blue); font-size: 13px; font-weight: 900; }
+
+.wpw-waveform-figure figcaption {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 7px;
+  color: rgba(10, 31, 87, 0.64);
+  font-size: 0.76rem;
+}
+
+.wpw-waveform-figure figcaption strong { color: var(--blue); }
+
+.wpw-clue {
+  display: grid;
+  gap: 8px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(20, 110, 214, 0.12);
+}
+
+.wpw-clue p {
+  margin: 0;
+  color: rgba(10, 31, 87, 0.72);
+  font-size: 0.82rem;
+  line-height: 1.65;
+}
+
+.wpw-clue strong { color: var(--navy); }
+
+.wpw-sources {
+  margin-top: 18px;
+  padding: 13px 14px;
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.72);
+  color: rgba(10, 31, 87, 0.7);
+  font-size: 0.78rem;
+  line-height: 1.65;
+}
+
+.wpw-sources summary { color: var(--navy); font-weight: 800; cursor: pointer; }
+.wpw-sources p { margin: 10px 0 0; }
+.wpw-sources ul { margin: 9px 0 0; padding-left: 20px; }
+.wpw-sources a { color: var(--blue); text-underline-offset: 2px; }
+
 @media (max-width: 699px) {
   .axis-lab .diagram-card,
   .axis-lab .controls-card {
@@ -616,6 +867,18 @@ button { color: inherit; }
     border-radius: 10px;
     font-size: 1.05rem;
   }
+
+  .wpw-explorer,
+  .wpw-wave-card {
+    margin-top: 8px;
+    padding: 12px;
+  }
+
+  .wpw-lab .section-heading { margin-bottom: 9px; }
+  .wpw-lab .section-heading h2 { font-size: 1.05rem; }
+  .wpw-heart-diagram { width: min(100%, 286px); margin-top: 5px; }
+  .wpw-wave-picker { gap: 5px; }
+  .wpw-wave-picker button { min-height: 86px; padding: 4px; }
 }
 
 @media (max-width: 359px) {

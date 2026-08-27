@@ -24,18 +24,19 @@ export default function LabsPage() {
           <span className="lab-arrow" aria-hidden="true">›</span>
         </a>
 
-        <article className="lab-card lab-card-pending" aria-label="準備中：次の研究室">
+        <a className="lab-card lab-card-active" href={appPath('/labs/wpw')}>
           <div className="lab-icon" aria-hidden="true">⌁</div>
           <div>
-            <span className="lab-status">準備中</span>
-            <h2>次の研究室</h2>
-            <p>新しい学習テーマを追加する予定です。</p>
+            <span className="lab-status">体験できる</span>
+            <h2>WPW・ケント束ラボ</h2>
+            <p>タイプA・B・Cの付着部位と、V1誘導のQRS波形を模式断面で結びつけます。</p>
           </div>
-        </article>
+          <span className="lab-arrow" aria-hidden="true">›</span>
+        </a>
       </div>
 
       <InfoCard title="研究室は順次追加します">
-        <p>現在は平均電気軸ラボをご利用いただけます。内容を確認しながら、ほかのテーマも追加していく予定です。</p>
+        <p>現在は平均電気軸ラボとWPW・ケント束ラボを利用できます。内容を確認しながら、ほかのテーマも追加していく予定です。</p>
       </InfoCard>
     </AppShell>
   );

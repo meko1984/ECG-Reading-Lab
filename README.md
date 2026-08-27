@@ -1,6 +1,6 @@
 # ECG Reading Lab Web
 
-ECG Reading Lab iOS 0.1.5の資料をもとに作った、スマートフォン優先の学習用Webアプリ。
+ECG Reading Lab iOS 0.1.5の資料をもとに作った、スマートフォン優先の学習用Webアプリ。平均電気軸ラボに加え、Web版独自のWPW・ケント束ラボを収録している。
 
 ## ローカル起動
 
