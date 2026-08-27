@@ -10,13 +10,11 @@ import {
   type PACOriginId,
 } from '@/app/domain/pac';
 
-const markerLabels: Record<PACOriginId, string> = {
-  'crista-terminalis': '上位分界稜付近',
-  'cs-ostium': '冠静脈洞入口部',
-  'left-superior-pv': '左上肺静脈付近',
-};
+const markerLabels = Object.fromEntries(
+  PAC_ORIGINS.map((origin) => [origin.id, origin.siteName]),
+) as Record<PACOriginId, string>;
 
-const pacHeartImage = `${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/pac-posterior-heart-v6.png`;
+const pacHeartImage = `${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/pac-unfolded-heart-v9.png`;
 
 const anatomyLabels = [
   { id: 'svc', text: '上大静脈' },
@@ -25,14 +23,16 @@ const anatomyLabels = [
   { id: 'rlpv', text: '右下肺静脈' },
   { id: 'lupv', text: '左上肺静脈' },
   { id: 'llpv', text: '左下肺静脈' },
+  { id: 'raa', text: '右心耳' },
   { id: 'laa', text: '左心耳' },
   { id: 'cs', text: '冠静脈洞' },
   { id: 'sa-node', text: '洞結節' },
   { id: 'his', text: 'ヒス束近辺（投影）' },
+  { id: 'tricuspid', text: '三尖弁（投影）' },
 ] as const;
 
 export function PACLabClient() {
-  const [activeOriginId, setActiveOriginId] = useState<PACOriginId>('crista-terminalis');
+  const [activeOriginId, setActiveOriginId] = useState<PACOriginId>('sinus-node');
   const activeOrigin = useMemo(() => pacOrigin(activeOriginId), [activeOriginId]);
 
   return (
@@ -51,23 +51,20 @@ export function PACLabClient() {
             <p className="eyebrow">場所からP′波へ</p>
             <h2 id="pac-origin-heading">心房の起源をタップ</h2>
           </div>
-          <span className="unit-badge">代表3部位</span>
+          <span className="unit-badge">候補9部位</span>
         </div>
 
-        <p className="pac-interaction-hint">色のついた点を選ぶと、6誘導のP′波とリズム波形が連動します。</p>
+        <p className="pac-interaction-hint">図の番号か下の部位名を選ぶと、6誘導のP′波と連続波形が連動します。</p>
 
         <div className="pac-atria-map">
           <img
             className="pac-heart-anatomy"
             src={pacHeartImage}
-            alt="患者の背中側から見た心臓の模式図。画面左が患者の左、画面右が患者の右。中央の左房に4本の肺静脈が入り、右側の右房に上下大静脈が入ります。"
+            alt="患者の右を画面左、患者の左を画面右に置き、右房内面と左房後面を同じ平面へ展開した心房の模式図。右房に上下大静脈、左房に4本の肺静脈が入ります。"
           />
-          <span className="pac-view-badge">後面から見る</span>
-          <span className="pac-side-guide"><b>患者の左</b><i aria-hidden="true">←　→</i><b>患者の右</b></span>
+          <span className="pac-view-badge">テキスト準拠の展開図</span>
+          <span className="pac-side-guide"><b>患者の右</b><i aria-hidden="true">←　→</i><b>患者の左</b></span>
           <span className="pac-whole-heart-note">淡い青白＝心臓全体</span>
-
-          <span className="pac-hidden-pv pac-hidden-pv-superior" aria-hidden="true" />
-          <span className="pac-hidden-pv pac-hidden-pv-inferior" aria-hidden="true" />
 
           {anatomyLabels.map((label) => (
             <span className={`pac-anatomy-label pac-label-${label.id}`} key={label.id}>
@@ -85,25 +82,41 @@ export function PACLabClient() {
               style={{ '--origin-color': origin.color } as React.CSSProperties}
               onClick={() => setActiveOriginId(origin.id)}
             >
-              <span aria-hidden="true" />
+              <span aria-hidden="true">{origin.markerNumber}</span>
               <small>{origin.shortName}</small>
             </button>
           ))}
         </div>
 
         <div className="pac-anatomy-key" aria-label="心臓図の色分けと向き">
-          <p><strong>向き：</strong>患者の背中側から同じ方向を向いて見るため、画面左が患者の左です。</p>
+          <p><strong>向き：</strong>テキストと同じく患者の右を画面左に置き、右房内面と左房後面を一枚へ開いた学習用投影です。厳密な一方向の解剖図ではありません。</p>
+          <p><strong>重なり：</strong>画面左の右上・右下肺静脈は右房へ入るのではなく、右房の後ろを通って左房へつながる部分を重ねて示しています。</p>
           <div>
             <span><i className="pac-key-left-atrium" />左房・肺静脈</span>
             <span><i className="pac-key-right-atrium" />右房・上下大静脈</span>
             <span><i className="pac-key-coronary-sinus" />冠静脈洞</span>
-            <span><i className="pac-key-hidden" />右房の後ろを通る部分</span>
           </div>
+        </div>
+
+        <div className="pac-origin-index" aria-label="起源候補9部位">
+          {PAC_ORIGINS.map((origin) => (
+            <button
+              type="button"
+              key={origin.id}
+              className={activeOriginId === origin.id ? 'is-active' : ''}
+              aria-pressed={activeOriginId === origin.id}
+              style={{ '--origin-color': origin.color } as React.CSSProperties}
+              onClick={() => setActiveOriginId(origin.id)}
+            >
+              <b>{origin.markerNumber}</b>
+              <span>{origin.shortName}</span>
+            </button>
+          ))}
         </div>
 
         <div className="pac-selected-origin" aria-live="polite">
           <p>{activeOrigin.chamber}</p>
-          <h3>{activeOrigin.siteName}</h3>
+          <h3 style={{ color: activeOrigin.color }}>{activeOrigin.siteName}</h3>
           <span>{activeOrigin.location}</span>
         </div>
       </section>
@@ -127,6 +140,8 @@ export function PACLabClient() {
                 lead={lead}
                 polarity={polarity}
                 color={activeOrigin.color}
+                morphology={activeOrigin.morphologies?.[lead]}
+                pWaveScale={activeOrigin.pWaveScales?.[lead]}
               />
             );
           })}
@@ -152,6 +167,9 @@ export function PACLabClient() {
           <li><a href="https://www.jacc.org/doi/10.1016/j.jacep.2019.01.014" target="_blank" rel="noreferrer">分界稜起源のP波形と電気生理学的特徴</a></li>
           <li><a href="https://pubmed.ncbi.nlm.nih.gov/15862424/" target="_blank" rel="noreferrer">冠静脈洞入口部起源のP波形とアブレーション所見</a></li>
           <li><a href="https://www.jacc.org/doi/10.1016/j.jacc.2006.03.058" target="_blank" rel="noreferrer">Kistlerら：解剖学的起源を予測するP波形アルゴリズム</a></li>
+          <li><a href="https://pubmed.ncbi.nlm.nih.gov/11342753/" target="_blank" rel="noreferrer">肺静脈ペーシング時のP波形：左右・上下の判別</a></li>
+          <li><a href="https://pubmed.ncbi.nlm.nih.gov/18975065/" target="_blank" rel="noreferrer">上大静脈起源のP波形</a></li>
+          <li><a href="https://pubmed.ncbi.nlm.nih.gov/33076624/" target="_blank" rel="noreferrer">右心耳起源のP波形</a></li>
         </ul>
       </details>
     </div>

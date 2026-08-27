@@ -844,7 +844,7 @@ button { color: inherit; }
   position: relative;
   width: min(100%, 390px);
   aspect-ratio: 5 / 4;
-  margin: 16px auto 8px;
+  margin: 16px auto 10px;
 }
 
 .pac-heart-anatomy {
@@ -898,44 +898,38 @@ button { color: inherit; }
   transform-origin: left center;
 }
 
-.pac-label-svc { top: 14%; right: 16%; }
-.pac-label-svc::after { top: 120%; right: 70%; transform: rotate(120deg); }
-.pac-label-ivc { right: 17%; bottom: 8%; }
-.pac-label-ivc::after { bottom: 120%; right: 72%; transform: rotate(245deg); }
-.pac-label-rupv { top: 35%; right: 0; }
-.pac-label-rupv::after { top: 60%; right: 100%; transform: rotate(172deg); }
-.pac-label-rlpv { top: 49%; right: 0; }
-.pac-label-rlpv::after { top: 45%; right: 100%; transform: rotate(187deg); }
-.pac-label-lupv { top: 35%; left: 0; }
-.pac-label-lupv::after { top: 58%; left: 100%; transform: rotate(8deg); }
-.pac-label-llpv { top: 50%; left: 0; }
-.pac-label-llpv::after { top: 45%; left: 100%; transform: rotate(-7deg); }
-.pac-label-laa { top: 24%; left: 7%; }
-.pac-label-laa::after { top: 110%; left: 80%; transform: rotate(40deg); }
-.pac-label-cs { left: 23%; bottom: 27%; }
-.pac-label-cs::after { bottom: 105%; left: 72%; transform: rotate(-25deg); }
-.pac-label-sa-node { top: 15%; right: 22%; }
-.pac-label-sa-node::after { top: 110%; right: 50%; transform: rotate(105deg); }
-.pac-label-his { top: 52%; right: 32%; }
-.pac-label-his::after { top: 110%; right: 45%; transform: rotate(103deg); }
-
-.pac-hidden-pv {
-  position: absolute;
-  z-index: 4;
-  height: 0;
-  border-top: 3px dashed #e9a2ad;
-  pointer-events: none;
-}
-.pac-hidden-pv-superior { top: 39.5%; left: 61%; width: 25%; transform: rotate(-2deg); }
-.pac-hidden-pv-inferior { top: 53.5%; left: 63%; width: 23%; transform: rotate(1deg); }
+.pac-label-svc { top: 9%; left: 20%; }
+.pac-label-svc::after { top: 110%; left: 55%; transform: rotate(87deg); }
+.pac-label-ivc { left: 22%; bottom: 3%; }
+.pac-label-ivc::after { bottom: 110%; left: 55%; transform: rotate(-82deg); }
+.pac-label-rupv { top: 35%; left: 0; }
+.pac-label-rupv::after { top: 55%; left: 100%; transform: rotate(5deg); }
+.pac-label-rlpv { top: 55%; left: 0; }
+.pac-label-rlpv::after { top: 45%; left: 100%; transform: rotate(-5deg); }
+.pac-label-lupv { top: 35%; right: 0; }
+.pac-label-lupv::after { top: 55%; right: 100%; transform: rotate(174deg); }
+.pac-label-llpv { top: 55%; right: 0; }
+.pac-label-llpv::after { top: 45%; right: 100%; transform: rotate(186deg); }
+.pac-label-raa { top: 28%; left: 4%; }
+.pac-label-raa::after { top: 110%; left: 80%; transform: rotate(19deg); }
+.pac-label-laa { top: 18%; right: 10%; }
+.pac-label-laa::after { top: 110%; right: 50%; transform: rotate(120deg); }
+.pac-label-cs { right: 25%; bottom: 23%; }
+.pac-label-cs::after { bottom: 105%; right: 70%; transform: rotate(215deg); }
+.pac-label-sa-node { top: 24%; left: 29%; }
+.pac-label-sa-node::after { top: 110%; left: 48%; transform: rotate(85deg); }
+.pac-label-his { top: 58%; left: 34%; }
+.pac-label-his::after { top: 110%; left: 45%; transform: rotate(100deg); }
+.pac-label-tricuspid { top: 49%; left: 27%; }
+.pac-label-tricuspid::after { top: 110%; left: 52%; transform: rotate(82deg); }
 
 .pac-origin-marker {
   --origin-color: var(--blue);
   position: absolute;
   z-index: 6;
   display: grid;
-  min-width: 64px;
-  min-height: 54px;
+  min-width: 42px;
+  min-height: 42px;
   place-items: center;
   gap: 2px;
   padding: 4px;
@@ -943,6 +937,7 @@ button { color: inherit; }
   background: transparent;
   color: rgba(10, 31, 87, 0.62);
   cursor: pointer;
+  transform: translate(-50%, -50%);
 }
 
 .pac-origin-marker > span {
@@ -953,6 +948,11 @@ button { color: inherit; }
   border-radius: 50%;
   background: var(--origin-color);
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--origin-color) 35%, transparent);
+  color: #fff;
+  font-size: 0.58rem;
+  font-weight: 950;
+  line-height: 10px;
+  text-align: center;
   transition: transform 140ms ease, box-shadow 140ms ease;
 }
 
@@ -964,9 +964,15 @@ button { color: inherit; }
 .pac-origin-marker.is-active > span { transform: scale(1.25); box-shadow: 0 0 0 6px color-mix(in srgb, var(--origin-color) 24%, transparent); }
 .pac-origin-marker:focus-visible { outline: none; }
 .pac-origin-marker:focus-visible > span { box-shadow: 0 0 0 5px color-mix(in srgb, var(--origin-color) 24%, transparent), 0 0 0 7px var(--navy); }
-.pac-marker-crista-terminalis { top: 29%; left: 68%; }
-.pac-marker-cs-ostium { top: 57%; left: 62%; }
-.pac-marker-left-superior-pv { top: 35%; left: 8%; }
+.pac-marker-sinus-node { top: 31%; left: 30%; }
+.pac-marker-right-atrial-appendage { top: 41%; left: 37%; }
+.pac-marker-left-atrial-appendage { top: 27%; left: 77%; }
+.pac-marker-left-superior-pv { top: 42%; left: 81%; }
+.pac-marker-left-inferior-pv { top: 59%; left: 81%; }
+.pac-marker-right-superior-pv { top: 43%; left: 18%; }
+.pac-marker-right-inferior-pv { top: 60%; left: 18%; }
+.pac-marker-cs-ostium { top: 67%; left: 40%; }
+.pac-marker-svc { top: 19%; left: 29%; }
 
 .pac-anatomy-key {
   display: grid;
@@ -988,7 +994,53 @@ button { color: inherit; }
 .pac-anatomy-key .pac-key-left-atrium { background: #e9a2ad; }
 .pac-anatomy-key .pac-key-right-atrium { background: #8ebbe8; }
 .pac-anatomy-key .pac-key-coronary-sinus { background: #87d7df; }
-.pac-anatomy-key .pac-key-hidden { width: 18px; height: 0; border: 0; border-top: 2px dashed #e9a2ad; border-radius: 0; }
+
+.pac-origin-index {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 7px;
+  margin: 0 0 12px;
+}
+
+.pac-origin-index button {
+  --origin-color: var(--blue);
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 8px;
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  background: #fff;
+  color: rgba(10, 31, 87, 0.74);
+  font: inherit;
+  font-size: 0.68rem;
+  font-weight: 850;
+  line-height: 1.2;
+  text-align: left;
+  cursor: pointer;
+}
+
+.pac-origin-index button b {
+  display: grid;
+  width: 20px;
+  height: 20px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--origin-color);
+  color: #fff;
+  font-size: 0.62rem;
+}
+
+.pac-origin-index button span { min-width: 0; }
+.pac-origin-index button.is-active {
+  border-color: var(--origin-color);
+  background: color-mix(in srgb, var(--origin-color) 8%, #fff);
+  box-shadow: inset 0 0 0 1px var(--origin-color);
+  color: var(--navy);
+}
+.pac-origin-index button:focus-visible { outline: 3px solid color-mix(in srgb, var(--origin-color) 28%, transparent); outline-offset: 2px; }
 
 .pac-selected-origin {
   display: grid;

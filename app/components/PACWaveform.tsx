@@ -11,6 +11,8 @@ type PACWaveformProps = {
   lead: PACLead;
   polarity: PWavePolarity;
   color: string;
+  morphology?: PWaveMorphology;
+  pWaveScale?: number;
 };
 
 type PACMiniWaveProps = {
@@ -55,7 +57,8 @@ function ventricularPath(pCenter: number, shape: LeadShape): string {
   return `M${pCenter + 16} ${baseline} H${qrsStart} L${q} ${baseline + shape.q} L${r} ${baseline + shape.r} L${s} ${baseline + shape.s} L${qrsEnd} ${baseline} H${tStart} C${tStart + 7} ${baseline} ${tPeak - 6} ${baseline + shape.t} ${tPeak} ${baseline + shape.t} C${tPeak + 7} ${baseline + shape.t} ${tEnd - 7} ${baseline} ${tEnd} ${baseline}`;
 }
 
-function pacMorphology(lead: PACLead, polarity: PWavePolarity): PWaveMorphology {
+function pacMorphology(lead: PACLead, polarity: PWavePolarity, override?: PWaveMorphology): PWaveMorphology {
+  if (override) return override;
   if (lead === 'V1' && polarity === 'positive') return 'broad';
   if ((lead === 'II' || lead === 'V1') && polarity === 'positive') return 'notched';
   return 'smooth';
@@ -70,10 +73,10 @@ export function PACMiniWave({ polarity }: PACMiniWaveProps) {
   );
 }
 
-export function PACWaveform({ lead, polarity, color }: PACWaveformProps) {
+export function PACWaveform({ lead, polarity, color, morphology, pWaveScale = 1 }: PACWaveformProps) {
   const shape = LEAD_SHAPES[lead];
   const sinusBefore = polarityPath(shape.sinusPolarity, firstP, baseline, shape.sinusScale);
-  const premature = polarityPath(polarity, pacP, baseline, 0.82, pacMorphology(lead, polarity));
+  const premature = polarityPath(polarity, pacP, baseline, 0.82 * pWaveScale, pacMorphology(lead, polarity, morphology));
   const sinusAfter = polarityPath(shape.sinusPolarity, nextSinusP, baseline, shape.sinusScale);
   const summary = `${lead}誘導の連続模式心電図。洞調律、${polarityLabel(polarity)}のPダッシュ波を伴う心房期外収縮、洞調律の順に3拍を示します。`;
 
