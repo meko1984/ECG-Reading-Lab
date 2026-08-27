@@ -272,6 +272,10 @@ export function continueSvgPath(path: string): string {
   return `L${path.slice(1)}`;
 }
 
+export function pWaveHalfWidth(scale = 1, morphology: PWaveMorphology = 'smooth'): number {
+  return 11 * scale * (morphology === 'broad' ? 1.45 : 1);
+}
+
 export function polarityPath(
   polarity: PWavePolarity,
   centerX: number,
@@ -279,7 +283,7 @@ export function polarityPath(
   scale = 1,
   morphology: PWaveMorphology = 'smooth',
 ): string {
-  const width = 22 * scale * (morphology === 'broad' ? 1.45 : 1);
+  const width = pWaveHalfWidth(scale, morphology) * 2;
   const height = 12 * scale;
   const left = centerX - width / 2;
   const right = centerX + width / 2;

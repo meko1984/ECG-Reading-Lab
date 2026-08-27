@@ -5,6 +5,7 @@ import {
   PAC_ORIGINS,
   PAC_WAVEFORM_SCALE,
   continueSvgPath,
+  pWaveHalfWidth,
   pacOrigin,
   polarityLabel,
   polarityPath,
@@ -128,6 +129,12 @@ test('polarity labels and SVG paths cover all waveform directions', () => {
 test('separate ECG SVG segments can be joined into one continuous path', () => {
   assert.equal(continueSvgPath('M12 30 H40'), 'L12 30 H40');
   assert.throws(() => continueSvgPath('L12 30 H40'), /must start with M/);
+});
+
+test('P-prime replacement bounds use the same width as the rendered P wave', () => {
+  assert.equal(pWaveHalfWidth(1, 'smooth'), 11);
+  assert.equal(pWaveHalfWidth(1, 'broad'), 15.95);
+  assert.equal(pWaveHalfWidth(0.82, 'notched'), 9.02);
 });
 
 test('PAC waveform scale represents a premature narrow-complex beat', () => {

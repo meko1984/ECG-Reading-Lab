@@ -1072,7 +1072,7 @@ button { color: inherit; }
 .pac-grid-large { fill: none; stroke: rgba(20, 110, 214, 0.16); stroke-width: 1; }
 .pac-beat-window { fill: rgba(246, 184, 62, 0.12); }
 .pac-trace { fill: none; stroke: var(--navy); stroke-width: 2.35; stroke-linecap: round; stroke-linejoin: round; }
-.pac-p-prime { fill: none; stroke-width: 4.5; stroke-linecap: round; }
+.pac-p-prime { fill: none; stroke-width: 4.5; stroke-linecap: round; stroke-linejoin: round; }
 .pac-p-arrow { fill: none; stroke-width: 1.5; }
 .pac-p-label { font-size: 9px; font-weight: 900; text-anchor: middle; }
 .pac-beat-label { fill: rgba(10, 31, 87, 0.54); font-size: 9px; font-weight: 900; text-anchor: middle; }

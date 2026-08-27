@@ -1,6 +1,7 @@
 import {
   PAC_WAVEFORM_SCALE,
   continueSvgPath,
+  pWaveHalfWidth,
   polarityLabel,
   polarityPath,
   type PACLead,
@@ -77,14 +78,19 @@ export function PACMiniWave({ polarity }: PACMiniWaveProps) {
 export function PACWaveform({ lead, polarity, color, morphology, pWaveScale = 1 }: PACWaveformProps) {
   const shape = LEAD_SHAPES[lead];
   const sinusBefore = polarityPath(shape.sinusPolarity, firstP, baseline, shape.sinusScale);
-  const premature = polarityPath(polarity, pacP, baseline, 0.82 * pWaveScale, pacMorphology(lead, polarity, morphology));
+  const prematureScale = 0.82 * pWaveScale;
+  const prematureMorphology = pacMorphology(lead, polarity, morphology);
+  const premature = polarityPath(polarity, pacP, baseline, prematureScale, prematureMorphology);
+  const prematureHalfWidth = pWaveHalfWidth(prematureScale, prematureMorphology);
   const sinusAfter = polarityPath(shape.sinusPolarity, nextSinusP, baseline, shape.sinusScale);
-  const continuousTrace = [
+  const traceBeforePrematureP = [
     `M7 ${baseline} H${firstP - 16}`,
     continueSvgPath(sinusBefore),
     continueSvgPath(ventricularPath(firstP, shape)),
-    `H${pacP - 22}`,
-    continueSvgPath(premature),
+    `H${pacP - prematureHalfWidth}`,
+  ].join(' ');
+  const traceAfterPrematureP = [
+    `M${pacP + prematureHalfWidth} ${baseline}`,
     continueSvgPath(ventricularPath(pacP, shape)),
     `H${nextSinusP - 16}`,
     continueSvgPath(sinusAfter),
@@ -108,8 +114,9 @@ export function PACWaveform({ lead, polarity, color, morphology, pWaveScale = 1 
         <rect width="520" height="132" className="pac-paper" />
         <rect width="520" height="132" fill={`url(#pac-grid-${lead})`} />
         <rect x={pacP - 20} y="5" width="122" height="122" className="pac-beat-window" />
-        <path d={continuousTrace} className="pac-trace" />
+        <path d={traceBeforePrematureP} className="pac-trace pac-trace-before-p-prime" />
         <path d={premature} className="pac-p-prime" style={{ stroke: color }} />
+        <path d={traceAfterPrematureP} className="pac-trace pac-trace-after-p-prime" />
         <text x={firstP + 28} y="18" className="pac-beat-label">洞調律</text>
         <text x={pacP + 30} y="18" className="pac-beat-label pac-beat-label-accent" style={{ fill: color }}>PAC</text>
         <text x={nextSinusP + 28} y="18" className="pac-beat-label">洞調律</text>
