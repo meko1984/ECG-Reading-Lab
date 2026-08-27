@@ -31,6 +31,28 @@ test('each origin includes all six teaching leads', () => {
   }
 });
 
+test('origins that share a waveform group also share waveform data and color', () => {
+  const normalize = (origin: (typeof PAC_ORIGINS)[number]) => ({
+    polarities: origin.polarities,
+    morphologies: origin.morphologies ?? {},
+    pWaveScales: origin.pWaveScales ?? {},
+  });
+
+  const groups = Map.groupBy(PAC_ORIGINS, (origin) => origin.waveformGroup);
+  for (const origins of groups.values()) {
+    const [representative, ...sameGroup] = origins;
+    for (const origin of sameGroup) {
+      assert.equal(origin.color, representative.color);
+      assert.deepEqual(normalize(origin), normalize(representative));
+    }
+  }
+
+  const leftAppendage = pacOrigin('left-atrial-appendage');
+  const leftSuperiorPv = pacOrigin('left-superior-pv');
+  assert.equal(leftAppendage.waveformGroup, leftSuperiorPv.waveformGroup);
+  assert.equal(leftAppendage.color, leftSuperiorPv.color);
+});
+
 test('representative polarity clues match each location', () => {
   const sinusNode = pacOrigin('sinus-node');
   assert.equal(sinusNode.polarities.II, 'positive');
@@ -51,7 +73,7 @@ test('representative polarity clues match each location', () => {
   assert.equal(csOstium.polarities.V1, 'negative-positive');
 
   const leftSuperiorPv = pacOrigin('left-superior-pv');
-  assert.equal(leftSuperiorPv.polarities.I, 'isoelectric');
+  assert.equal(leftSuperiorPv.polarities.I, 'negative');
   assert.equal(leftSuperiorPv.polarities.V1, 'positive');
 
   const leftInferiorPv = pacOrigin('left-inferior-pv');

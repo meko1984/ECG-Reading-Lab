@@ -62,6 +62,23 @@ export function PACLabClient() {
             src={pacHeartImage}
             alt="患者の右を画面左、患者の左を画面右に置き、右房内面と左房後面を同じ平面へ展開した心房の模式図。右房に上下大静脈、左房に4本の肺静脈が入ります。"
           />
+          <svg
+            className="pac-four-chambers"
+            viewBox="0 0 500 400"
+            role="img"
+            aria-label="薄く重ねた心臓の4部屋。画面左上が右心房、右上が左心房、左下が右心室、右下が左心室。"
+          >
+            <path className="pac-chamber pac-chamber-right" d="M145 125 C160 92 224 91 251 123 C266 145 265 218 239 247 C216 267 168 254 151 222 C138 197 135 148 145 125 Z" />
+            <path className="pac-chamber pac-chamber-left" d="M251 123 C283 91 374 95 407 130 C428 155 420 220 392 247 C361 272 285 266 260 239 C244 216 241 148 251 123 Z" />
+            <path className="pac-chamber pac-chamber-right" d="M171 248 C192 235 233 239 260 258 C278 278 277 335 255 365 C232 385 190 367 174 337 C160 312 155 271 171 248 Z" />
+            <path className="pac-chamber pac-chamber-left" d="M260 258 C287 232 353 227 383 252 C411 278 405 337 369 373 C340 397 286 382 264 356 C248 331 244 281 260 258 Z" />
+            <g className="pac-chamber-name" aria-hidden="true">
+              <text x="196" y="190">右心房</text>
+              <text x="330" y="190">左心房</text>
+              <text x="211" y="317">右心室</text>
+              <text x="326" y="324">左心室</text>
+            </g>
+          </svg>
           <span className="pac-view-badge">テキスト準拠の展開図</span>
           <span className="pac-side-guide"><b>患者の右</b><i aria-hidden="true">←　→</i><b>患者の左</b></span>
           <span className="pac-whole-heart-note">淡い青白＝心臓全体</span>
@@ -95,6 +112,7 @@ export function PACLabClient() {
             <span><i className="pac-key-left-atrium" />左房・肺静脈</span>
             <span><i className="pac-key-right-atrium" />右房・上下大静脈</span>
             <span><i className="pac-key-coronary-sinus" />冠静脈洞</span>
+            <span><i className="pac-key-four-chambers" />薄い点線＝4部屋の大まかな位置</span>
           </div>
         </div>
 
@@ -113,6 +131,7 @@ export function PACLabClient() {
             </button>
           ))}
         </div>
+        <p className="pac-waveform-color-note"><i aria-hidden="true" />同じ色の候補は、同じ代表P′波を表示します。</p>
 
         <div className="pac-selected-origin" aria-live="polite">
           <p>{activeOrigin.chamber}</p>

@@ -13,9 +13,19 @@ export type PACOriginId =
   | 'svc';
 export type PWavePolarity = 'positive' | 'negative' | 'positive-negative' | 'negative-positive' | 'isoelectric';
 export type PWaveMorphology = 'smooth' | 'notched' | 'broad';
+export type PACWaveformGroupId =
+  | 'sinus-node'
+  | 'right-atrial-appendage'
+  | 'left-superior'
+  | 'left-inferior-pv'
+  | 'right-superior-pv'
+  | 'right-inferior-pv'
+  | 'cs-ostium'
+  | 'svc';
 
 export type PACOrigin = {
   id: PACOriginId;
+  waveformGroup: PACWaveformGroupId;
   markerNumber: number;
   shortName: string;
   siteName: string;
@@ -33,6 +43,7 @@ export type PACOrigin = {
 export const PAC_ORIGINS: PACOrigin[] = [
   {
     id: 'sinus-node',
+    waveformGroup: 'sinus-node',
     markerNumber: 1,
     shortName: '洞結節',
     siteName: '洞結節付近',
@@ -54,6 +65,7 @@ export const PAC_ORIGINS: PACOrigin[] = [
   },
   {
     id: 'right-atrial-appendage',
+    waveformGroup: 'right-atrial-appendage',
     markerNumber: 2,
     shortName: '右心耳',
     siteName: '右心耳',
@@ -76,6 +88,7 @@ export const PAC_ORIGINS: PACOrigin[] = [
   },
   {
     id: 'left-atrial-appendage',
+    waveformGroup: 'left-superior',
     markerNumber: 3,
     shortName: '左心耳',
     siteName: '左心耳',
@@ -93,22 +106,23 @@ export const PAC_ORIGINS: PACOrigin[] = [
       aVF: 'positive',
       V1: 'positive',
     },
-    morphologies: { V1: 'broad' },
+    morphologies: { II: 'notched', V1: 'broad' },
     pWaveScales: { I: 1.15, V1: 1.05 },
   },
   {
     id: 'left-superior-pv',
+    waveformGroup: 'left-superior',
     markerNumber: 4,
     shortName: '左上肺静脈',
     siteName: '左上肺静脈',
     chamber: '左房・上後方',
     location: '左房へ入る左上肺静脈の入口付近。患者の左なので、図では画面右上にあります。',
-    mainClue: 'Ⅰはほぼ平坦、aVLは陰性。Ⅱ・Ⅲ・aVFは陽性で、V1は幅広い陽性が代表的です。',
+    mainClue: 'Ⅰ・aVLは陰性。Ⅱ・Ⅲ・aVFは陽性で、V1は幅広い陽性が代表的です。',
     why: '左後上方から右前下方へ向かう成分をV1が陽性に捉え、左向き誘導のⅠ・aVLは小さくなるか陰性になります。',
     limit: '左心耳や左下肺静脈と重なります。肺静脈4本を体表P′波だけで常に分離できるわけではありません。',
-    color: '#a23db8',
+    color: '#9a4dad',
     polarities: {
-      I: 'isoelectric',
+      I: 'negative',
       II: 'positive',
       III: 'positive',
       aVL: 'negative',
@@ -116,10 +130,11 @@ export const PAC_ORIGINS: PACOrigin[] = [
       V1: 'positive',
     },
     morphologies: { II: 'notched', V1: 'broad' },
-    pWaveScales: { I: 0.45, V1: 1.05 },
+    pWaveScales: { I: 1.15, V1: 1.05 },
   },
   {
     id: 'left-inferior-pv',
+    waveformGroup: 'left-inferior-pv',
     markerNumber: 5,
     shortName: '左下肺静脈',
     siteName: '左下肺静脈',
@@ -142,6 +157,7 @@ export const PAC_ORIGINS: PACOrigin[] = [
   },
   {
     id: 'right-superior-pv',
+    waveformGroup: 'right-superior-pv',
     markerNumber: 6,
     shortName: '右上肺静脈',
     siteName: '右上肺静脈',
@@ -163,6 +179,7 @@ export const PAC_ORIGINS: PACOrigin[] = [
   },
   {
     id: 'right-inferior-pv',
+    waveformGroup: 'right-inferior-pv',
     markerNumber: 7,
     shortName: '右下肺静脈',
     siteName: '右下肺静脈',
@@ -184,6 +201,7 @@ export const PAC_ORIGINS: PACOrigin[] = [
   },
   {
     id: 'cs-ostium',
+    waveformGroup: 'cs-ostium',
     markerNumber: 8,
     shortName: '冠静脈洞入口部',
     siteName: '冠静脈洞入口部',
@@ -205,6 +223,7 @@ export const PAC_ORIGINS: PACOrigin[] = [
   },
   {
     id: 'svc',
+    waveformGroup: 'svc',
     markerNumber: 9,
     shortName: '上大静脈',
     siteName: '上大静脈',
