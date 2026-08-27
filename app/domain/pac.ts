@@ -52,7 +52,7 @@ export const PAC_ORIGINS: PACOrigin[] = [
     mainClue: 'Ⅰ・Ⅱ・Ⅲ・aVL・aVFが陽性で、V1は陽性／陰性。洞性P波に最も近い並びです。',
     why: '通常の洞興奮と近い場所から右房、左房の順に広がるため、P′波の向きも洞性P波に似ます。',
     limit: '洞結節そのものと近傍右房は体表心電図だけでは分けにくく、早い出現時刻がPACを見つける手がかりです。',
-    color: '#146ed6',
+    color: '#4f718c',
     polarities: {
       I: 'positive',
       II: 'positive',
@@ -74,7 +74,7 @@ export const PAC_ORIGINS: PACOrigin[] = [
     mainClue: 'Ⅰ・Ⅱ・Ⅲ・aVL・aVFは陽性ですが、V1に深く幅広い陰性P′波が出るのが代表的です。',
     why: '右心耳から後方の心房へ向かう初期ベクトルを、右前胸部のV1が離れていく向きとして捉えます。',
     limit: '右心耳起源の報告数は多くなく、V1の陰性P′波だけで確定はできません。',
-    color: '#1f83c7',
+    color: '#4f718c',
     polarities: {
       I: 'positive',
       II: 'positive',
@@ -97,7 +97,7 @@ export const PAC_ORIGINS: PACOrigin[] = [
     mainClue: 'Ⅰは深い陰性、aVLも陰性。下壁誘導は陽性で、V1は幅広い陽性が代表的です。',
     why: '左外側から右方へ進む興奮がⅠ・aVLから離れ、V1へ向かうためです。',
     limit: '左上肺静脈起源と非常によく似ます。Ⅰのより深い陰性が左心耳を考える手がかりですが、重なりがあります。',
-    color: '#9a4dad',
+    color: '#74697a',
     polarities: {
       I: 'negative',
       II: 'positive',
@@ -120,7 +120,7 @@ export const PAC_ORIGINS: PACOrigin[] = [
     mainClue: 'Ⅰ・aVLは陰性。Ⅱ・Ⅲ・aVFは陽性で、V1は幅広い陽性が代表的です。',
     why: '左後上方から右前下方へ向かう成分をV1が陽性に捉え、左向き誘導のⅠ・aVLは小さくなるか陰性になります。',
     limit: '左心耳や左下肺静脈と重なります。肺静脈4本を体表P′波だけで常に分離できるわけではありません。',
-    color: '#9a4dad',
+    color: '#74697a',
     polarities: {
       I: 'negative',
       II: 'positive',
@@ -143,7 +143,7 @@ export const PAC_ORIGINS: PACOrigin[] = [
     mainClue: 'Ⅰ・aVLは陰性。Ⅱ・Ⅲ・aVFも小さな陰性になりやすく、V1は幅広い陽性が代表的です。',
     why: '下方の起源では上向き成分が増え、下壁誘導から離れるため、上肺静脈より下壁誘導が低振幅または陰性になります。',
     limit: '下壁誘導は低振幅陽性になる例もあります。ここでは上下差を学ぶため、代表的な小さい陰性を表示します。',
-    color: '#b65487',
+    color: '#4f718c',
     polarities: {
       I: 'negative',
       II: 'negative',
@@ -166,7 +166,7 @@ export const PAC_ORIGINS: PACOrigin[] = [
     mainClue: 'Ⅰ・Ⅱ・Ⅲ・aVL・aVFとV1が陽性。V1は左肺静脈ほど二峰性にならない代表形です。',
     why: '右上後方から左前下方へ進む興奮がⅠと下壁誘導へ向かい、V1も陽性に捉えます。',
     limit: '洞結節付近や上大静脈起源と似ます。V1が陽性でも右肺静脈だけに決まりません。',
-    color: '#367bbf',
+    color: '#4f718c',
     polarities: {
       I: 'positive',
       II: 'positive',
@@ -188,7 +188,7 @@ export const PAC_ORIGINS: PACOrigin[] = [
     mainClue: 'ⅠとV1は陽性。Ⅱ・Ⅲ・aVFは上肺静脈より小さく、ここでは代表的な小さい陰性を示します。',
     why: '右側起源なのでⅠは陽性を保ちやすい一方、下方起源の上向きベクトルで下壁誘導が小さくなります。',
     limit: '下壁誘導が低振幅陽性の例もあり、右上肺静脈との境界は重なります。',
-    color: '#588fb7',
+    color: '#4f718c',
     polarities: {
       I: 'positive',
       II: 'negative',
@@ -210,7 +210,7 @@ export const PAC_ORIGINS: PACOrigin[] = [
     mainClue: 'Ⅱ・Ⅲ・aVFが深い陰性。aVLは陽性、V1は陰性／陽性が代表的です。',
     why: '下方から上方へ広がる興奮が下壁誘導から離れるため、下壁誘導のP′波は下向きになります。',
     limit: '低位右房や下部三尖弁輪など近接起源でも似るため、入口部の確定には心腔内マッピングが必要です。',
-    color: '#d67700',
+    color: '#4f718c',
     polarities: {
       I: 'positive',
       II: 'negative',
@@ -232,7 +232,7 @@ export const PAC_ORIGINS: PACOrigin[] = [
     mainClue: 'Ⅰ・Ⅱ・Ⅲ・aVFは大きな陽性、aVLはほぼ平坦。V1は陽性／陰性が代表的です。',
     why: '頭側から下方へ向かう興奮が下壁誘導に強く近づき、aVLとはほぼ直交します。',
     limit: '洞結節付近や高位右房起源と似ます。aVLが平坦でも上大静脈に確定はできません。',
-    color: '#147d8b',
+    color: '#4f718c',
     polarities: {
       I: 'positive',
       II: 'positive',

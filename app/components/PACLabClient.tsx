@@ -131,7 +131,7 @@ export function PACLabClient() {
             </button>
           ))}
         </div>
-        <p className="pac-waveform-color-note"><i aria-hidden="true" />同じ色の候補は、同じ代表P′波を表示します。</p>
+        <p className="pac-waveform-color-note"><i aria-hidden="true" />左心耳と左上肺静脈は同じ灰紫＝同じ代表P′波。ほかは落ち着いた青に統一。</p>
 
         <div className="pac-selected-origin" aria-live="polite">
           <p>{activeOrigin.chamber}</p>
