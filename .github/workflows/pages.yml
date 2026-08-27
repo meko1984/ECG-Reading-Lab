@@ -46,6 +46,9 @@ jobs:
           PAGES_BASE_PATH: /ECG-Reading-Lab
           NEXT_PUBLIC_BASE_PATH: /ECG-Reading-Lab
 
+      - name: Place static assets at the Pages artifact root
+        run: cp -R ./dist/client/ECG-Reading-Lab/_next ./dist/client/_next
+
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
