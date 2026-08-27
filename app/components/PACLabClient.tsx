@@ -2,12 +2,11 @@
 
 import { useMemo, useState } from 'react';
 import { InfoCard } from '@/app/components/InfoCard';
-import { PACMiniWave } from '@/app/components/PACWaveform';
+import { PACWaveform } from '@/app/components/PACWaveform';
 import {
   PAC_LEADS,
   PAC_ORIGINS,
   pacOrigin,
-  polarityLabel,
   type PACOriginId,
 } from '@/app/domain/pac';
 
@@ -103,22 +102,18 @@ export function PACLabClient() {
           </div>
         </div>
 
-        <p className="pac-wave-overview-intro">6誘導のP′波を同時に表示。下壁誘導、V1、左右方向を一度に見比べられます。</p>
+        <p className="pac-wave-overview-intro">各誘導を「洞調律 → PAC → 洞調律」の同じ時間軸で表示。中央の早いP′波を縦方向に見比べられます。</p>
 
-        <div className="pac-lead-grid" aria-label={`${activeOrigin.siteName}の6誘導Pダッシュ波一覧`}>
+        <div className="pac-lead-stack" aria-label={`${activeOrigin.siteName}の6誘導連続波形`}>
           {PAC_LEADS.map((lead) => {
             const polarity = activeOrigin.polarities[lead];
             return (
-              <article
+              <PACWaveform
                 key={lead}
-                aria-label={`${lead}誘導のPダッシュ波は${polarityLabel(polarity)}`}
-              >
-                <div>
-                  <strong>{lead}</strong>
-                  <span>{polarityLabel(polarity)}</span>
-                </div>
-                <PACMiniWave polarity={polarity} />
-              </article>
+                lead={lead}
+                polarity={polarity}
+                color={activeOrigin.color}
+              />
             );
           })}
         </div>

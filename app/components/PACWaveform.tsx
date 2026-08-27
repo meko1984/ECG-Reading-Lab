@@ -1,5 +1,4 @@
 import {
-  PAC_WAVEFORM_SCALE,
   polarityLabel,
   polarityPath,
   type PACLead,
@@ -38,17 +37,16 @@ export function PACMiniWave({ polarity }: PACMiniWaveProps) {
 }
 
 export function PACWaveform({ lead, polarity, color }: PACWaveformProps) {
-  const normalOne = normalBeat(13);
-  const normalTwo = normalBeat(126);
-  const pacStart = 224;
+  const normalBefore = normalBeat(40);
+  const pacStart = 160;
   const pac = prematureBeat(pacStart, polarity);
-  const nextBeat = normalBeat(349);
+  const normalAfter = normalBeat(345);
   const pCenter = pacStart + 17;
-  const summary = `${lead}誘導の模式心電図。洞調律2拍のあと、早く現れる${polarityLabel(polarity)}のPダッシュ波と幅の狭いQRSを伴う心房期外収縮を示します。`;
+  const summary = `${lead}誘導の連続模式心電図。洞調律、${polarityLabel(polarity)}のPダッシュ波を伴う心房期外収縮、洞調律の順に3拍を示します。`;
 
   return (
     <figure className="pac-waveform-figure">
-      <svg viewBox="0 0 480 154" role="img" aria-label={summary}>
+      <svg viewBox="0 0 480 124" role="img" aria-label={summary}>
         <defs>
           <pattern id={`pac-small-grid-${lead}`} width="8" height="8" patternUnits="userSpaceOnUse">
             <path d="M8 0L0 0 0 8" className="pac-grid-small" />
@@ -57,22 +55,20 @@ export function PACWaveform({ lead, polarity, color }: PACWaveformProps) {
             <rect width="40" height="40" fill={`url(#pac-small-grid-${lead})`} />
             <path d="M40 0L0 0 0 40" className="pac-grid-large" />
           </pattern>
-          <marker id={`pac-arrow-${lead}`} viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-            <path d="M0 0L10 5L0 10Z" fill={color} />
-          </marker>
         </defs>
-        <rect width="480" height="154" className="pac-paper" />
-        <rect width="480" height="154" fill={`url(#pac-grid-${lead})`} />
-        <rect x={pacStart - 2} y="9" width="109" height="135" className="pac-beat-window" />
-        <path d={`M7 ${baseline} ${normalOne} L126 ${baseline} ${normalTwo} L224 ${baseline} ${pac} L349 ${baseline} ${nextBeat} L473 ${baseline}`} className="pac-trace" />
+        <rect width="480" height="124" className="pac-paper" />
+        <rect width="480" height="124" fill={`url(#pac-grid-${lead})`} />
+        <rect x={pacStart - 7} y="5" width="118" height="114" className="pac-beat-window" />
+        <path d={`M7 ${baseline} ${normalBefore} L160 ${baseline} ${pac} L345 ${baseline} ${normalAfter} L473 ${baseline}`} className="pac-trace" />
         <path d={polarityPath(polarity, pCenter, baseline, 0.88)} className="pac-p-prime" style={{ stroke: color }} />
-        <path d={`M${pCenter} 31V${baseline - 18}`} className="pac-p-arrow" style={{ stroke: color }} markerEnd={`url(#pac-arrow-${lead})`} />
-        <text x={pCenter} y="23" className="pac-p-label" style={{ fill: color }}>早いP′</text>
-        <text x="14" y="22" className="lead-label">{lead}</text>
+        <text x="93" y="18" className="pac-beat-label">洞調律</text>
+        <text x="216" y="18" className="pac-beat-label pac-beat-label-accent" style={{ fill: color }}>PAC</text>
+        <text x="399" y="18" className="pac-beat-label">洞調律</text>
+        <text x="14" y="42" className="lead-label">{lead}</text>
       </svg>
       <figcaption>
         <strong>{lead}：P′は{polarityLabel(polarity)}</strong>
-        <span>{PAC_WAVEFORM_SCALE.paperSpeedMmPerSec} mm/s・{PAC_WAVEFORM_SCALE.gainMmPerMv} mm/mVの模式波形</span>
+        <span>洞調律 → PAC → 洞調律</span>
       </figcaption>
     </figure>
   );
