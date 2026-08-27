@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { calculateAxis, classificationReason, INITIAL_LEAD_I, INITIAL_LEAD_II, netQRS, signed, type LeadQRS } from '@/app/domain/axis';
+import { calculateAxis, INITIAL_LEAD_I, INITIAL_LEAD_II, netQRS, signed, type LeadQRS } from '@/app/domain/axis';
 import { presetForLead, replaceQRS } from '@/app/domain/waveform';
 import { ECGWaveform } from '@/app/components/ECGWaveform';
 import { HexaxialDiagram } from '@/app/components/HexaxialDiagram';
@@ -38,22 +38,19 @@ export function AxisLabClient() {
     <div className="axis-lab">
       <p className="page-lead">Ⅰ誘導とⅡ誘導のQRSを動かし、平均電気軸がどのように変化するかをご確認いただけます。</p>
 
-      <section className="axis-result-card" aria-labelledby="axis-result-heading">
-        <div>
-          <p className="eyebrow">平均電気軸</p>
-          <h1 id="axis-result-heading">{signed(result.angleDegrees)}°</h1>
-          <p className="classification-badge">{result.classification}</p>
-        </div>
-        <p>{classificationReason(result.classification)}</p>
-      </section>
-
       <section className="content-card diagram-card" aria-labelledby="diagram-heading">
         <div className="section-heading">
           <div>
             <p className="eyebrow">六軸基準座標</p>
             <h2 id="diagram-heading">ベクトルを目で追う</h2>
           </div>
-          <span className="live-badge">LIVE</span>
+          <output
+            className="axis-reading"
+            aria-label={`平均電気軸 ${signed(result.angleDegrees)}度、${result.classification}`}
+          >
+            <strong>{signed(result.angleDegrees)}°</strong>
+            <span>{result.classification}</span>
+          </output>
         </div>
         <HexaxialDiagram result={result} />
         <div className="diagram-legend" aria-label="領域の凡例">
@@ -93,7 +90,7 @@ export function AxisLabClient() {
           key={activeLead}
           parameters={previewParameters}
           label={`${activeLead}誘導の調整中の波形`}
-          height={96}
+          height={80}
         />
 
         <div className="slider-list">

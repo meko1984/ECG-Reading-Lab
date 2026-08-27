@@ -319,8 +319,7 @@ button { color: inherit; }
   text-transform: uppercase;
 }
 
-.page-header h1,
-.axis-result-card h1 {
+.page-header h1 {
   margin: 0;
   color: var(--navy);
   font-size: clamp(1.9rem, 8.5vw, 2.5rem);
@@ -458,29 +457,6 @@ button { color: inherit; }
 .contact-x-link:active { transform: scale(0.985); background: var(--blue); }
 .contact-x-link span { font-size: 0.9rem; }
 
-.axis-result-card {
-  display: grid;
-  gap: 14px;
-  margin-bottom: 14px;
-  padding: 20px;
-  border-radius: var(--card-radius);
-  background: linear-gradient(140deg, var(--navy), #123b8e);
-  color: #fff;
-  box-shadow: 0 16px 36px rgba(10, 31, 87, 0.16);
-}
-.axis-result-card .eyebrow { color: #a9d7ff; }
-.axis-result-card h1 { color: #fff; font-size: 2.8rem; }
-.axis-result-card > p { margin: 0; color: rgba(255, 255, 255, 0.8); font-size: 0.88rem; line-height: 1.65; }
-.classification-badge {
-  display: inline-block;
-  margin: 8px 0 0;
-  padding: 5px 10px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.14);
-  font-size: 0.78rem;
-  font-weight: 900;
-}
-
 .diagram-card,
 .controls-card,
 .calculation-card { margin-top: 14px; padding: 18px; }
@@ -488,6 +464,15 @@ button { color: inherit; }
 .section-heading h2,
 .calculation-card h2 { margin: 0; font-size: 1.2rem; }
 .live-badge { background: #e8f8ef; color: #19784b; }
+.axis-reading {
+  display: grid;
+  justify-items: end;
+  color: var(--navy);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.05;
+}
+.axis-reading strong { color: var(--blue); font-size: 1.15rem; }
+.axis-reading span { margin-top: 3px; color: rgba(10, 31, 87, 0.62); font-size: 0.65rem; font-weight: 800; }
 
 .axis-diagram { display: block; width: 100%; height: auto; overflow: visible; }
 .sector { stroke: none; }
@@ -559,12 +544,12 @@ button { color: inherit; }
 @media (max-width: 699px) {
   .axis-lab .diagram-card,
   .axis-lab .controls-card {
-    margin-top: 10px;
-    padding: 13px 14px;
+    margin-top: 8px;
+    padding: 10px 12px;
   }
 
   .axis-lab .section-heading {
-    margin-bottom: 6px;
+    margin-bottom: 4px;
   }
 
   .axis-lab .section-heading h2 {
@@ -577,7 +562,7 @@ button { color: inherit; }
   }
 
   .axis-lab .axis-diagram {
-    width: min(100%, 244px);
+    width: min(100%, 216px);
     margin: -4px auto 0;
   }
 
@@ -597,12 +582,12 @@ button { color: inherit; }
   }
 
   .axis-lab .lead-tabs {
-    margin-bottom: 8px;
-    padding: 3px;
+    margin-bottom: 5px;
+    padding: 2px;
   }
 
   .axis-lab .lead-tabs button {
-    min-height: 34px;
+    min-height: 31px;
   }
 
   .axis-lab .ecg-canvas {
@@ -610,8 +595,8 @@ button { color: inherit; }
   }
 
   .axis-lab .slider-list {
-    gap: 4px;
-    margin-top: 7px;
+    gap: 2px;
+    margin-top: 5px;
   }
 
   .axis-lab .slider-label-row label,
@@ -620,15 +605,15 @@ button { color: inherit; }
   }
 
   .axis-lab .slider-control-row {
-    grid-template-columns: 38px minmax(0, 1fr) 38px;
-    gap: 7px;
+    grid-template-columns: 34px minmax(0, 1fr) 34px;
+    gap: 6px;
     margin-top: 1px;
   }
 
   .axis-lab .slider-control-row button {
-    width: 38px;
-    height: 38px;
-    border-radius: 11px;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
     font-size: 1.05rem;
   }
 }
