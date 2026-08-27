@@ -556,6 +556,83 @@ button { color: inherit; }
 .calculation-card dd { margin: 0; color: rgba(10, 31, 87, 0.72); font-size: 0.87rem; text-align: right; font-variant-numeric: tabular-nums; }
 .calculation-card strong { color: var(--blue); }
 
+@media (max-width: 699px) {
+  .axis-lab .diagram-card,
+  .axis-lab .controls-card {
+    margin-top: 10px;
+    padding: 13px 14px;
+  }
+
+  .axis-lab .section-heading {
+    margin-bottom: 6px;
+  }
+
+  .axis-lab .section-heading h2 {
+    font-size: 1.05rem;
+  }
+
+  .axis-lab .section-heading .eyebrow {
+    margin-bottom: 2px;
+    font-size: 0.66rem;
+  }
+
+  .axis-lab .axis-diagram {
+    width: min(100%, 244px);
+    margin: -4px auto 0;
+  }
+
+  .axis-lab .diagram-legend {
+    gap: 4px 9px;
+    margin-top: -3px;
+  }
+
+  .axis-lab .diagram-legend span {
+    gap: 4px;
+    font-size: 0.64rem;
+  }
+
+  .axis-lab .diagram-legend i {
+    width: 8px;
+    height: 8px;
+  }
+
+  .axis-lab .lead-tabs {
+    margin-bottom: 8px;
+    padding: 3px;
+  }
+
+  .axis-lab .lead-tabs button {
+    min-height: 34px;
+  }
+
+  .axis-lab .ecg-canvas {
+    border-radius: 11px;
+  }
+
+  .axis-lab .slider-list {
+    gap: 4px;
+    margin-top: 7px;
+  }
+
+  .axis-lab .slider-label-row label,
+  .axis-lab .slider-label-row output {
+    font-size: 0.74rem;
+  }
+
+  .axis-lab .slider-control-row {
+    grid-template-columns: 38px minmax(0, 1fr) 38px;
+    gap: 7px;
+    margin-top: 1px;
+  }
+
+  .axis-lab .slider-control-row button {
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+    font-size: 1.05rem;
+  }
+}
+
 @media (max-width: 359px) {
   .page-content { padding-right: 14px; padding-left: 14px; }
   .diagram-card, .controls-card, .calculation-card { padding: 14px; }

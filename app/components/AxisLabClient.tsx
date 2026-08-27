@@ -35,7 +35,7 @@ export function AxisLabClient() {
   };
 
   return (
-    <>
+    <div className="axis-lab">
       <p className="page-lead">Ⅰ誘導とⅡ誘導のQRSを動かし、平均電気軸がどのように変化するかをご確認いただけます。</p>
 
       <section className="axis-result-card" aria-labelledby="axis-result-heading">
@@ -93,7 +93,7 @@ export function AxisLabClient() {
           key={activeLead}
           parameters={previewParameters}
           label={`${activeLead}誘導の調整中の波形`}
-          height={160}
+          height={96}
         />
 
         <div className="slider-list">
@@ -134,6 +134,6 @@ export function AxisLabClient() {
       <InfoCard title="学習用の簡易モデル">
         <p>波形の見え方と電気軸の関係を学ぶための補助ツールです。実際の判読・診断には使用しないでください。</p>
       </InfoCard>
-    </>
+    </div>
   );
 }
