@@ -872,10 +872,55 @@ button { color: inherit; }
 .pac-view-badge { top: 4px; left: 4px; }
 .pac-whole-heart-note { right: 4px; bottom: 4px; }
 
+.pac-anatomy-label {
+  position: absolute;
+  z-index: 5;
+  padding: 2px 5px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: 0 1px 4px rgba(10, 31, 87, 0.08);
+  color: rgba(10, 31, 87, 0.78);
+  font-size: clamp(0.48rem, 2.2vw, 0.64rem);
+  font-weight: 900;
+  line-height: 1.2;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.pac-anatomy-label::after {
+  position: absolute;
+  width: 16px;
+  height: 1px;
+  background: rgba(10, 31, 87, 0.48);
+  content: '';
+  transform-origin: left center;
+}
+
+.pac-label-svc { top: 12%; left: 18%; }
+.pac-label-svc::after { top: 120%; left: 70%; transform: rotate(58deg); }
+.pac-label-ivc { right: 43%; bottom: 9%; }
+.pac-label-ivc::after { bottom: 120%; left: 72%; transform: rotate(-65deg); }
+.pac-label-rupv { top: 33%; left: 0; }
+.pac-label-rupv::after { top: 60%; left: 100%; transform: rotate(8deg); }
+.pac-label-rlpv { top: 46%; left: 0; }
+.pac-label-rlpv::after { top: 45%; left: 100%; transform: rotate(-7deg); }
+.pac-label-lupv { top: 33%; right: 0; }
+.pac-label-lupv::after { top: 58%; right: 100%; transform: rotate(172deg); }
+.pac-label-llpv { top: 47%; right: 0; }
+.pac-label-llpv::after { top: 45%; right: 100%; transform: rotate(187deg); }
+.pac-label-laa { top: 25%; right: 4%; }
+.pac-label-laa::after { top: 110%; right: 80%; transform: rotate(140deg); }
+.pac-label-cs { right: 21%; bottom: 26%; }
+.pac-label-cs::after { bottom: 105%; right: 72%; transform: rotate(205deg); }
+.pac-label-sa-node { top: 27%; left: 35%; }
+.pac-label-sa-node::after { top: 110%; left: 50%; transform: rotate(75deg); }
+.pac-label-his { top: 51%; left: 43%; }
+.pac-label-his::after { top: 110%; left: 45%; transform: rotate(77deg); }
+
 .pac-origin-marker {
   --origin-color: var(--blue);
   position: absolute;
-  z-index: 4;
+  z-index: 6;
   display: grid;
   min-width: 64px;
   min-height: 54px;
@@ -911,9 +956,9 @@ button { color: inherit; }
 .pac-origin-marker.is-active { color: var(--origin-color); }
 .pac-origin-marker.is-active > span { transform: scale(1.25); box-shadow: 0 0 0 6px color-mix(in srgb, var(--origin-color) 24%, transparent); }
 .pac-origin-marker:focus-visible { outline: 3px solid var(--navy); outline-offset: 2px; border-radius: 12px; }
-.pac-marker-crista-terminalis { top: 28%; left: 63%; }
-.pac-marker-cs-ostium { top: 54%; left: 55%; }
-.pac-marker-left-superior-pv { top: 32%; left: 20%; }
+.pac-marker-crista-terminalis { top: 33%; left: 29%; }
+.pac-marker-cs-ostium { top: 55%; left: 36%; }
+.pac-marker-left-superior-pv { top: 34%; left: 64%; }
 
 .pac-selected-origin {
   display: grid;
@@ -935,29 +980,37 @@ button { color: inherit; }
   margin-bottom: 15px;
 }
 
-.pac-lead-grid button {
-  display: grid;
-  min-width: 0;
-  min-height: 81px;
-  place-items: center;
-  gap: 0;
-  padding: 5px;
-  border: 1px solid var(--card-border);
-  border-radius: 12px;
-  background: #fff;
-  color: rgba(10, 31, 87, 0.68);
-  cursor: pointer;
+.pac-wave-overview-intro {
+  margin: 0 0 10px;
+  color: rgba(10, 31, 87, 0.66);
+  font-size: 0.75rem;
+  line-height: 1.55;
 }
 
-.pac-lead-grid button[aria-pressed="true"] {
-  border: 2px solid var(--blue);
-  background: var(--light-blue);
-  color: var(--blue);
+.pac-lead-grid article {
+  display: grid;
+  min-width: 0;
+  min-height: 91px;
+  place-items: center;
+  gap: 0;
+  padding: 7px;
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.82);
+  color: rgba(10, 31, 87, 0.68);
+}
+
+.pac-lead-grid article div {
+  display: flex;
+  width: 100%;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px;
 }
 
 .pac-lead-grid strong { font-size: 0.72rem; }
 .pac-lead-grid span { font-size: 0.62rem; font-weight: 800; }
-.pac-mini-wave { display: block; width: min(100%, 64px); height: auto; }
+.pac-mini-wave { display: block; width: 100%; max-width: 112px; height: auto; color: var(--blue); }
 .pac-mini-baseline { fill: none; stroke: rgba(10, 31, 87, 0.18); stroke-width: 1; }
 .pac-mini-trace { fill: none; stroke: currentColor; stroke-width: 2.7; stroke-linecap: round; }
 
@@ -1110,7 +1163,7 @@ button { color: inherit; }
   .pac-lab .section-heading h2 { font-size: 1.05rem; }
   .pac-atria-map { width: min(100%, 340px); }
   .pac-lead-grid { gap: 5px; }
-  .pac-lead-grid button { min-height: 76px; padding: 3px; }
+  .pac-lead-grid article { min-height: 82px; padding: 4px; }
 }
 
 @media (max-width: 359px) {

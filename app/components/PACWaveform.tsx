@@ -30,9 +30,9 @@ function prematureBeat(startX: number, polarity: PWavePolarity): string {
 
 export function PACMiniWave({ polarity }: PACMiniWaveProps) {
   return (
-    <svg className="pac-mini-wave" viewBox="0 0 64 36" aria-hidden="true">
-      <path d="M4 18H60" className="pac-mini-baseline" />
-      <path d={polarityPath(polarity, 32, 18, 0.9)} className="pac-mini-trace" />
+    <svg className="pac-mini-wave" viewBox="0 0 112 50" aria-hidden="true">
+      <path d="M5 25H107" className="pac-mini-baseline" />
+      <path d={polarityPath(polarity, 56, 25, 1.35)} className="pac-mini-trace" />
     </svg>
   );
 }

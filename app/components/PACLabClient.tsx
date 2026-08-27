@@ -2,13 +2,12 @@
 
 import { useMemo, useState } from 'react';
 import { InfoCard } from '@/app/components/InfoCard';
-import { PACMiniWave, PACWaveform } from '@/app/components/PACWaveform';
+import { PACMiniWave } from '@/app/components/PACWaveform';
 import {
   PAC_LEADS,
   PAC_ORIGINS,
   pacOrigin,
   polarityLabel,
-  type PACLead,
   type PACOriginId,
 } from '@/app/domain/pac';
 
@@ -18,11 +17,23 @@ const markerLabels: Record<PACOriginId, string> = {
   'left-superior-pv': '左上肺静脈付近',
 };
 
-const pacHeartImage = `${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/pac-posterior-heart-v1.png`;
+const pacHeartImage = `${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/pac-posterior-heart-v3.png`;
+
+const anatomyLabels = [
+  { id: 'svc', text: '上大静脈' },
+  { id: 'ivc', text: '下大静脈' },
+  { id: 'rupv', text: '右上肺静脈' },
+  { id: 'rlpv', text: '右下肺静脈' },
+  { id: 'lupv', text: '左上肺静脈' },
+  { id: 'llpv', text: '左下肺静脈' },
+  { id: 'laa', text: '左心耳' },
+  { id: 'cs', text: '冠静脈洞' },
+  { id: 'sa-node', text: '洞結節' },
+  { id: 'his', text: 'ヒス束近辺' },
+] as const;
 
 export function PACLabClient() {
   const [activeOriginId, setActiveOriginId] = useState<PACOriginId>('crista-terminalis');
-  const [activeLead, setActiveLead] = useState<PACLead>('V1');
   const activeOrigin = useMemo(() => pacOrigin(activeOriginId), [activeOriginId]);
 
   return (
@@ -55,6 +66,12 @@ export function PACLabClient() {
           <span className="pac-view-badge">後面から見る</span>
           <span className="pac-whole-heart-note">薄い部分＝心臓全体</span>
 
+          {anatomyLabels.map((label) => (
+            <span className={`pac-anatomy-label pac-label-${label.id}`} key={label.id}>
+              {label.text}
+            </span>
+          ))}
+
           {PAC_ORIGINS.map((origin) => (
             <button
               type="button"
@@ -86,30 +103,24 @@ export function PACLabClient() {
           </div>
         </div>
 
-        <div className="pac-lead-grid" aria-label={`${activeOrigin.siteName}のPダッシュ波極性`}>
+        <p className="pac-wave-overview-intro">6誘導のP′波を同時に表示。下壁誘導、V1、左右方向を一度に見比べられます。</p>
+
+        <div className="pac-lead-grid" aria-label={`${activeOrigin.siteName}の6誘導Pダッシュ波一覧`}>
           {PAC_LEADS.map((lead) => {
             const polarity = activeOrigin.polarities[lead];
             return (
-              <button
-                type="button"
+              <article
                 key={lead}
-                aria-pressed={activeLead === lead}
-                onClick={() => setActiveLead(lead)}
+                aria-label={`${lead}誘導のPダッシュ波は${polarityLabel(polarity)}`}
               >
-                <strong>{lead}</strong>
+                <div>
+                  <strong>{lead}</strong>
+                  <span>{polarityLabel(polarity)}</span>
+                </div>
                 <PACMiniWave polarity={polarity} />
-                <span>{polarityLabel(polarity)}</span>
-              </button>
+              </article>
             );
           })}
-        </div>
-
-        <div className="pac-wave-detail" aria-live="polite">
-          <PACWaveform
-            lead={activeLead}
-            polarity={activeOrigin.polarities[activeLead]}
-            color={activeOrigin.color}
-          />
         </div>
 
         <div className="pac-reasoning">
