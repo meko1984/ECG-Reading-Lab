@@ -33,10 +33,20 @@ export default function LabsPage() {
           </div>
           <span className="lab-arrow" aria-hidden="true">›</span>
         </a>
+
+        <a className="lab-card lab-card-active" href={appPath('/labs/pac')}>
+          <div className="lab-icon" aria-hidden="true">P′</div>
+          <div>
+            <span className="lab-status">体験できる</span>
+            <h2>上室期外収縮・起源ラボ</h2>
+            <p>早く出たP′波の向きから、心房内の代表的な起源候補をたどります。</p>
+          </div>
+          <span className="lab-arrow" aria-hidden="true">›</span>
+        </a>
       </div>
 
       <InfoCard title="研究室は順次追加します">
-        <p>現在は平均電気軸ラボとWPW・ケント束ラボを利用できます。内容を確認しながら、ほかのテーマも追加していく予定です。</p>
+        <p>現在は平均電気軸、WPW・ケント束、上室期外収縮の3つのラボを利用できます。内容を確認しながら、ほかのテーマも追加していく予定です。</p>
       </InfoCard>
     </AppShell>
   );
