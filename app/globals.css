@@ -1244,6 +1244,67 @@ button { color: inherit; }
 .pvc-sources ul { margin: 8px 0 0; padding-left: 20px; }
 .pvc-sources a { color: var(--blue); text-underline-offset: 2px; }
 
+/* Electrode placement error lab */
+.electrode-placement-card, .electrode-wave-card, .electrode-presets { margin-top: 14px; padding: 18px; }
+.electrode-interaction-hint { margin: 0 0 12px; color: rgba(10,31,87,.7); font-size: .8rem; line-height: 1.6; }
+.electrode-tray { display: grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap: 6px; }
+.electrode-tray button { min-height: 49px; padding: 5px 2px; border: 1px solid rgba(10,31,87,.14); border-radius: 11px; background: #fff; cursor: pointer; }
+.electrode-tray button strong, .electrode-tray button span { display: block; }.electrode-tray button strong { font-size: .8rem; }.electrode-tray button span { margin-top: 1px; color: rgba(10,31,87,.48); font-size: .52rem; font-weight: 800; }
+.electrode-tray button.is-placed { background: rgba(230,245,255,.72); }.electrode-tray button.is-selected { border: 3px solid var(--blue); background: #fff; box-shadow: 0 0 0 3px rgba(20,110,214,.12); }
+.electrode-body-map { position: relative; width: min(100%, 360px); margin: 13px auto 0; }
+.electrode-body { display: block; width: 100%; height: auto; }.electrode-body circle, .electrode-body-torso { fill: rgba(230,245,255,.86); stroke: rgba(10,31,87,.5); stroke-width: 2; }.electrode-body-extremity { fill: none; stroke: rgba(230,245,255,.94); stroke-width: 34; stroke-linecap: round; paint-order: stroke; filter: drop-shadow(0 0 1px rgba(10,31,87,.55)); }.electrode-body-midline, .electrode-body-rib { fill: none; stroke: rgba(10,31,87,.15); stroke-width: 2; }.electrode-body text { fill: rgba(10,31,87,.56); font-size: 11px; font-weight: 800; text-anchor: middle; }
+.electrode-drop-site { position: absolute; display: grid; z-index: 3; width: 40px; min-height: 40px; place-items: center; padding: 0; border: 2px dashed rgba(20,110,214,.42); border-radius: 50%; background: rgba(255,255,255,.92); cursor: pointer; transform: translate(-50%,-50%); }
+.electrode-drop-site:disabled { cursor: default; opacity: 1; }.electrode-drop-site > span { display: grid; width: 28px; height: 28px; place-items: center; border-radius: 50%; color: var(--blue); font-size: .7rem; font-weight: 900; }.electrode-drop-site small { position: absolute; top: 36px; padding: 1px 3px; border-radius: 4px; color: rgba(10,31,87,.68); background: rgba(255,255,255,.88); font-size: .5rem; font-weight: 900; white-space: nowrap; }.electrode-drop-site.is-filled { border-style: solid; border-color: #fff; background: var(--state-attention); box-shadow: 0 2px 7px rgba(10,31,87,.24); }.electrode-drop-site.is-filled > span { color: var(--navy); }.electrode-drop-site.is-high-site { width: 31px; min-height: 31px; border-color: rgba(214,119,0,.5); background: rgba(255,244,218,.82); }.electrode-drop-site.is-high-site > span { width: 23px; height: 23px; font-size: .58rem; }.electrode-drop-site.is-high-site small { top: -17px; color: var(--state-attention-text); }
+.electrode-site-ra { top: 46%; left: 12%; }.electrode-site-la { top: 46%; left: 88%; }.electrode-site-rl { top: 88%; left: 37%; }.electrode-site-ll { top: 88%; left: 63%; }
+.electrode-site-v1 { top: 34%; left: 46%; }.electrode-site-v2 { top: 34%; left: 54%; }.electrode-site-v3 { top: 38%; left: 59%; }.electrode-site-v4 { top: 42%; left: 64%; }.electrode-site-v5 { top: 42%; left: 71%; }.electrode-site-v6 { top: 42%; left: 79%; }.electrode-site-v1-high { top: 27%; left: 44%; }.electrode-site-v2-high { top: 27%; left: 56%; }
+.electrode-placement-guide { margin-top: 10px; padding: 10px 12px; border: 1px solid rgba(20,110,214,.16); border-radius: 13px; background: rgba(247,252,255,.88); }.electrode-placement-guide summary { color: var(--navy); font-size: .73rem; font-weight: 900; cursor: pointer; }.electrode-placement-guide dl { display: grid; gap: 6px; margin: 9px 0 0; }.electrode-placement-guide dl div { display: grid; grid-template-columns: 92px minmax(0,1fr); gap: 7px; }.electrode-placement-guide dt { color: var(--blue); font-size: .66rem; font-weight: 900; }.electrode-placement-guide dd { margin: 0; color: rgba(10,31,87,.68); font-size: .66rem; line-height: 1.5; }
+.electrode-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }.electrode-actions button { min-height: 43px; border: 2px solid var(--blue); border-radius: 12px; color: #fff; background: var(--blue); font-size: .76rem; font-weight: 900; cursor: pointer; }.electrode-actions button.is-secondary { color: var(--blue); background: #fff; }
+.electrode-result { margin-top: 13px; padding: 15px; border: 1px solid rgba(20,110,214,.22); border-left: 6px solid var(--blue); border-radius: 15px; background: #fff; }.electrode-result.is-error { border-left-color: var(--state-attention-strong); background: rgba(255,249,235,.94); }.electrode-result > p { margin: 0; color: rgba(10,31,87,.5); font-size: .65rem; font-weight: 900; }.electrode-result h2 { margin: 2px 0 5px; font-size: 1rem; }.electrode-result span, .electrode-result small { display: block; color: rgba(10,31,87,.7); font-size: .77rem; line-height: 1.6; }.electrode-result small { margin-top: 5px; color: var(--state-attention-text); }
+.electrode-wave-legend { display: flex; justify-content: flex-end; gap: 12px; margin: -3px 0 8px; color: rgba(10,31,87,.56); font-size: .62rem; font-weight: 800; }.electrode-wave-legend span { display: inline-flex; align-items: center; gap: 4px; }.electrode-wave-legend i { width: 18px; border-top: 3px solid var(--state-attention-strong); }.electrode-wave-legend i.is-normal { border-top: 2px dashed rgba(10,31,87,.3); }
+.electrode-wave-grid-layout { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 7px; }.electrode-waveform { overflow: hidden; margin: 0; border: 1px solid rgba(10,31,87,.13); border-radius: 10px; background: white; }.electrode-waveform.is-changed { border: 2px solid var(--state-attention-strong); background: rgba(255,249,235,.7); }.electrode-waveform.is-unavailable { border-style: dashed; background: rgba(247,252,255,.62); }.electrode-waveform figcaption { display: flex; justify-content: space-between; padding: 4px 6px 0; font-size: .56rem; }.electrode-waveform figcaption strong { color: var(--navy); font-size: .68rem; }.electrode-waveform figcaption span { color: rgba(10,31,87,.5); font-weight: 900; }.electrode-waveform.is-changed figcaption span { color: var(--state-attention-text); }.electrode-waveform svg { display: block; width: 100%; height: auto; }.electrode-waveform svg > rect:first-of-type { fill: rgba(247,252,255,.88); }.electrode-wave-grid path { fill: none; stroke: rgba(20,110,214,.11); stroke-width: .6; }.electrode-wave-normal, .electrode-wave-current { fill: none; stroke-linecap: round; stroke-linejoin: round; }.electrode-wave-normal { stroke: rgba(10,31,87,.27); stroke-width: 1.8; stroke-dasharray: 4 3; }.electrode-wave-current { stroke: var(--navy); stroke-width: 2.5; }.electrode-waveform.is-changed .electrode-wave-current { stroke: var(--state-attention-strong); stroke-width: 3; }.electrode-wave-unavailable { fill: rgba(10,31,87,.42); font-size: 10px; font-weight: 900; text-anchor: middle; }
+.electrode-wave-note { margin: 10px 0 0; color: rgba(10,31,87,.62); font-size: .7rem; line-height: 1.55; }
+.electrode-presets > div:last-child { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 7px; }.electrode-presets button { min-height: 42px; padding: 6px; border: 1px solid rgba(10,31,87,.14); border-radius: 11px; background: #fff; font-size: .72rem; font-weight: 900; cursor: pointer; }.electrode-presets button.is-active { border: 2px solid var(--blue); color: var(--blue); background: var(--light-blue); }
+
+/* Myocardial infarction territory lab */
+.mi-selector-card, .mi-leads-card { margin-top: 14px; padding: 18px; }
+.mi-territory-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.mi-territory-tabs button { --mi-color: var(--blue); min-height: 43px; padding: 8px; border: 1px solid rgba(10,31,87,0.14); border-radius: 12px; color: rgba(10,31,87,0.68); background: white; font: inherit; font-size: 0.82rem; font-weight: 900; cursor: pointer; }
+.mi-territory-tabs button.is-active { border: 2px solid var(--mi-color); color: var(--navy); background: color-mix(in srgb, var(--mi-color) 11%, white); box-shadow: 0 3px 11px color-mix(in srgb, var(--mi-color) 16%, transparent); }
+.mi-territory-tabs button:focus-visible { outline: 3px solid color-mix(in srgb, var(--mi-color) 32%, transparent); outline-offset: 2px; }
+.mi-map-layout { display: grid; grid-template-columns: minmax(250px, 0.9fr) minmax(260px, 1.1fr); gap: 16px; align-items: center; margin-top: 15px; }
+.mi-heart-figure { margin: 0; }
+.mi-heart-figure svg { display: block; width: 100%; height: auto; }
+.mi-heart-figure figcaption { display: flex; justify-content: center; align-items: center; gap: 6px; color: rgba(10,31,87,0.62); font-size: 0.68rem; }
+.mi-map-dot { width: 10px; height: 10px; border-radius: 50%; }
+.mi-heart-shadow { fill: var(--anatomy-neutral-fill); stroke: rgba(10,31,87,0.28); stroke-width: 3; }
+.mi-heart-rv { fill: var(--anatomy-right-fill); stroke: var(--navy); stroke-width: 2.5; transition: fill 160ms ease; }
+.mi-heart-lv { fill: var(--anatomy-left-fill); stroke: var(--navy); stroke-width: 2.5; }
+.mi-territory { fill: transparent; stroke: rgba(10,31,87,0.16); stroke-width: 1.5; transition: fill 160ms ease; }
+.mi-territory.is-active { stroke: rgba(10,31,87,0.58); stroke-width: 2.5; }
+.mi-septum-line { fill: none; stroke: rgba(10,31,87,0.55); stroke-width: 7; stroke-linecap: round; }
+.mi-vessel { fill: none; stroke-linecap: round; }.mi-aorta { stroke: var(--anatomy-left-fill); stroke-width: 29; }.mi-pulmonary { stroke: var(--anatomy-right-fill); stroke-width: 25; }
+.mi-heart-labels { fill: var(--navy); font-size: 14px; font-weight: 900; text-anchor: middle; paint-order: stroke; stroke: rgba(255,255,255,0.8); stroke-width: 4px; }
+.mi-posterior-note { fill: var(--navy); stroke: var(--navy); stroke-width: 1.5; font-size: 13px; font-weight: 900; }
+.mi-territory-result { --mi-color: var(--blue); padding: 16px; border: 1px solid color-mix(in srgb, var(--mi-color) 28%, transparent); border-left: 6px solid var(--mi-color); border-radius: 15px; background: color-mix(in srgb, var(--mi-color) 7%, white); }
+.mi-territory-result > p { margin: 0; color: rgba(10,31,87,0.55); font-size: 0.67rem; font-weight: 900; }
+.mi-territory-result h3 { margin: 2px 0 4px; color: var(--mi-color); font-size: 1.25rem; }
+.mi-territory-result > span { color: rgba(10,31,87,0.72); font-size: 0.8rem; line-height: 1.55; }
+.mi-territory-result dl { display: grid; gap: 8px; margin: 14px 0 0; }
+.mi-territory-result dl div { padding-top: 8px; border-top: 1px solid color-mix(in srgb, var(--mi-color) 18%, transparent); }
+.mi-territory-result dt { color: rgba(10,31,87,0.52); font-size: 0.63rem; font-weight: 900; }.mi-territory-result dd { margin: 2px 0 0; color: var(--navy); font-size: 0.8rem; font-weight: 900; }
+.mi-lead-intro { margin: 0 0 12px; color: rgba(10,31,87,0.68); font-size: 0.78rem; line-height: 1.55; }
+.mi-lead-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.mi-lead-strip { margin: 0; overflow: hidden; border: 1px solid rgba(10,31,87,0.12); border-radius: 11px; background: white; }
+.mi-lead-strip figcaption { display: flex; justify-content: space-between; gap: 5px; padding: 5px 7px 2px; color: rgba(10,31,87,0.48); font-size: 0.58rem; }
+.mi-lead-strip figcaption strong { color: var(--navy); font-size: 0.72rem; }.mi-lead-strip.is-elevation figcaption span, .mi-lead-strip.is-depression figcaption span { font-weight: 900; }
+.mi-lead-strip svg { display: block; width: 100%; height: auto; }.mi-paper { fill: rgba(247,252,255,0.9); }.mi-grid-line { fill: none; stroke: rgba(20,110,214,0.1); stroke-width: 0.65; }
+.mi-trace { fill: none; stroke: rgba(10,31,87,0.28); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }.mi-lead-strip:not(.is-neutral) .mi-trace { stroke-width: 3.2; }.mi-st-mark { fill: none; stroke-width: 6; opacity: 0.15; }
+.mi-extra-leads { margin-top: 14px; padding: 13px; border: 1px dashed rgba(20,110,214,0.32); border-radius: 14px; background: rgba(247,252,255,0.75); }
+.mi-extra-leads h3 { margin: 1px 0 10px; color: var(--navy); font-size: 0.94rem; }.mi-extra-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.mi-lead-strip.is-supplemental { border-width: 2px; }
+.mi-reasoning { display: grid; gap: 7px; margin-top: 14px; padding: 13px; border-radius: 14px; background: rgba(10,31,87,0.045); }
+.mi-reasoning p { margin: 0; color: rgba(10,31,87,0.68); font-size: 0.78rem; line-height: 1.6; }.mi-reasoning strong { color: var(--navy); }
+
 @media (max-width: 699px) {
   .axis-lab .diagram-card,
   .axis-lab .controls-card {
@@ -1352,6 +1413,16 @@ button { color: inherit; }
   .pvc-lead-stack { gap: 6px; }
   .pvc-waveform-figure { padding: 4px; }
   .pvc-waveform-figure figcaption { font-size: 0.63rem; }
+  .mi-selector-card, .mi-leads-card { margin-top: 8px; padding: 12px; }
+  .mi-lab .section-heading { margin-bottom: 9px; }.mi-lab .section-heading h2 { font-size: 1.05rem; }
+  .mi-territory-tabs { gap: 6px; }.mi-territory-tabs button { min-height: 39px; padding: 6px 3px; font-size: 0.73rem; }
+  .mi-map-layout { grid-template-columns: 1fr; gap: 6px; margin-top: 10px; }.mi-heart-figure { width: min(100%, 330px); margin-inline: auto; }
+  .mi-territory-result { padding: 12px; }.mi-territory-result h3 { font-size: 1.08rem; }
+  .mi-lead-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }.mi-lead-strip figcaption { font-size: 0.53rem; }.mi-lead-strip figcaption strong { font-size: 0.67rem; }
+  .mi-extra-grid { grid-template-columns: 1fr; gap: 6px; }
+  .electrode-placement-card, .electrode-wave-card, .electrode-presets { margin-top: 8px; padding: 12px; }
+  .electrode-lab .section-heading { margin-bottom: 9px; }.electrode-lab .section-heading h2 { font-size: 1.05rem; }
+  .electrode-body-map { width: min(100%, 330px); }.electrode-wave-grid-layout { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 6px; }
 }
 
 @media (max-width: 359px) {

@@ -14,6 +14,16 @@ export default function LabsPage() {
       </header>
 
       <div className="lab-list">
+        <a className="lab-card lab-card-active" href={appPath('/labs/electrodes')}>
+          <div className="lab-icon" aria-hidden="true">●</div>
+          <div>
+            <span className="lab-status">体験できる</span>
+            <h2>電極装着ラボ</h2>
+            <p>10個の電極を人体へつけ、入れ替えや位置の間違いで12誘導がどう変わるか比べます。</p>
+          </div>
+          <span className="lab-arrow" aria-hidden="true">›</span>
+        </a>
+
         <a className="lab-card lab-card-active" href={appPath('/labs/axis')}>
           <div className="lab-icon" aria-hidden="true">↗</div>
           <div>
@@ -53,10 +63,20 @@ export default function LabsPage() {
           </div>
           <span className="lab-arrow" aria-hidden="true">›</span>
         </a>
+
+        <a className="lab-card lab-card-active" href={appPath('/labs/mi')}>
+          <div className="lab-icon" aria-hidden="true">ST</div>
+          <div>
+            <span className="lab-status">体験できる</span>
+            <h2>心筋梗塞・部位判定ラボ</h2>
+            <p>ST変化が見える連続誘導から、心筋の代表領域と次に追加する誘導をたどります。</p>
+          </div>
+          <span className="lab-arrow" aria-hidden="true">›</span>
+        </a>
       </div>
 
       <InfoCard title="研究室は順次追加します">
-        <p>現在は平均電気軸、WPW・ケント束、心房期外収縮、心室性期外収縮の4つを体験できます。ほかのテーマも順次追加する予定です。</p>
+        <p>現在は電極装着ミス、平均電気軸、WPW・ケント束、心房期外収縮、心室性期外収縮、心筋梗塞部位判定の6つを体験できます。ほかのテーマも順次追加する予定です。</p>
       </InfoCard>
     </AppShell>
   );
