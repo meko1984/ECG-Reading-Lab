@@ -36,7 +36,7 @@ export function AxisLabClient() {
 
   return (
     <div className="axis-lab">
-      <p className="page-lead">Ⅰ誘導とⅡ誘導のQRSを動かし、平均電気軸がどのように変化するかをご確認いただけます。</p>
+      <p className="page-lead">Ⅰ誘導とⅡ誘導のQRSを動かし、平均電気軸の変化を確認できます。</p>
 
       <section className="content-card diagram-card" aria-labelledby="diagram-heading">
         <div className="section-heading">

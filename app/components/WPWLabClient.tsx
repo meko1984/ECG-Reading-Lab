@@ -12,19 +12,25 @@ export function WPWLabClient() {
 
   return (
     <div className="wpw-lab">
-      <p className="page-lead">心臓上のケント束とV1誘導の波形は、どちらを触っても同じタイプへ連動します。</p>
+      <p className="page-lead">心臓上のケント束とV1誘導の波形は、どちらを選んでも同じタイプへ連動します。</p>
 
       <section className="content-card wpw-explorer" aria-labelledby="wpw-explorer-heading">
         <div className="section-heading">
           <div>
             <p className="eyebrow">場所から波形へ</p>
-            <h2 id="wpw-explorer-heading">ケント束をタップ</h2>
+            <h2 id="wpw-explorer-heading">ケント束を選ぶ</h2>
           </div>
           <span className="unit-badge">代表位置</span>
         </div>
 
         <p className="wpw-interaction-hint">図のA・C・Bを選ぶと、下のV1波形も切り替わります。</p>
         <WPWHeartDiagram activeType={activeTypeId} onSelect={setActiveTypeId} />
+
+        <div className="wpw-anatomy-key" aria-label="心臓図の色分け">
+          <span><i className="wpw-key-right" />右房・右室</span>
+          <span><i className="wpw-key-left" />左房・左室</span>
+          <span><i className="wpw-key-pathway" />選択中のケント束</span>
+        </div>
 
         <div className="wpw-selected-region" aria-live="polite">
           <strong>{activeType.typeName}（{activeType.attachment}）</strong>
@@ -37,7 +43,7 @@ export function WPWLabClient() {
         <div className="section-heading">
           <div>
             <p className="eyebrow">波形から場所へ</p>
-            <h2 id="wpw-wave-heading">V1波形をタップ</h2>
+            <h2 id="wpw-wave-heading">V1波形を選ぶ</h2>
           </div>
         </div>
 
@@ -68,7 +74,7 @@ export function WPWLabClient() {
       </section>
 
       <InfoCard title="V1だけでは場所を確定できません">
-        <p>このA・C・Bは、提供されたテキストに沿った入門用の代表モデルです。実際はBとCが右側・中隔で重なり、前興奮の程度でも波形が変わります。12誘導全体による推定と、必要に応じた電気生理学的検査で確認します。</p>
+        <p>A・C・Bは、V1波形と代表的な付着部位を結びつける入門用モデルです。実際はBとCが右側・中隔で重なり、前興奮の程度でも波形が変わります。12誘導全体による推定と、必要に応じた電気生理学的検査で確認します。</p>
       </InfoCard>
 
       <details className="wpw-sources">

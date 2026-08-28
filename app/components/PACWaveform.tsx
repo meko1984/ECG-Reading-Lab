@@ -28,6 +28,8 @@ const pacP = firstP + PAC_WAVEFORM_SCALE.prematureCouplingMs * pxPerMs;
 const nextSinusP = pacP + PAC_WAVEFORM_SCALE.normalCycleMs * pxPerMs;
 const prIntervalPx = 160 * pxPerMs;
 const qrsWidthPx = PAC_WAVEFORM_SCALE.qrsDurationMs * pxPerMs;
+const LEAD_LABELS: Partial<Record<PACLead, string>> = { I: 'Ⅰ', II: 'Ⅱ', III: 'Ⅲ' };
+const leadLabel = (lead: PACLead) => LEAD_LABELS[lead] ?? lead;
 
 type LeadShape = {
   sinusPolarity: PWavePolarity;
@@ -76,6 +78,7 @@ export function PACMiniWave({ polarity }: PACMiniWaveProps) {
 }
 
 export function PACWaveform({ lead, polarity, color, morphology, pWaveScale = 1 }: PACWaveformProps) {
+  const visibleLead = leadLabel(lead);
   const shape = LEAD_SHAPES[lead];
   const sinusBefore = polarityPath(shape.sinusPolarity, firstP, baseline, shape.sinusScale);
   const prematureScale = 0.82 * pWaveScale;
@@ -97,7 +100,7 @@ export function PACWaveform({ lead, polarity, color, morphology, pWaveScale = 1 
     continueSvgPath(ventricularPath(nextSinusP, shape)),
     'H513',
   ].join(' ');
-  const summary = `${lead}誘導の連続模式心電図。洞調律、${polarityLabel(polarity)}のPダッシュ波を伴う心房期外収縮、洞調律の順に3拍を示します。`;
+  const summary = `${visibleLead}誘導の連続模式心電図。洞調律、${polarityLabel(polarity)}のPダッシュ波を伴う心房期外収縮、洞調律の順に3拍を示します。`;
 
   return (
     <figure className="pac-waveform-figure">
@@ -120,11 +123,11 @@ export function PACWaveform({ lead, polarity, color, morphology, pWaveScale = 1 
         <text x={firstP + 28} y="18" className="pac-beat-label">洞調律</text>
         <text x={pacP + 30} y="18" className="pac-beat-label pac-beat-label-accent" style={{ fill: color }}>PAC</text>
         <text x={nextSinusP + 28} y="18" className="pac-beat-label">洞調律</text>
-        <text x="14" y="42" className="lead-label">{lead}</text>
+        <text x="14" y="42" className="lead-label">{visibleLead}</text>
         <text x="506" y="122" className="pac-scale-label" textAnchor="end">25 mm/s</text>
       </svg>
       <figcaption>
-        <strong>{lead}：P′は{polarityLabel(polarity)}</strong>
+        <strong>{visibleLead}：P′は{polarityLabel(polarity)}</strong>
         <span>洞性P・QRS・Tも誘導別</span>
       </figcaption>
     </figure>

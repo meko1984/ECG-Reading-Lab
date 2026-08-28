@@ -7,6 +7,22 @@
   --pale-blue: #f5fcff;
   --soft-gray: #adbaca;
   --card-border: #c7e0f5;
+  --anatomy-right-fill: #8ebbe8;
+  --anatomy-right-accent: #4d83ad;
+  --anatomy-left-fill: #e9a2ad;
+  --anatomy-left-accent: #b76473;
+  --anatomy-neutral-fill: #f3faff;
+  --anatomy-neutral-stroke: #8ebbe8;
+  --anatomy-coronary: #87d7df;
+  --state-normal: #146ed6;
+  --state-left-axis: #e54a4a;
+  --state-right-axis: #f6b83e;
+  --state-extreme-axis: #ef7e2f;
+  --state-attention: #f6b83e;
+  --state-attention-strong: #d67700;
+  --state-attention-text: #9a5700;
+  --state-success-bg: #e8f8ef;
+  --state-success-text: #19784b;
   --card-radius: 20px;
   --content-max: 520px;
   color-scheme: light;
@@ -463,7 +479,7 @@ button { color: inherit; }
 .section-heading { margin-bottom: 12px; }
 .section-heading h2,
 .calculation-card h2 { margin: 0; font-size: 1.2rem; }
-.live-badge { background: #e8f8ef; color: #19784b; }
+.live-badge { background: var(--state-success-bg); color: var(--state-success-text); }
 .axis-reading {
   display: grid;
   justify-items: end;
@@ -476,10 +492,10 @@ button { color: inherit; }
 
 .axis-diagram { display: block; width: 100%; height: auto; overflow: visible; }
 .sector { stroke: none; }
-.sector-normal { fill: rgba(20, 110, 214, 0.12); }
-.sector-left { fill: rgba(229, 74, 74, 0.14); }
-.sector-right { fill: rgba(246, 184, 62, 0.17); }
-.sector-extreme { fill: rgba(239, 126, 47, 0.15); }
+.sector-normal { fill: color-mix(in srgb, var(--state-normal) 12%, transparent); }
+.sector-left { fill: color-mix(in srgb, var(--state-left-axis) 14%, transparent); }
+.sector-right { fill: color-mix(in srgb, var(--state-right-axis) 17%, transparent); }
+.sector-extreme { fill: color-mix(in srgb, var(--state-extreme-axis) 15%, transparent); }
 .axis-ring { fill: none; stroke: rgba(10, 31, 87, 0.22); stroke-width: 1.5; }
 .axis-line { stroke: rgba(10, 31, 87, 0.25); stroke-width: 1.2; }
 .axis-label { fill: var(--navy); font-size: 12px; font-weight: 800; text-anchor: middle; dominant-baseline: middle; }
@@ -491,10 +507,10 @@ button { color: inherit; }
 .diagram-legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 14px; margin-top: -4px; }
 .diagram-legend span { display: inline-flex; align-items: center; gap: 5px; color: rgba(10, 31, 87, 0.7); font-size: 0.72rem; }
 .diagram-legend i { width: 9px; height: 9px; border-radius: 50%; }
-.legend-normal { background: rgba(20, 110, 214, 0.5); }
-.legend-left { background: rgba(229, 74, 74, 0.55); }
-.legend-right { background: rgba(246, 184, 62, 0.65); }
-.legend-extreme { background: rgba(239, 126, 47, 0.6); }
+.legend-normal { background: color-mix(in srgb, var(--state-normal) 50%, transparent); }
+.legend-left { background: color-mix(in srgb, var(--state-left-axis) 55%, transparent); }
+.legend-right { background: color-mix(in srgb, var(--state-right-axis) 65%, transparent); }
+.legend-extreme { background: color-mix(in srgb, var(--state-extreme-axis) 60%, transparent); }
 
 .lead-tabs {
   display: grid;
@@ -562,33 +578,57 @@ button { color: inherit; }
   overflow: visible;
 }
 
+.wpw-anatomy-key {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  margin: 2px 0 12px;
+  color: rgba(10, 31, 87, 0.7);
+  font-size: 0.68rem;
+  font-weight: 800;
+}
+
+.wpw-anatomy-key span { display: inline-flex; align-items: center; gap: 5px; }
+.wpw-anatomy-key i { width: 12px; height: 12px; border: 1px solid rgba(10, 31, 87, 0.4); border-radius: 3px; }
+.wpw-key-right { background: var(--anatomy-right-fill); }
+.wpw-key-left { background: var(--anatomy-left-fill); }
+.wpw-key-pathway { background: var(--blue); }
+
 .anatomical-heart-wall {
-  fill: rgba(229, 74, 74, 0.11);
+  fill: var(--anatomy-neutral-fill);
   stroke: rgba(10, 31, 87, 0.42);
   stroke-width: 3;
   stroke-linejoin: round;
 }
 
 .atrium {
-  fill: rgba(20, 110, 214, 0.09);
   stroke: rgba(10, 31, 87, 0.38);
   stroke-width: 2.4;
 }
 
+.atrium-right,
+.ventricle-right {
+  fill: var(--anatomy-right-fill);
+}
+
+.atrium-left,
+.ventricle-left {
+  fill: var(--anatomy-left-fill);
+}
+
 .ventricle {
-  fill: rgba(255, 255, 255, 0.58);
   stroke: rgba(10, 31, 87, 0.42);
   stroke-width: 3;
 }
 
 .ventricle-left {
-  stroke: rgba(10, 31, 87, 0.52);
+  stroke: var(--anatomy-left-accent);
   stroke-width: 7;
 }
 
 .heart-septum {
-  fill: rgba(229, 74, 74, 0.2);
-  stroke: rgba(146, 47, 56, 0.66);
+  fill: color-mix(in srgb, var(--anatomy-left-fill) 48%, white);
+  stroke: var(--anatomy-left-accent);
   stroke-width: 2;
   stroke-linejoin: round;
 }
@@ -741,11 +781,11 @@ button { color: inherit; }
 .wpw-paper { fill: rgba(245, 252, 255, 0.85); }
 .wpw-grid-small { fill: none; stroke: rgba(20, 110, 214, 0.09); stroke-width: 0.7; }
 .wpw-grid-large { fill: none; stroke: rgba(20, 110, 214, 0.16); stroke-width: 1; }
-.delta-window { fill: rgba(246, 184, 62, 0.19); }
+.delta-window { fill: color-mix(in srgb, var(--state-attention) 19%, transparent); }
 .wpw-trace { fill: none; stroke: var(--navy); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
-.delta-emphasis { fill: none; stroke: #d67700; stroke-width: 4.5; stroke-linecap: round; }
-.delta-measure { fill: none; stroke: #9a5700; stroke-width: 1; }
-.delta-window-label { fill: #9a5700; font-size: 8px; font-weight: 900; text-anchor: start; }
+.delta-emphasis { fill: none; stroke: var(--state-attention-strong); stroke-width: 4.5; stroke-linecap: round; }
+.delta-measure { fill: none; stroke: var(--state-attention-text); stroke-width: 1; }
+.delta-window-label { fill: var(--state-attention-text); font-size: 8px; font-weight: 900; text-anchor: start; }
 .lead-label { fill: var(--blue); font-size: 13px; font-weight: 900; }
 
 .wpw-waveform-figure figcaption {
@@ -872,8 +912,8 @@ button { color: inherit; }
   vector-effect: non-scaling-stroke;
 }
 
-.pac-chamber-right { fill: rgba(142, 187, 232, 0.14); }
-.pac-chamber-left { fill: rgba(233, 162, 173, 0.14); }
+.pac-chamber-right { fill: color-mix(in srgb, var(--anatomy-right-fill) 14%, transparent); }
+.pac-chamber-left { fill: color-mix(in srgb, var(--anatomy-left-fill) 14%, transparent); }
 .pac-chamber-name {
   fill: rgba(10, 31, 87, 0.46);
   font-size: 13px;
@@ -1019,14 +1059,14 @@ button { color: inherit; }
 .pac-anatomy-key > div { display: flex; flex-wrap: wrap; gap: 6px 12px; }
 .pac-anatomy-key span { display: inline-flex; align-items: center; gap: 5px; font-weight: 800; }
 .pac-anatomy-key i { width: 12px; height: 12px; border: 1px solid #0a1f57; border-radius: 3px; }
-.pac-anatomy-key .pac-key-left-atrium { background: #e9a2ad; }
-.pac-anatomy-key .pac-key-right-atrium { background: #8ebbe8; }
-.pac-anatomy-key .pac-key-coronary-sinus { background: #87d7df; }
+.pac-anatomy-key .pac-key-left-atrium { background: var(--anatomy-left-fill); }
+.pac-anatomy-key .pac-key-right-atrium { background: var(--anatomy-right-fill); }
+.pac-anatomy-key .pac-key-coronary-sinus { background: var(--anatomy-coronary); }
 .pac-anatomy-key .pac-key-four-chambers {
   width: 18px;
   height: 10px;
   border-style: dashed;
-  background: linear-gradient(90deg, rgba(142, 187, 232, 0.18) 0 50%, rgba(233, 162, 173, 0.18) 50% 100%);
+  background: linear-gradient(90deg, color-mix(in srgb, var(--anatomy-right-fill) 18%, transparent) 0 50%, color-mix(in srgb, var(--anatomy-left-fill) 18%, transparent) 50% 100%);
 }
 
 .pac-selected-origin {
@@ -1070,7 +1110,7 @@ button { color: inherit; }
 .pac-paper { fill: rgba(245, 252, 255, 0.85); }
 .pac-grid-small { fill: none; stroke: rgba(20, 110, 214, 0.09); stroke-width: 0.7; }
 .pac-grid-large { fill: none; stroke: rgba(20, 110, 214, 0.16); stroke-width: 1; }
-.pac-beat-window { fill: rgba(246, 184, 62, 0.12); }
+.pac-beat-window { fill: color-mix(in srgb, var(--state-attention) 12%, transparent); }
 .pac-trace { fill: none; stroke: var(--navy); stroke-width: 2.35; stroke-linecap: round; stroke-linejoin: round; }
 .pac-p-prime { fill: none; stroke-width: 4.5; stroke-linecap: round; stroke-linejoin: round; }
 .pac-p-arrow { fill: none; stroke-width: 1.5; }
@@ -1122,6 +1162,87 @@ button { color: inherit; }
 .pac-sources p { margin: 10px 0 0; }
 .pac-sources ul { margin: 9px 0 0; padding-left: 20px; }
 .pac-sources a { color: var(--blue); text-underline-offset: 2px; }
+
+.pvc-origin-card,
+.pvc-wave-card { margin-top: 14px; padding: 18px; }
+
+.pvc-interaction-hint,
+.pvc-wave-overview-intro { margin: 0 0 13px; color: rgba(10, 31, 87, 0.7); font-size: 0.82rem; line-height: 1.65; }
+
+.pvc-heart-map { position: relative; width: min(100%, 640px); margin: 0 auto; }
+.pvc-heart-anatomy { display: block; width: 100%; height: auto; }
+.pvc-whole-heart { fill: var(--anatomy-neutral-fill); stroke: var(--anatomy-neutral-stroke); stroke-width: 2; opacity: 0.72; }
+.pvc-aorta, .pvc-pulmonary-trunk, .pvc-vena-cava { fill: none; stroke-linecap: round; }
+.pvc-aorta { stroke: var(--anatomy-left-fill); stroke-width: 42; opacity: 0.78; }
+.pvc-pulmonary-trunk { stroke: var(--anatomy-right-fill); stroke-width: 38; opacity: 0.82; }
+.pvc-vena-cava { stroke: var(--anatomy-right-fill); stroke-width: 30; opacity: 0.52; }
+.pvc-right-atrium { fill: var(--anatomy-right-fill); stroke: var(--navy); stroke-width: 2.5; opacity: 0.9; }
+.pvc-right-ventricle { fill: var(--anatomy-right-fill); stroke: var(--navy); stroke-width: 3; opacity: 0.9; }
+.pvc-left-ventricle { fill: var(--anatomy-left-fill); stroke: var(--navy); stroke-width: 3; opacity: 0.9; }
+.pvc-rv-outflow { fill: none; stroke: var(--anatomy-right-accent); stroke-width: 33; stroke-linecap: round; opacity: 0.74; }
+.pvc-lv-outflow { fill: none; stroke: var(--anatomy-left-accent); stroke-width: 28; stroke-linecap: round; opacity: 0.7; }
+.pvc-septum-line { fill: none; stroke: rgba(10, 31, 87, 0.48); stroke-width: 8; stroke-linecap: round; }
+.pvc-tricuspid-valve path, .pvc-mitral-valve path { fill: rgba(255,255,255,0.68); stroke: rgba(10,31,87,0.68); stroke-width: 2; }
+.pvc-moderator-band { fill: none; stroke: rgba(10,31,87,0.58); stroke-width: 10; stroke-linecap: round; }
+.pvc-anatomy-labels { fill: var(--navy); font-size: 14px; font-weight: 900; text-anchor: middle; paint-order: stroke; stroke: rgba(255,255,255,0.8); stroke-width: 4px; stroke-linejoin: round; }
+
+.pvc-view-badge, .pvc-whole-heart-note, .pvc-side-guide { position: absolute; z-index: 3; padding: 4px 7px; border: 1px solid rgba(10,31,87,0.12); border-radius: 999px; color: rgba(10,31,87,0.66); background: rgba(255,255,255,0.86); font-size: 0.61rem; font-weight: 900; }
+.pvc-view-badge { top: 4px; left: 4px; }
+.pvc-side-guide { top: 4px; left: 50%; display: flex; gap: 5px; transform: translateX(-50%); white-space: nowrap; }
+.pvc-side-guide i { color: rgba(20,110,214,0.7); font-style: normal; }
+.pvc-whole-heart-note { right: 4px; bottom: 4px; }
+
+.pvc-origin-marker { --origin-color: var(--blue); position: absolute; z-index: 5; display: grid; justify-items: center; width: 62px; padding: 0; border: 0; color: rgba(10,31,87,0.72); background: transparent; cursor: pointer; transform: translate(-50%, -50%); }
+.pvc-origin-marker > span { display: grid; place-items: center; width: 29px; height: 29px; border: 3px solid white; border-radius: 50%; color: white; background: var(--origin-color); box-shadow: 0 2px 7px rgba(10,31,87,0.28); font-size: 0.71rem; font-weight: 900; transition: transform 120ms ease, box-shadow 120ms ease; }
+.pvc-origin-marker small { margin-top: 2px; padding: 1px 4px; border-radius: 5px; color: var(--navy); background: rgba(255,255,255,0.88); font-size: 0.52rem; font-weight: 900; white-space: nowrap; }
+.pvc-origin-marker.is-active > span { transform: scale(1.27); box-shadow: 0 0 0 6px color-mix(in srgb, var(--origin-color) 25%, transparent), 0 2px 7px rgba(10,31,87,0.3); }
+.pvc-origin-marker:focus-visible { outline: none; }
+.pvc-origin-marker:focus-visible > span { box-shadow: 0 0 0 5px color-mix(in srgb, var(--origin-color) 25%, transparent), 0 0 0 7px var(--navy); }
+.pvc-marker-right-upper-outer { top: 31%; left: 42%; }
+.pvc-marker-right-upper-inner { top: 51%; left: 43%; }
+.pvc-marker-right-lower-outer { top: 69%; left: 34%; }
+.pvc-marker-right-apex { top: 83%; left: 45%; }
+.pvc-marker-left-upper-outer { top: 32%; left: 61%; }
+.pvc-marker-left-upper-inner { top: 51%; left: 61%; }
+.pvc-marker-left-lower-outer { top: 69%; left: 70%; }
+.pvc-marker-left-apex { top: 89%; left: 59%; }
+
+.pvc-anatomy-key { display: grid; gap: 6px; margin-top: 10px; padding: 10px 12px; border: 1px solid rgba(20,110,214,0.13); border-radius: 13px; color: rgba(10,31,87,0.66); background: rgba(247,252,255,0.82); font-size: 0.7rem; line-height: 1.55; }
+.pvc-anatomy-key p { margin: 0; }
+.pvc-anatomy-key strong { color: var(--navy); }
+.pvc-anatomy-key > div { display: flex; flex-wrap: wrap; gap: 6px 12px; }
+.pvc-anatomy-key span { display: inline-flex; align-items: center; gap: 5px; font-weight: 800; }
+.pvc-anatomy-key i { width: 12px; height: 12px; border: 1px solid rgba(10,31,87,0.4); border-radius: 3px; }
+.pvc-key-right { background: var(--anatomy-right-fill); }.pvc-key-left { background: var(--anatomy-left-fill); }.pvc-key-whole { background: var(--anatomy-neutral-fill); }
+
+.pvc-selected-origin { margin-top: 10px; padding: 12px 14px; border: 1px solid rgba(20,110,214,0.15); border-radius: 14px; background: rgba(247,252,255,0.88); }
+.pvc-selected-origin p { margin: 0; color: rgba(10,31,87,0.55); font-size: 0.67rem; font-weight: 900; }
+.pvc-selected-origin h3 { margin: 1px 0 0; font-size: 1rem; }
+.pvc-selected-origin span { color: rgba(10,31,87,0.7); font-size: 0.78rem; }
+
+.pvc-lead-stack { display: grid; gap: 8px; }
+.pvc-waveform-figure { margin: 0; padding: 6px; border: 1px solid rgba(20,110,214,0.14); border-radius: 13px; background: white; }
+.pvc-waveform-figure svg { display: block; width: 100%; height: auto; border-radius: 9px; }
+.pvc-paper { fill: rgba(245,252,255,0.88); }.pvc-grid-small { fill: none; stroke: rgba(20,110,214,0.09); stroke-width: 0.7; }.pvc-grid-large { fill: none; stroke: rgba(20,110,214,0.16); stroke-width: 1; }.pvc-beat-window { fill: color-mix(in srgb, var(--state-attention) 11%, transparent); }
+.pvc-normal-trace, .pvc-wide-trace { fill: none; stroke-linecap: round; stroke-linejoin: round; }.pvc-normal-trace { stroke: var(--navy); stroke-width: 2.3; }.pvc-wide-trace { stroke-width: 4; }.pvc-wave-label { font-size: 10px; font-weight: 900; text-anchor: middle; }
+.pvc-waveform-figure figcaption { display: flex; justify-content: space-between; gap: 8px; margin-top: 3px; color: rgba(10,31,87,0.58); font-size: 0.68rem; }.pvc-waveform-figure figcaption strong { color: var(--blue); }
+
+.pvc-reasoning { display: grid; gap: 7px; margin-top: 13px; padding: 12px; border-radius: 14px; background: rgba(10,31,87,0.045); }
+.pvc-reasoning p { margin: 0; color: rgba(10,31,87,0.68); font-size: 0.78rem; line-height: 1.58; }.pvc-reasoning strong { color: var(--navy); }
+
+.pvc-sources {
+  margin-top: 14px;
+  padding: 13px 15px;
+  border: 1px solid rgba(20, 110, 214, 0.14);
+  border-radius: 14px;
+  color: rgba(10, 31, 87, 0.7);
+  font-size: 0.75rem;
+  line-height: 1.65;
+}
+.pvc-sources summary { color: var(--navy); font-weight: 800; cursor: pointer; }
+.pvc-sources p { margin: 9px 0 0; }
+.pvc-sources ul { margin: 8px 0 0; padding-left: 20px; }
+.pvc-sources a { color: var(--blue); text-underline-offset: 2px; }
 
 @media (max-width: 699px) {
   .axis-lab .diagram-card,
@@ -1219,6 +1340,18 @@ button { color: inherit; }
   .pac-lead-stack { gap: 7px; }
   .pac-waveform-figure { padding: 5px; }
   .pac-waveform-figure figcaption { margin-top: 4px; font-size: 0.66rem; }
+  .pvc-origin-card,
+  .pvc-wave-card { margin-top: 8px; padding: 12px; }
+  .pvc-lab .section-heading { margin-bottom: 9px; }
+  .pvc-lab .section-heading h2 { font-size: 1.05rem; }
+  .pvc-heart-map { width: min(100%, 350px); }
+  .pvc-origin-marker { width: 52px; }
+  .pvc-origin-marker > span { width: 25px; height: 25px; font-size: 0.64rem; }
+  .pvc-origin-marker small { font-size: 0.45rem; }
+  .pvc-view-badge, .pvc-whole-heart-note, .pvc-side-guide { font-size: 0.5rem; }
+  .pvc-lead-stack { gap: 6px; }
+  .pvc-waveform-figure { padding: 4px; }
+  .pvc-waveform-figure figcaption { font-size: 0.63rem; }
 }
 
 @media (max-width: 359px) {

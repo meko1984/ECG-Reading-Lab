@@ -3,7 +3,7 @@ import { appPath } from '@/app/domain/paths';
 export const dynamic = 'force-static';
 
 const actions = [
-  { href: '/waveforms', icon: '⌁', label: '基本波形をみる' },
+  { href: '/waveforms', icon: '⌁', label: '基本波形を見る' },
   { href: '/labs', icon: '▣', label: '研究室' },
   { href: '/contact', icon: '✉', label: 'お問い合わせ' },
 ];

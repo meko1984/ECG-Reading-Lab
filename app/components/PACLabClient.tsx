@@ -49,7 +49,7 @@ export function PACLabClient() {
         <div className="section-heading">
           <div>
             <p className="eyebrow">場所からP′波へ</p>
-            <h2 id="pac-origin-heading">心房の起源をタップ</h2>
+            <h2 id="pac-origin-heading">心房の起源を選ぶ</h2>
           </div>
           <span className="unit-badge">候補9部位</span>
         </div>
@@ -66,20 +66,20 @@ export function PACLabClient() {
             className="pac-four-chambers"
             viewBox="0 0 500 400"
             role="img"
-            aria-label="薄く重ねた心臓の4部屋。画面左上が右心房、右上が左心房、左下が右心室、右下が左心室。"
+              aria-label="薄く重ねた心臓の4部屋。画面左上が右房、右上が左房、左下が右室、右下が左室。"
           >
             <path className="pac-chamber pac-chamber-right" d="M145 125 C160 92 224 91 251 123 C266 145 265 218 239 247 C216 267 168 254 151 222 C138 197 135 148 145 125 Z" />
             <path className="pac-chamber pac-chamber-left" d="M251 123 C283 91 374 95 407 130 C428 155 420 220 392 247 C361 272 285 266 260 239 C244 216 241 148 251 123 Z" />
             <path className="pac-chamber pac-chamber-right" d="M171 248 C192 235 233 239 260 258 C278 278 277 335 255 365 C232 385 190 367 174 337 C160 312 155 271 171 248 Z" />
             <path className="pac-chamber pac-chamber-left" d="M260 258 C287 232 353 227 383 252 C411 278 405 337 369 373 C340 397 286 382 264 356 C248 331 244 281 260 258 Z" />
             <g className="pac-chamber-name" aria-hidden="true">
-              <text x="196" y="190">右心房</text>
-              <text x="330" y="190">左心房</text>
-              <text x="211" y="317">右心室</text>
-              <text x="326" y="324">左心室</text>
+              <text x="196" y="190">右房</text>
+              <text x="330" y="190">左房</text>
+              <text x="211" y="317">右室</text>
+              <text x="326" y="324">左室</text>
             </g>
           </svg>
-          <span className="pac-view-badge">テキスト準拠の展開図</span>
+          <span className="pac-view-badge">心房を開いた展開図</span>
           <span className="pac-side-guide"><b>患者の右</b><i aria-hidden="true">←　→</i><b>患者の左</b></span>
           <span className="pac-whole-heart-note">淡い青白＝心臓全体</span>
 
@@ -106,7 +106,7 @@ export function PACLabClient() {
         </div>
 
         <div className="pac-anatomy-key" aria-label="心臓図の色分けと向き">
-          <p><strong>向き：</strong>テキストと同じく患者の右を画面左に置き、右房内面と左房後面を一枚へ開いた学習用投影です。厳密な一方向の解剖図ではありません。</p>
+          <p><strong>向き：</strong>患者の右を画面左に置き、右房内面と左房後面を一枚へ開いた学習用投影です。厳密な一方向の解剖図ではありません。</p>
           <p><strong>重なり：</strong>画面左の右上・右下肺静脈は右房へ入るのではなく、右房の後ろを通って左房へつながる部分を重ねて示しています。</p>
           <div>
             <span><i className="pac-key-left-atrium" />左房・肺静脈</span>
@@ -157,7 +157,7 @@ export function PACLabClient() {
       </section>
 
       <InfoCard title="P′波は地図のヒント。確定診断ではありません">
-        <p>このラボは、P′波が確認できる心房起源の上室期外収縮（PAC）を扱う入門用モデルです。P′波がT波に埋もれる例、非伝導性PAC、心房接合部起源、変行伝導、心房手術・アブレーション後は対象外です。</p>
+        <p>このラボは、P′波が確認できる心房期外収縮（PAC）を扱う入門用モデルです。P′波がT波に埋もれる例、非伝導性PAC、心房接合部起源、変行伝導、心房手術・アブレーション後は対象外です。</p>
       </InfoCard>
 
       <details className="pac-sources">

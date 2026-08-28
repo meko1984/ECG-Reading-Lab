@@ -7,15 +7,15 @@ export default function ContactPage() {
   return (
     <AppShell title="お問い合わせ">
       <header className="page-header">
-        <p className="eyebrow">Feedback</p>
-        <h1>ご意見・ご要望をお寄せください</h1>
-        <p className="page-lead">分かりにくかった点や、追加してほしい研究室のテーマなどを受け付けています。</p>
+        <p className="eyebrow">意見を送る</p>
+        <h1>意見・要望を送る</h1>
+        <p className="page-lead">分かりにくかった点や、追加してほしい研究室のテーマを受け付けています。</p>
       </header>
 
       <section className="content-card contact-card">
         <div className="contact-mark" aria-hidden="true">X</div>
         <h2>XのDMで受け付けています</h2>
-        <p>ご意見・ご要望は、以下のアカウントへDMでお送りください。</p>
+        <p>意見・要望は、下のアカウントへDMで送れます。</p>
         <a
           className="contact-x-link"
           href="https://x.com/mekomikudoV"
