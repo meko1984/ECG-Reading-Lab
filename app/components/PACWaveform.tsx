@@ -21,6 +21,8 @@ type PACMiniWaveProps = {
   polarity: PWavePolarity;
 };
 
+type PACQuickWaveformProps = PACWaveformProps;
+
 const baseline = 80;
 const pxPerMs = 8 / 40;
 const firstP = 76;
@@ -64,7 +66,6 @@ function ventricularPath(pCenter: number, shape: LeadShape): string {
 function pacMorphology(lead: PACLead, polarity: PWavePolarity, override?: PWaveMorphology): PWaveMorphology {
   if (override) return override;
   if (lead === 'V1' && polarity === 'positive') return 'broad';
-  if ((lead === 'II' || lead === 'V1') && polarity === 'positive') return 'notched';
   return 'smooth';
 }
 
@@ -74,6 +75,62 @@ export function PACMiniWave({ polarity }: PACMiniWaveProps) {
       <path d="M5 25H107" className="pac-mini-baseline" />
       <path d={polarityPath(polarity, 56, 25, 1.35)} className="pac-mini-trace" />
     </svg>
+  );
+}
+
+export function PACQuickWaveform({ lead, polarity, color, morphology, pWaveScale = 1 }: PACQuickWaveformProps) {
+  const visibleLead = leadLabel(lead);
+  const shape = LEAD_SHAPES[lead];
+  const quickBaseline = 62;
+  const quickPCenter = 62;
+  const quickPScale = 0.9 * pWaveScale;
+  const quickMorphology = pacMorphology(lead, polarity, morphology);
+  const quickPHalfWidth = pWaveHalfWidth(quickPScale, quickMorphology);
+  const pPrime = polarityPath(polarity, quickPCenter, quickBaseline, quickPScale, quickMorphology);
+  const qrsStart = 116;
+  const q = qrsStart + 4;
+  const r = qrsStart + 9;
+  const s = qrsStart + 14;
+  const qrsEnd = qrsStart + 19;
+  const tStart = qrsEnd + 12;
+  const tPeak = tStart + 21;
+  const tEnd = tStart + 42;
+  const beforePPrime = `M8 ${quickBaseline} H${quickPCenter - quickPHalfWidth}`;
+  const afterPPrime = [
+    `M${quickPCenter + quickPHalfWidth} ${quickBaseline} H${qrsStart}`,
+    `L${q} ${quickBaseline + shape.q}`,
+    `L${r} ${quickBaseline + shape.r}`,
+    `L${s} ${quickBaseline + shape.s}`,
+    `L${qrsEnd} ${quickBaseline}`,
+    `H${tStart}`,
+    `C${tStart + 8} ${quickBaseline} ${tPeak - 7} ${quickBaseline + shape.t} ${tPeak} ${quickBaseline + shape.t}`,
+    `C${tPeak + 8} ${quickBaseline + shape.t} ${tEnd - 8} ${quickBaseline} ${tEnd} ${quickBaseline}`,
+    'H232',
+  ].join(' ');
+  const summary = `${visibleLead}誘導。${polarityLabel(polarity)}のPダッシュ波に続くQRS波とT波を示す短い模式心電図。`;
+
+  return (
+    <figure className="pac-quick-waveform">
+      <svg viewBox="0 0 240 104" role="img" aria-label={summary}>
+        <defs>
+          <pattern id={`pac-quick-small-grid-${lead}`} width="8" height="8" patternUnits="userSpaceOnUse">
+            <path d="M8 0L0 0 0 8" className="pac-grid-small" />
+          </pattern>
+          <pattern id={`pac-quick-grid-${lead}`} width="40" height="40" patternUnits="userSpaceOnUse">
+            <rect width="40" height="40" fill={`url(#pac-quick-small-grid-${lead})`} />
+            <path d="M40 0L0 0 0 40" className="pac-grid-large" />
+          </pattern>
+        </defs>
+        <rect width="240" height="104" className="pac-paper" />
+        <rect width="240" height="104" fill={`url(#pac-quick-grid-${lead})`} />
+        <rect x={quickPCenter - 24} y="5" width="48" height="94" className="pac-beat-window" />
+        <path d={beforePPrime} className="pac-trace" />
+        <path d={pPrime} className="pac-p-prime" style={{ stroke: color }} />
+        <path d={afterPPrime} className="pac-trace" />
+        <text x="12" y="20" className="pac-quick-lead-label">{visibleLead}</text>
+        <text x={quickPCenter} y="94" className="pac-quick-p-label" style={{ fill: color }}>P′</text>
+      </svg>
+    </figure>
   );
 }
 

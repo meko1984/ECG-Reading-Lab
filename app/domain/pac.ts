@@ -96,7 +96,7 @@ export const PAC_ORIGINS: PACOrigin[] = [
     siteName: '左心耳',
     chamber: '左房・前外側',
     location: '左房から前方へ張り出す左心耳を、模式図の右上縁に投影しています。',
-    mainClue: 'Ⅰは深い陰性、aVLも陰性。下壁誘導は陽性で、V1は幅広い陽性が代表的です。',
+    mainClue: 'Ⅰは深い陰性、aVLも陰性。下壁誘導は陽性で、ⅡのP′波には浅い切れ込みを伴うことがあります。V1は幅広い陽性が代表的です。',
     why: '左外側から右方へ進む興奮がⅠ・aVLから離れ、V1へ向かうためです。',
     limit: '左上肺静脈起源と非常によく似ます。Ⅰのより深い陰性が左心耳を考える手がかりですが、重なりがあります。',
     color: ANATOMY_COLORS.leftAccent,
@@ -119,7 +119,7 @@ export const PAC_ORIGINS: PACOrigin[] = [
     siteName: '左上肺静脈',
     chamber: '左房・上後方',
     location: '左房へ入る左上肺静脈の入口付近。患者の左なので、図では画面右上にあります。',
-    mainClue: 'Ⅰ・aVLは陰性。Ⅱ・Ⅲ・aVFは陽性で、V1は幅広い陽性が代表的です。',
+    mainClue: 'Ⅰ・aVLは陰性。Ⅱ・Ⅲ・aVFは陽性で、ⅡのP′波には浅い切れ込みを伴うことがあります。V1は幅広い陽性が代表的です。',
     why: '左後上方から右前下方へ向かう成分をV1が陽性に捉え、左向き誘導のⅠ・aVLは小さくなるか陰性になります。',
     limit: '左心耳や左下肺静脈と重なります。肺静脈4本を体表P′波だけで常に分離できるわけではありません。',
     color: ANATOMY_COLORS.leftAccent,
@@ -296,7 +296,7 @@ export function polarityPath(
 
   if (polarity === 'positive') {
     if (morphology === 'notched') {
-      return `M${left} ${baseline} C${left + width * 0.16} ${baseline} ${left + width * 0.18} ${baseline - height * 0.72} ${left + width * 0.36} ${baseline - height * 0.72} C${left + width * 0.48} ${baseline - height * 0.72} ${centerX - width * 0.05} ${baseline - height * 0.42} ${centerX} ${baseline - height * 0.42} C${centerX + width * 0.08} ${baseline - height * 0.42} ${centerX + width * 0.08} ${baseline - height} ${centerX + width * 0.28} ${baseline - height} C${right - width * 0.16} ${baseline - height} ${right - width * 0.18} ${baseline} ${right} ${baseline}`;
+      return `M${left} ${baseline} C${left + width * 0.16} ${baseline} ${left + width * 0.18} ${baseline - height * 0.82} ${left + width * 0.36} ${baseline - height * 0.82} C${left + width * 0.48} ${baseline - height * 0.82} ${centerX - width * 0.05} ${baseline - height * 0.7} ${centerX} ${baseline - height * 0.7} C${centerX + width * 0.08} ${baseline - height * 0.7} ${centerX + width * 0.08} ${baseline - height} ${centerX + width * 0.28} ${baseline - height} C${right - width * 0.16} ${baseline - height} ${right - width * 0.18} ${baseline} ${right} ${baseline}`;
     }
     return `M${left} ${baseline} C${left + width * 0.28} ${baseline} ${centerX - width * 0.16} ${baseline - height} ${centerX} ${baseline - height} C${centerX + width * 0.18} ${baseline - height} ${right - width * 0.22} ${baseline} ${right} ${baseline}`;
   }

@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import { InfoCard } from '@/app/components/InfoCard';
-import { PACWaveform } from '@/app/components/PACWaveform';
+import { PACQuickWaveform, PACWaveform } from '@/app/components/PACWaveform';
 import {
   PAC_LEADS,
   PAC_ORIGINS,
@@ -13,6 +13,8 @@ import {
 const markerLabels = Object.fromEntries(
   PAC_ORIGINS.map((origin) => [origin.id, origin.siteName]),
 ) as Record<PACOriginId, string>;
+
+const PAC_QUICK_LEADS = ['I', 'II', 'III', 'aVL', 'aVF', 'V1'] as const;
 
 const pacHeartImage = `${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/pac-unfolded-heart-v9.png`;
 
@@ -37,14 +39,6 @@ export function PACLabClient() {
 
   return (
     <div className="pac-lab">
-      <p className="page-lead">早く出たP′波の向きを手がかりに、心房内のどこから興奮が始まったかをたどります。</p>
-
-      <section className="pac-reading-order" aria-label="起源を考える3つの順番">
-        <span><b>1</b>早い拍を見つける</span>
-        <span><b>2</b>P′波を比べる</span>
-        <span><b>3</b>起源候補を絞る</span>
-      </section>
-
       <section className="content-card pac-origin-card" aria-labelledby="pac-origin-heading">
         <div className="section-heading">
           <div>
@@ -53,8 +47,6 @@ export function PACLabClient() {
           </div>
           <span className="unit-badge">候補9部位</span>
         </div>
-
-        <p className="pac-interaction-hint">心臓図の番号を選ぶと、6誘導のP′波と連続波形が連動します。</p>
 
         <div className="pac-atria-map">
           <img
@@ -105,21 +97,24 @@ export function PACLabClient() {
           ))}
         </div>
 
-        <div className="pac-anatomy-key" aria-label="心臓図の色分けと向き">
-          <p><strong>向き：</strong>患者の右を画面左に置き、右房内面と左房後面を一枚へ開いた学習用投影です。厳密な一方向の解剖図ではありません。</p>
-          <p><strong>重なり：</strong>画面左の右上・右下肺静脈は右房へ入るのではなく、右房の後ろを通って左房へつながる部分を重ねて示しています。</p>
-          <div>
-            <span><i className="pac-key-left-atrium" />左房・肺静脈</span>
-            <span><i className="pac-key-right-atrium" />右房・上下大静脈</span>
-            <span><i className="pac-key-coronary-sinus" />冠静脈洞</span>
-            <span><i className="pac-key-four-chambers" />薄い点線＝4部屋の大まかな位置</span>
-          </div>
-        </div>
+        <p className="pac-selection-status" aria-live="polite">
+          {activeOrigin.markerNumber}番、{activeOrigin.siteName}を選択中
+        </p>
 
-        <div className="pac-selected-origin" aria-live="polite">
-          <p>{activeOrigin.chamber}</p>
-          <h3 style={{ color: activeOrigin.color }}>{activeOrigin.siteName}</h3>
-          <span>{activeOrigin.location}</span>
+        <div className="pac-quick-grid" aria-label={`${activeOrigin.siteName}の6誘導早見波形`}>
+          {PAC_QUICK_LEADS.map((lead) => {
+            const polarity = activeOrigin.polarities[lead];
+            return (
+              <PACQuickWaveform
+                key={lead}
+                lead={lead}
+                polarity={polarity}
+                color={activeOrigin.color}
+                morphology={activeOrigin.morphologies?.[lead]}
+                pWaveScale={activeOrigin.pWaveScales?.[lead]}
+              />
+            );
+          })}
         </div>
       </section>
 
@@ -130,8 +125,6 @@ export function PACLabClient() {
             <h2 id="pac-clue-heading">6誘導を見比べる</h2>
           </div>
         </div>
-
-        <p className="pac-wave-overview-intro">各誘導を「洞調律 → PAC → 洞調律」の同じ時間軸で表示。洞性P波とQRS・Tも誘導ごとの代表形にし、中央の早いP′波を縦方向に揃えています（横1小マス＝40 ms）。</p>
 
         <div className="pac-lead-stack" aria-label={`${activeOrigin.siteName}の6誘導連続波形`}>
           {PAC_LEADS.map((lead) => {
@@ -149,10 +142,46 @@ export function PACLabClient() {
           })}
         </div>
 
+        <p className="pac-wave-overview-intro">各誘導を「洞調律 → PAC → 洞調律」の同じ時間軸で表示。洞性P波とQRS・Tも誘導ごとの代表形にし、中央の早いP′波を縦方向に揃えています（横1小マス＝40 ms）。</p>
+
         <div className="pac-reasoning">
           <p><strong>いちばんの手がかり：</strong>{activeOrigin.mainClue}</p>
           <p><strong>ベクトルで考える：</strong>{activeOrigin.why}</p>
           <p><strong>似る場所：</strong>{activeOrigin.limit}</p>
+        </div>
+      </section>
+
+      <section className="content-card pac-guide-card" aria-labelledby="pac-guide-heading">
+        <div className="section-heading">
+          <div>
+            <p className="eyebrow">波形を見たあとに</p>
+            <h2 id="pac-guide-heading">図の見方と考える順番</h2>
+          </div>
+        </div>
+
+        <p className="page-lead">早く出たP′波の向きを手がかりに、心房内のどこから興奮が始まったかをたどります。</p>
+
+        <section className="pac-reading-order" aria-label="起源を考える3つの順番">
+          <span><b>1</b>早い拍を見つける</span>
+          <span><b>2</b>P′波を比べる</span>
+          <span><b>3</b>起源候補を絞る</span>
+        </section>
+
+        <div className="pac-selected-origin pac-selected-origin-detail">
+          <p>{activeOrigin.chamber}</p>
+          <h3 style={{ color: activeOrigin.color }}>{activeOrigin.siteName}</h3>
+          <span>{activeOrigin.location}</span>
+        </div>
+
+        <div className="pac-anatomy-key" aria-label="心臓図の色分けと向き">
+          <p><strong>向き：</strong>患者の右を画面左に置き、右房内面と左房後面を一枚へ開いた学習用投影です。厳密な一方向の解剖図ではありません。</p>
+          <p><strong>重なり：</strong>画面左の右上・右下肺静脈は右房へ入るのではなく、右房の後ろを通って左房へつながる部分を重ねて示しています。</p>
+          <div>
+            <span><i className="pac-key-left-atrium" />左房・肺静脈</span>
+            <span><i className="pac-key-right-atrium" />右房・上下大静脈</span>
+            <span><i className="pac-key-coronary-sinus" />冠静脈洞</span>
+            <span><i className="pac-key-four-chambers" />薄い点線＝4部屋の大まかな位置</span>
+          </div>
         </div>
       </section>
 

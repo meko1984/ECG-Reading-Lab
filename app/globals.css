@@ -868,7 +868,8 @@ button { color: inherit; }
 }
 
 .pac-origin-card,
-.pac-clue-card {
+.pac-clue-card,
+.pac-guide-card {
   margin-top: 14px;
   padding: 18px;
 }
@@ -1082,6 +1083,64 @@ button { color: inherit; }
 .pac-selected-origin h3 { margin: 0; color: var(--blue); font-size: 1rem; }
 .pac-selected-origin span { color: rgba(10, 31, 87, 0.7); font-size: 0.8rem; }
 
+.pac-selection-status,
+.pvc-selection-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  border: 0;
+  white-space: nowrap;
+}
+
+.pac-quick-grid {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(3, minmax(0, auto));
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.pac-quick-waveform {
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.88);
+}
+
+.pac-quick-waveform svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.pac-quick-lead-label {
+  fill: var(--navy);
+  font-size: 15px;
+  font-weight: 950;
+}
+
+.pac-quick-p-label {
+  font-size: 10px;
+  font-weight: 950;
+  text-anchor: middle;
+}
+
+.pac-selected-origin-detail {
+  margin-top: 14px;
+}
+
+.pac-guide-card .pac-anatomy-key {
+  margin: 12px 0 0;
+}
+
 .pac-lead-stack {
   display: grid;
   gap: 9px;
@@ -1164,7 +1223,8 @@ button { color: inherit; }
 .pac-sources a { color: var(--blue); text-underline-offset: 2px; }
 
 .pvc-origin-card,
-.pvc-wave-card { margin-top: 14px; padding: 18px; }
+.pvc-wave-card,
+.pvc-guide-card { margin-top: 14px; padding: 18px; }
 
 .pvc-interaction-hint,
 .pvc-wave-overview-intro { margin: 0 0 13px; color: rgba(10, 31, 87, 0.7); font-size: 0.82rem; line-height: 1.65; }
@@ -1220,11 +1280,19 @@ button { color: inherit; }
 .pvc-selected-origin h3 { margin: 1px 0 0; font-size: 1rem; }
 .pvc-selected-origin span { color: rgba(10,31,87,0.7); font-size: 0.78rem; }
 
+.pvc-quick-grid { display: grid; grid-auto-flow: column; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(4, minmax(0, auto)); gap: 8px; margin-top: 10px; }
+.pvc-quick-waveform { min-width: 0; margin: 0; overflow: hidden; border: 1px solid rgba(20,110,214,0.14); border-radius: 12px; background: white; }
+.pvc-quick-waveform svg { display: block; width: 100%; height: auto; }
+.pvc-quick-lead-label { fill: var(--navy); font-size: 15px; font-weight: 950; }
+.pvc-selected-origin-detail { margin-top: 14px; }
+.pvc-guide-card .pvc-anatomy-key { margin-top: 12px; }
+
 .pvc-lead-stack { display: grid; gap: 8px; }
+.pvc-lead-stack + .pvc-wave-overview-intro { margin: 13px 0 0; }
 .pvc-waveform-figure { margin: 0; padding: 6px; border: 1px solid rgba(20,110,214,0.14); border-radius: 13px; background: white; }
 .pvc-waveform-figure svg { display: block; width: 100%; height: auto; border-radius: 9px; }
 .pvc-paper { fill: rgba(245,252,255,0.88); }.pvc-grid-small { fill: none; stroke: rgba(20,110,214,0.09); stroke-width: 0.7; }.pvc-grid-large { fill: none; stroke: rgba(20,110,214,0.16); stroke-width: 1; }.pvc-beat-window { fill: color-mix(in srgb, var(--state-attention) 11%, transparent); }
-.pvc-normal-trace, .pvc-wide-trace { fill: none; stroke-linecap: round; stroke-linejoin: round; }.pvc-normal-trace { stroke: var(--navy); stroke-width: 2.3; }.pvc-wide-trace { stroke-width: 4; }.pvc-wave-label { font-size: 10px; font-weight: 900; text-anchor: middle; }
+.pvc-normal-trace, .pvc-wide-trace, .pvc-recovery-trace { fill: none; stroke-linecap: round; stroke-linejoin: round; }.pvc-normal-trace { stroke: var(--navy); stroke-width: 2.3; }.pvc-wide-trace { stroke-width: 4; }.pvc-recovery-trace { stroke-width: 3; }.pvc-wave-label { font-size: 10px; font-weight: 900; text-anchor: middle; }.pvc-stt-label { font-size: 8px; font-weight: 850; text-anchor: middle; }
 .pvc-waveform-figure figcaption { display: flex; justify-content: space-between; gap: 8px; margin-top: 3px; color: rgba(10,31,87,0.58); font-size: 0.68rem; }.pvc-waveform-figure figcaption strong { color: var(--blue); }
 
 .pvc-reasoning { display: grid; gap: 7px; margin-top: 13px; padding: 12px; border-radius: 14px; background: rgba(10,31,87,0.045); }
@@ -1271,27 +1339,37 @@ button { color: inherit; }
 .mi-territory-tabs button { --mi-color: var(--blue); min-height: 43px; padding: 8px; border: 1px solid rgba(10,31,87,0.14); border-radius: 12px; color: rgba(10,31,87,0.68); background: white; font: inherit; font-size: 0.82rem; font-weight: 900; cursor: pointer; }
 .mi-territory-tabs button.is-active { border: 2px solid var(--mi-color); color: var(--navy); background: color-mix(in srgb, var(--mi-color) 11%, white); box-shadow: 0 3px 11px color-mix(in srgb, var(--mi-color) 16%, transparent); }
 .mi-territory-tabs button:focus-visible { outline: 3px solid color-mix(in srgb, var(--mi-color) 32%, transparent); outline-offset: 2px; }
-.mi-map-layout { display: grid; grid-template-columns: minmax(250px, 0.9fr) minmax(260px, 1.1fr); gap: 16px; align-items: center; margin-top: 15px; }
-.mi-heart-figure { margin: 0; }
+.mi-map-layout { display: grid; gap: 14px; align-items: start; margin-top: 15px; }
+.mi-map-layout > * { min-width: 0; }
+.mi-heart-figure { width: 100%; margin: 0; }
 .mi-heart-figure svg { display: block; width: 100%; height: auto; }
-.mi-heart-figure figcaption { display: flex; justify-content: center; align-items: center; gap: 6px; color: rgba(10,31,87,0.62); font-size: 0.68rem; }
-.mi-map-dot { width: 10px; height: 10px; border-radius: 50%; }
-.mi-heart-shadow { fill: var(--anatomy-neutral-fill); stroke: rgba(10,31,87,0.28); stroke-width: 3; }
-.mi-heart-rv { fill: var(--anatomy-right-fill); stroke: var(--navy); stroke-width: 2.5; transition: fill 160ms ease; }
-.mi-heart-lv { fill: var(--anatomy-left-fill); stroke: var(--navy); stroke-width: 2.5; }
-.mi-territory { fill: transparent; stroke: rgba(10,31,87,0.16); stroke-width: 1.5; transition: fill 160ms ease; }
-.mi-territory.is-active { stroke: rgba(10,31,87,0.58); stroke-width: 2.5; }
-.mi-septum-line { fill: none; stroke: rgba(10,31,87,0.55); stroke-width: 7; stroke-linecap: round; }
-.mi-vessel { fill: none; stroke-linecap: round; }.mi-aorta { stroke: var(--anatomy-left-fill); stroke-width: 29; }.mi-pulmonary { stroke: var(--anatomy-right-fill); stroke-width: 25; }
-.mi-heart-labels { fill: var(--navy); font-size: 14px; font-weight: 900; text-anchor: middle; paint-order: stroke; stroke: rgba(255,255,255,0.8); stroke-width: 4px; }
-.mi-posterior-note { fill: var(--navy); stroke: var(--navy); stroke-width: 1.5; font-size: 13px; font-weight: 900; }
+.mi-heart-figure figcaption { display: flex; flex-wrap: wrap; justify-content: center; gap: 5px 14px; margin-top: 4px; color: rgba(10,31,87,0.66); font-size: 0.66rem; line-height: 1.45; }
+.mi-heart-figure figcaption span { display: inline-flex; align-items: center; gap: 5px; }
+.mi-map-dot, .mi-vessel-key { display: inline-block; flex: 0 0 auto; width: 10px; height: 10px; border-radius: 50%; }.mi-vessel-key { width: 18px; height: 5px; border-radius: 99px; background: #b82f3d !important; box-shadow: 0 0 0 2px var(--mi-color); }
+.mi-vessel-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; margin-top: 8px; }
+.mi-vessel-list span { display: grid; grid-template-columns: 38px minmax(0, 1fr); align-items: center; min-width: 0; padding: 7px 9px; border: 1px solid rgba(10,31,87,0.12); border-radius: 10px; color: rgba(10,31,87,0.66); background: rgba(255,255,255,0.86); font-size: 0.7rem; line-height: 1.35; overflow-wrap: anywhere; }
+.mi-vessel-list span.is-active { border: 2px solid var(--mi-color); color: var(--navy); background: color-mix(in srgb, var(--mi-color) 8%, white); }
+.mi-vessel-list b { font-size: 0.72rem; }.mi-vessel-list span.is-active b { color: inherit; }
+.mi-vessel-list .mi-vessel-lmt b { color: var(--navy); }.mi-vessel-list .mi-vessel-lad b { color: #315ca8; }.mi-vessel-list .mi-vessel-lcx b { color: #2b7a51; }.mi-vessel-list .mi-vessel-rca b { color: #a63b45; }
+.mi-heart-silhouette { fill: rgba(247,194,182,0.28); stroke: rgba(10,31,87,0.24); stroke-width: 2.5; }
+.mi-right-ventricle-surface { fill: url(#mi-rv-surface); stroke: rgba(10,31,87,0.42); stroke-width: 2.3; }.mi-left-ventricle-surface { fill: url(#mi-myocardium); stroke: rgba(10,31,87,0.42); stroke-width: 2.3; }
+.mi-left-atrium-surface, .mi-right-atrium-surface { fill: url(#mi-atrium); stroke: rgba(10,31,87,0.36); stroke-width: 2; }
+.mi-aortic-arch, .mi-aortic-branch, .mi-svc, .mi-pulmonary-trunk, .mi-pulmonary-left, .mi-pulmonary-right { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.mi-aortic-arch { stroke: #d95e64; stroke-width: 38; }.mi-aortic-branch { stroke: #d95e64; stroke-width: 18; }.mi-svc { stroke: #b7cbd9; stroke-width: 34; }.mi-pulmonary-trunk { stroke: #a9c5d8; stroke-width: 31; }.mi-pulmonary-left, .mi-pulmonary-right { stroke: #bfd0dc; stroke-width: 24; }
+.mi-surface-territory { fill: transparent; stroke: transparent; transition: fill 160ms ease; }.mi-surface-territory.is-active { opacity: 0.72; stroke: rgba(10,31,87,0.56); stroke-width: 2.5; }
+.mi-chamber-labels { fill: var(--navy); font-size: 17px; font-weight: 900; text-anchor: middle; paint-order: stroke; stroke: rgba(255,255,255,0.78); stroke-width: 4px; stroke-linejoin: round; }
+.mi-coronary { fill: none; stroke: #b82f3d; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; transition: stroke-width 160ms ease; }.mi-coronary .mi-coronary-branch { stroke-width: 3.4; }.mi-coronary.is-active { stroke: #a92433; stroke-width: 7.5; }.mi-coronary.is-active .mi-coronary-branch { stroke-width: 4.8; }
+.mi-vessel-callouts path { fill: none; stroke: rgba(10,31,87,0.72); stroke-width: 1.8; }.mi-vessel-callouts rect { fill: rgba(255,255,255,0.9); stroke: rgba(10,31,87,0.12); stroke-width: 1; }.mi-vessel-callouts text { font-size: 16px; font-weight: 900; }.mi-callout-lmt text { fill: var(--navy); }.mi-callout-rca text { fill: #a63b45; }.mi-callout-lcx text { fill: #2b7a51; }.mi-callout-lad text { fill: #315ca8; }
+.mi-orientation { fill: rgba(10,31,87,0.6); stroke: rgba(10,31,87,0.5); stroke-width: 1.5; font-size: 13px; font-weight: 800; }
+.mi-posterior-inset > rect { fill: rgba(247,252,255,0.96); stroke: rgba(20,110,214,0.28); stroke-width: 1.5; }.mi-posterior-inset > text { fill: var(--navy); font-size: 12px; font-weight: 900; text-anchor: middle; }.mi-posterior-heart { fill: #edaaa4; stroke: rgba(10,31,87,0.34); stroke-width: 1.5; }.mi-posterior-highlight { opacity: 0.72; stroke: rgba(10,31,87,0.5); stroke-width: 1.4; }
 .mi-territory-result { --mi-color: var(--blue); padding: 16px; border: 1px solid color-mix(in srgb, var(--mi-color) 28%, transparent); border-left: 6px solid var(--mi-color); border-radius: 15px; background: color-mix(in srgb, var(--mi-color) 7%, white); }
 .mi-territory-result > p { margin: 0; color: rgba(10,31,87,0.55); font-size: 0.67rem; font-weight: 900; }
 .mi-territory-result h3 { margin: 2px 0 4px; color: var(--mi-color); font-size: 1.25rem; }
-.mi-territory-result > span { color: rgba(10,31,87,0.72); font-size: 0.8rem; line-height: 1.55; }
+.mi-territory-result > span { display: block; color: rgba(10,31,87,0.72); font-size: 0.8rem; line-height: 1.55; overflow-wrap: anywhere; }
 .mi-territory-result dl { display: grid; gap: 8px; margin: 14px 0 0; }
 .mi-territory-result dl div { padding-top: 8px; border-top: 1px solid color-mix(in srgb, var(--mi-color) 18%, transparent); }
-.mi-territory-result dt { color: rgba(10,31,87,0.52); font-size: 0.63rem; font-weight: 900; }.mi-territory-result dd { margin: 2px 0 0; color: var(--navy); font-size: 0.8rem; font-weight: 900; }
+.mi-territory-result dt { color: rgba(10,31,87,0.52); font-size: 0.63rem; font-weight: 900; }.mi-territory-result dd { min-width: 0; margin: 2px 0 0; color: var(--navy); font-size: 0.8rem; font-weight: 900; line-height: 1.55; overflow-wrap: anywhere; }
+.mi-diagram-note { margin: 9px 2px 0; color: rgba(10,31,87,0.58); font-size: 0.68rem; line-height: 1.55; }
 .mi-lead-intro { margin: 0 0 12px; color: rgba(10,31,87,0.68); font-size: 0.78rem; line-height: 1.55; }
 .mi-lead-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
 .mi-lead-strip { margin: 0; overflow: hidden; border: 1px solid rgba(10,31,87,0.12); border-radius: 11px; background: white; }
@@ -1304,6 +1382,44 @@ button { color: inherit; }
 .mi-lead-strip.is-supplemental { border-width: 2px; }
 .mi-reasoning { display: grid; gap: 7px; margin-top: 14px; padding: 13px; border-radius: 14px; background: rgba(10,31,87,0.045); }
 .mi-reasoning p { margin: 0; color: rgba(10,31,87,0.68); font-size: 0.78rem; line-height: 1.6; }.mi-reasoning strong { color: var(--navy); }
+
+/* Mirror-image ST simulator */
+.mirror-simulator, .mirror-explanation-card { margin-top: 14px; padding: 18px; }
+.mirror-scenario-tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 10px; }
+.mirror-scenario-tabs button { display: grid; min-height: 64px; align-content: center; gap: 2px; padding: 9px 10px; border: 1px solid rgba(10,31,87,.14); border-radius: 13px; color: rgba(10,31,87,.65); background: #fff; font: inherit; cursor: pointer; }
+.mirror-scenario-tabs button strong { color: var(--navy); font-size: .98rem; }.mirror-scenario-tabs button span { font-size: .76rem; font-weight: 800; }
+.mirror-scenario-tabs button[aria-pressed="true"] { border: 2px solid var(--blue); color: var(--blue); background: var(--light-blue); box-shadow: 0 4px 13px rgba(20,110,214,.1); }
+.mirror-scenario-tabs button:focus-visible, .mirror-reset:focus-visible { outline: 3px solid rgba(20,110,214,.3); outline-offset: 2px; }
+.mirror-perspective { --mirror-color: var(--blue); width: min(100%, 610px); margin: 8px auto 0; }
+.mirror-perspective svg { display: block; width: 100%; height: auto; overflow: visible; }
+.mirror-perspective figcaption { margin-top: -3px; color: rgba(10,31,87,.6); font-size: .78rem; line-height: 1.5; text-align: center; }
+.mirror-arrow-head { fill: var(--mirror-color); }
+.mirror-anatomical-heart path, .mirror-heart-section path, .mirror-lead-group, .mirror-electrodes { transition: opacity 130ms ease; }
+.mirror-heart-outline { fill: #f7c2b6; stroke: rgba(10,31,87,.44); stroke-width: 3; }.mirror-right-atrium { fill: var(--anatomy-right-fill); stroke: var(--anatomy-right-accent); stroke-width: 2.5; }.mirror-left-atrium { fill: var(--anatomy-left-fill); stroke: var(--anatomy-left-accent); stroke-width: 2.5; }
+.mirror-right-ventricle { fill: var(--anatomy-right-fill); stroke: var(--anatomy-right-accent); stroke-width: 3; }.mirror-left-ventricle { fill: var(--anatomy-left-fill); stroke: var(--anatomy-left-accent); stroke-width: 3; }.mirror-septum { fill: none; stroke: rgba(10,31,87,.52); stroke-width: 8; stroke-linecap: round; }
+.mirror-aorta, .mirror-aorta-branch, .mirror-svc, .mirror-pulmonary { fill: none; stroke-linecap: round; stroke-linejoin: round; }.mirror-aorta { stroke: #d95e64; stroke-width: 34; }.mirror-aorta-branch { stroke: #d95e64; stroke-width: 15; }.mirror-svc { stroke: #a9c5d8; stroke-width: 29; }.mirror-pulmonary { stroke: #9fbfd3; stroke-width: 23; }
+.mirror-active-region { fill: var(--mirror-color); opacity: .76; stroke: rgba(10,31,87,.62); stroke-width: 2.5; }
+.mirror-orientation text, .mirror-section-orientation text { fill: rgba(10,31,87,.63); font-size: 15px; font-weight: 850; text-anchor: middle; }.mirror-orientation path, .mirror-section-orientation path { fill: none; stroke: rgba(10,31,87,.45); stroke-width: 1.7; }
+.mirror-anatomy-labels path, .mirror-section-labels path { fill: none; stroke: rgba(10,31,87,.55); stroke-width: 1.7; }.mirror-anatomy-labels text, .mirror-section-labels text { fill: var(--navy); font-size: 17px; font-weight: 900; text-anchor: start; }.mirror-anatomy-labels g:first-child text, .mirror-anatomy-labels g:nth-child(2) text { text-anchor: end; }.mirror-anatomy-labels .is-active text, .mirror-section-labels .is-active text { fill: var(--mirror-color); }.mirror-anatomy-labels .is-active path, .mirror-section-labels .is-active path { stroke: var(--mirror-color); stroke-width: 2.5; }
+.mirror-lead-group rect { fill: rgba(255,255,255,.97); stroke: var(--mirror-color); stroke-width: 2.5; }.mirror-lead-group text { fill: rgba(10,31,87,.66); font-size: 15px; font-weight: 850; text-anchor: middle; }.mirror-lead-group .mirror-lead-names { fill: var(--navy); font-size: 21px; font-weight: 950; }.mirror-lead-group path { fill: none; stroke: var(--mirror-color); stroke-width: 3; }
+.mirror-torso-section { fill: #edf4f8; stroke: rgba(10,31,87,.42); stroke-width: 3; }.mirror-right-lung, .mirror-left-lung { fill: #dceef5; stroke: #6f9db5; stroke-width: 2.5; }.mirror-sternum { fill: #f2e5cf; stroke: #927a59; stroke-width: 2; }.mirror-spine { fill: #f0e3cc; stroke: #8f7758; stroke-width: 2.5; }.mirror-spine-center { fill: #d7c7ab; stroke: #8f7758; stroke-width: 1.5; }
+.mirror-pericardium { fill: #f7c2b6; stroke: rgba(10,31,87,.4); stroke-width: 3; }.mirror-lv-ring { fill: var(--anatomy-left-fill); stroke: var(--anatomy-left-accent); stroke-width: 8; }.mirror-lv-cavity { fill: #fff5f4; stroke: var(--anatomy-left-accent); stroke-width: 2; }.mirror-rv-crescent { fill: var(--anatomy-right-fill); stroke: var(--anatomy-right-accent); stroke-width: 3; }
+.mirror-section-labels > text { text-anchor: middle; }.mirror-section-labels g text { text-anchor: start; }.mirror-section-labels g:nth-of-type(2) text { text-anchor: end; }
+.mirror-electrodes path { fill: none; stroke: var(--mirror-color); stroke-width: 2.7; }.mirror-electrodes circle { fill: #fff; stroke: var(--mirror-color); stroke-width: 4; }.mirror-electrodes text { fill: var(--navy); font-size: 16px; font-weight: 900; text-anchor: middle; }.mirror-electrodes text:last-child { fill: rgba(10,31,87,.62); font-size: 13px; }
+.mirror-view-control { margin-top: 10px; padding: 14px; border: 1px solid rgba(20,110,214,.17); border-radius: 15px; background: rgba(247,252,255,.9); }
+.mirror-view-status { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 9px; }.mirror-view-status span { color: rgba(10,31,87,.6); font-size: .82rem; font-weight: 850; }.mirror-view-status strong { color: var(--blue); font-size: .9rem; }
+.mirror-view-control > label { display: block; color: var(--navy); font-size: 1rem; font-weight: 900; }.mirror-view-control input { width: 100%; min-height: 42px; margin-top: 5px; accent-color: var(--blue); cursor: pointer; }
+.mirror-view-ends { display: flex; justify-content: space-between; gap: 12px; color: rgba(10,31,87,.65); font-size: .8rem; font-weight: 850; }.mirror-view-ends span:last-child { text-align: right; }
+.mirror-dynamic-wave { --mirror-color: var(--blue); margin: 12px 0 0; overflow: hidden; border: 2px solid var(--mirror-color); border-radius: 15px; background: #fff; box-shadow: 0 8px 22px rgba(10,31,87,.07); }
+.mirror-dynamic-wave figcaption { display: flex; justify-content: space-between; gap: 12px; align-items: center; padding: 11px 13px 6px; }.mirror-dynamic-wave figcaption div { display: grid; gap: 2px; }.mirror-dynamic-wave figcaption span { color: rgba(10,31,87,.58); font-size: .78rem; font-weight: 850; }.mirror-dynamic-wave figcaption strong { color: var(--navy); font-size: .95rem; }.mirror-dynamic-wave figcaption b { flex: 0 0 auto; color: var(--mirror-color); font-size: 1.05rem; }
+.mirror-dynamic-wave svg { display: block; width: 100%; height: auto; }.mirror-paper { fill: rgba(247,252,255,.92); }.mirror-grid-line { fill: none; stroke: rgba(20,110,214,.1); stroke-width: .65; }.mirror-baseline { fill: none; stroke: rgba(10,31,87,.25); stroke-width: 1.5; stroke-dasharray: 5 5; }.mirror-trace { fill: none; stroke: var(--mirror-color); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; transition: d 90ms linear; }.mirror-st-mark { fill: none; stroke: var(--mirror-color); stroke-width: 10; opacity: .13; }.mirror-st-label { fill: var(--mirror-color); font-size: 13px; font-weight: 900; text-anchor: middle; }.mirror-st-measure path { fill: none; stroke: var(--mirror-color); stroke-width: 2; }.mirror-st-measure circle { fill: var(--mirror-color); }
+.mirror-wave-scale { position: relative; display: flex; justify-content: space-between; gap: 12px; margin: 0 14px; padding-top: 13px; border-top: 3px solid color-mix(in srgb, var(--mirror-color) 24%, transparent); color: rgba(10,31,87,.62); font-size: .76rem; font-weight: 850; }.mirror-wave-scale i { position: absolute; top: -7px; width: 14px; height: 14px; border: 3px solid #fff; border-radius: 50%; background: var(--mirror-color); box-shadow: 0 1px 5px rgba(10,31,87,.28); transform: translateX(-50%); }
+.mirror-dynamic-wave > p { margin: 9px 13px 12px; color: rgba(10,31,87,.68); font-size: .86rem; line-height: 1.6; }
+.mirror-observation { display: grid; gap: 6px; margin-top: 11px; padding: 12px 14px; border-left: 5px solid var(--blue); border-radius: 12px; background: rgba(20,110,214,.055); }.mirror-observation p { margin: 0; color: rgba(10,31,87,.72); font-size: .9rem; line-height: 1.65; }.mirror-observation strong { color: var(--navy); }
+.mirror-endpoints { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 9px; }.mirror-endpoints > div { display: grid; gap: 3px; padding: 13px; border: 1px solid rgba(10,31,87,.13); border-top: 4px solid var(--blue); border-radius: 13px; background: #fff; }.mirror-endpoints span { color: rgba(10,31,87,.56); font-size: .78rem; font-weight: 850; }.mirror-endpoints strong { color: var(--navy); font-size: 1rem; }.mirror-endpoints b { color: var(--blue); font-size: .9rem; }.mirror-endpoints p { margin: 3px 0 0; color: rgba(10,31,87,.7); font-size: .86rem; line-height: 1.55; }
+.mirror-not-literal { margin: 12px 0 0; padding: 12px 13px; border-radius: 12px; color: rgba(10,31,87,.72); background: rgba(10,31,87,.045); font-size: .88rem; line-height: 1.65; }
+.mirror-reset { display: block; min-height: 44px; margin: 12px auto 0; padding: 8px 18px; border: 2px solid var(--blue); border-radius: 12px; color: var(--blue); background: #fff; font: inherit; font-size: .88rem; font-weight: 900; cursor: pointer; }.mirror-reset:active { background: var(--light-blue); }
+.mirror-sources { margin-bottom: 6px; }
 
 @media (max-width: 699px) {
   .axis-lab .diagram-card,
@@ -1394,15 +1510,18 @@ button { color: inherit; }
   .wpw-wave-picker button { min-height: 86px; padding: 4px; }
 
   .pac-origin-card,
-  .pac-clue-card { margin-top: 8px; padding: 12px; }
+  .pac-clue-card,
+  .pac-guide-card { margin-top: 8px; padding: 12px; }
   .pac-lab .section-heading { margin-bottom: 9px; }
   .pac-lab .section-heading h2 { font-size: 1.05rem; }
   .pac-atria-map { width: min(100%, 340px); }
+  .pac-quick-grid { gap: 6px; }
   .pac-lead-stack { gap: 7px; }
   .pac-waveform-figure { padding: 5px; }
   .pac-waveform-figure figcaption { margin-top: 4px; font-size: 0.66rem; }
   .pvc-origin-card,
-  .pvc-wave-card { margin-top: 8px; padding: 12px; }
+  .pvc-wave-card,
+  .pvc-guide-card { margin-top: 8px; padding: 12px; }
   .pvc-lab .section-heading { margin-bottom: 9px; }
   .pvc-lab .section-heading h2 { font-size: 1.05rem; }
   .pvc-heart-map { width: min(100%, 350px); }
@@ -1410,16 +1529,28 @@ button { color: inherit; }
   .pvc-origin-marker > span { width: 25px; height: 25px; font-size: 0.64rem; }
   .pvc-origin-marker small { font-size: 0.45rem; }
   .pvc-view-badge, .pvc-whole-heart-note, .pvc-side-guide { font-size: 0.5rem; }
+  .pvc-quick-grid { gap: 6px; }
   .pvc-lead-stack { gap: 6px; }
   .pvc-waveform-figure { padding: 4px; }
   .pvc-waveform-figure figcaption { font-size: 0.63rem; }
   .mi-selector-card, .mi-leads-card { margin-top: 8px; padding: 12px; }
   .mi-lab .section-heading { margin-bottom: 9px; }.mi-lab .section-heading h2 { font-size: 1.05rem; }
   .mi-territory-tabs { gap: 6px; }.mi-territory-tabs button { min-height: 39px; padding: 6px 3px; font-size: 0.73rem; }
-  .mi-map-layout { grid-template-columns: 1fr; gap: 6px; margin-top: 10px; }.mi-heart-figure { width: min(100%, 330px); margin-inline: auto; }
+  .mi-map-layout { gap: 8px; margin-top: 10px; }.mi-heart-figure { width: 100%; margin-inline: auto; }
+  .mi-vessel-callouts text { font-size: 17px; }.mi-chamber-labels { font-size: 18px; }.mi-heart-figure figcaption { font-size: 0.62rem; }
   .mi-territory-result { padding: 12px; }.mi-territory-result h3 { font-size: 1.08rem; }
   .mi-lead-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }.mi-lead-strip figcaption { font-size: 0.53rem; }.mi-lead-strip figcaption strong { font-size: 0.67rem; }
   .mi-extra-grid { grid-template-columns: 1fr; gap: 6px; }
+  .mirror-simulator, .mirror-explanation-card { margin-top: 8px; padding: 12px; }
+  .mirror-lab .section-heading { margin-bottom: 8px; }.mirror-lab .section-heading h2 { font-size: 1.05rem; }
+  .mirror-scenario-tabs button { min-height: 58px; padding: 7px; }.mirror-scenario-tabs button strong { font-size: .9rem; }.mirror-scenario-tabs button span { font-size: .72rem; }
+  .mirror-perspective { width: 100%; margin-top: 5px; }.mirror-perspective figcaption { font-size: .72rem; }
+  .mirror-view-control { margin-top: 7px; padding: 11px; }.mirror-view-control > label { font-size: .92rem; }.mirror-view-ends { font-size: .72rem; }
+  .mirror-dynamic-wave figcaption { padding: 9px 10px 5px; }.mirror-dynamic-wave figcaption span { font-size: .72rem; }.mirror-dynamic-wave figcaption strong { font-size: .86rem; }.mirror-dynamic-wave figcaption b { font-size: .94rem; }
+  .mirror-wave-scale { margin-inline: 10px; font-size: .7rem; }.mirror-dynamic-wave > p { margin: 8px 10px 10px; font-size: .8rem; }
+  .mirror-observation { padding: 10px 11px; }.mirror-observation p { font-size: .84rem; }
+  .mirror-endpoints { grid-template-columns: 1fr; gap: 7px; }.mirror-endpoints > div { padding: 11px; }.mirror-endpoints p { font-size: .82rem; }
+  .mirror-not-literal { font-size: .82rem; }
   .electrode-placement-card, .electrode-wave-card, .electrode-presets { margin-top: 8px; padding: 12px; }
   .electrode-lab .section-heading { margin-bottom: 9px; }.electrode-lab .section-heading h2 { font-size: 1.05rem; }
   .electrode-body-map { width: min(100%, 330px); }.electrode-wave-grid-layout { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 6px; }

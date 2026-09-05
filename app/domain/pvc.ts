@@ -4,6 +4,8 @@ export type PVCBundlePattern = 'rbbb-like' | 'lbbb-like';
 export type PVCPolarity = 'positive' | 'negative';
 export type PVCVentricle = 'left' | 'right';
 export type PVCRegion = 'upper-outer' | 'upper-inner' | 'lower-outer' | 'apex';
+export type PVCLead = 'I' | 'II' | 'III' | 'aVL' | 'aVF' | 'V1' | 'V5' | 'V6';
+export type PVCLeadMorphology = 'rvot-low-rs' | 'rvot-inferior-rs' | 'rvot-avl-qs' | 'rvot-v1-qs' | 'rvot-lateral-rs';
 export type PVCOriginId =
   | 'right-upper-outer'
   | 'right-upper-inner'
@@ -40,10 +42,30 @@ export type PVCOrigin = {
   region: PVCRegion;
   color: string;
   selections: PVCSelections;
+  leadMorphologies?: Partial<Record<PVCLead, PVCLeadMorphology>>;
 };
 
 export const PVC_ORIGINS: PVCOrigin[] = [
-  { id: 'right-upper-outer', markerNumber: 1, shortName: '右流出路', siteName: '右室弁輪前壁・流出路', ventricle: 'right', region: 'upper-outer', color: ANATOMY_COLORS.rightAccent, selections: { bundlePattern: 'lbbb-like', inferiorPolarity: 'positive', lateralPolarity: 'positive', leftPrecordialPolarity: 'positive' } },
+  {
+    id: 'right-upper-outer',
+    markerNumber: 1,
+    shortName: '右流出路',
+    siteName: '右室弁輪前壁・流出路',
+    ventricle: 'right',
+    region: 'upper-outer',
+    color: ANATOMY_COLORS.rightAccent,
+    selections: { bundlePattern: 'lbbb-like', inferiorPolarity: 'positive', lateralPolarity: 'positive', leftPrecordialPolarity: 'positive' },
+    leadMorphologies: {
+      I: 'rvot-low-rs',
+      II: 'rvot-inferior-rs',
+      III: 'rvot-inferior-rs',
+      aVL: 'rvot-avl-qs',
+      aVF: 'rvot-inferior-rs',
+      V1: 'rvot-v1-qs',
+      V5: 'rvot-lateral-rs',
+      V6: 'rvot-lateral-rs',
+    },
+  },
   { id: 'right-upper-inner', markerNumber: 2, shortName: '右前壁', siteName: '右室前壁・心尖部寄り', ventricle: 'right', region: 'upper-inner', color: ANATOMY_COLORS.rightAccent, selections: { bundlePattern: 'lbbb-like', inferiorPolarity: 'positive', lateralPolarity: 'negative', leftPrecordialPolarity: 'negative' } },
   { id: 'right-lower-outer', markerNumber: 3, shortName: '右下壁', siteName: '右室弁輪後壁・下壁', ventricle: 'right', region: 'lower-outer', color: ANATOMY_COLORS.rightAccent, selections: { bundlePattern: 'lbbb-like', inferiorPolarity: 'negative', lateralPolarity: 'positive', leftPrecordialPolarity: 'positive' } },
   { id: 'right-apex', markerNumber: 4, shortName: '右心尖', siteName: '右室心尖部', ventricle: 'right', region: 'apex', color: ANATOMY_COLORS.rightAccent, selections: { bundlePattern: 'lbbb-like', inferiorPolarity: 'negative', lateralPolarity: 'negative', leftPrecordialPolarity: 'negative' } },
@@ -131,4 +153,8 @@ export function pvcOrigin(originId: PVCOriginId): PVCOrigin {
   const origin = PVC_ORIGINS.find((candidate) => candidate.id === originId);
   if (!origin) throw new Error(`Unknown PVC origin: ${originId}`);
   return origin;
+}
+
+export function pvcLeadMorphology(originId: PVCOriginId, lead: PVCLead): PVCLeadMorphology | undefined {
+  return pvcOrigin(originId).leadMorphologies?.[lead];
 }

@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { PVC_ORIGINS, pvcOrigin, pvcOriginEstimate, pvcPolarityLabel, pvcVentricle } from '../app/domain/pvc.ts';
+import { PVC_ORIGINS, pvcLeadMorphology, pvcOrigin, pvcOriginEstimate, pvcPolarityLabel, pvcVentricle } from '../app/domain/pvc.ts';
 
 test('PVC map exposes eight numbered right and left ventricular regions', () => {
   assert.equal(PVC_ORIGINS.length, 8);
@@ -9,6 +9,40 @@ test('PVC map exposes eight numbered right and left ventricular regions', () => 
   assert.equal(PVC_ORIGINS.filter((origin) => origin.ventricle === 'left').length, 4);
   assert.equal(pvcOrigin('right-apex').siteName, '右室心尖部');
   assert.equal(pvcOrigin('left-upper-outer').siteName, '左室弁輪前壁・流出路');
+});
+
+test('all eight origin patterns stay aligned with the four-step reference table', () => {
+  const expectedPatterns = {
+    'right-upper-outer': ['lbbb-like', 'positive', 'positive', 'positive'],
+    'right-upper-inner': ['lbbb-like', 'positive', 'negative', 'negative'],
+    'right-lower-outer': ['lbbb-like', 'negative', 'positive', 'positive'],
+    'right-apex': ['lbbb-like', 'negative', 'negative', 'negative'],
+    'left-upper-outer': ['rbbb-like', 'positive', 'positive', 'positive'],
+    'left-upper-inner': ['rbbb-like', 'positive', 'negative', 'negative'],
+    'left-lower-outer': ['rbbb-like', 'negative', 'positive', 'positive'],
+    'left-apex': ['rbbb-like', 'negative', 'negative', 'negative'],
+  } as const;
+
+  for (const origin of PVC_ORIGINS) {
+    assert.deepEqual(
+      [
+        origin.selections.bundlePattern,
+        origin.selections.inferiorPolarity,
+        origin.selections.lateralPolarity,
+        origin.selections.leftPrecordialPolarity,
+      ],
+      expectedPatterns[origin.id],
+    );
+  }
+});
+
+test('RVOT example keeps lead-specific morphology beyond the simple polarity table', () => {
+  assert.equal(pvcLeadMorphology('right-upper-outer', 'I'), 'rvot-low-rs');
+  assert.equal(pvcLeadMorphology('right-upper-outer', 'II'), 'rvot-inferior-rs');
+  assert.equal(pvcLeadMorphology('right-upper-outer', 'aVL'), 'rvot-avl-qs');
+  assert.equal(pvcLeadMorphology('right-upper-outer', 'V1'), 'rvot-v1-qs');
+  assert.equal(pvcLeadMorphology('right-upper-outer', 'V6'), 'rvot-lateral-rs');
+  assert.equal(pvcLeadMorphology('right-apex', 'V1'), undefined);
 });
 
 test('V1 bundle-branch pattern selects the opposite ventricular side', () => {

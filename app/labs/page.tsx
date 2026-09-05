@@ -73,10 +73,20 @@ export default function LabsPage() {
           </div>
           <span className="lab-arrow" aria-hidden="true">›</span>
         </a>
+
+        <a className="lab-card lab-card-active" href={appPath('/labs/mirror')}>
+          <div className="lab-icon" aria-hidden="true">⇅</div>
+          <div>
+            <span className="lab-status">体験できる</span>
+            <h2>ミラーイメージ・ST変化ラボ</h2>
+            <p>心臓を挟んだ両側の誘導を行き来し、ST上昇と鏡像変化を同時に見比べます。</p>
+          </div>
+          <span className="lab-arrow" aria-hidden="true">›</span>
+        </a>
       </div>
 
       <InfoCard title="研究室は順次追加します">
-        <p>現在は電極装着ミス、平均電気軸、WPW・ケント束、心房期外収縮、心室性期外収縮、心筋梗塞部位判定の6つを体験できます。ほかのテーマも順次追加する予定です。</p>
+        <p>現在は電極装着ミス、平均電気軸、WPW・ケント束、心房期外収縮、心室性期外収縮、心筋梗塞部位判定、ミラーイメージの7つを体験できます。ほかのテーマも順次追加する予定です。</p>
       </InfoCard>
     </AppShell>
   );

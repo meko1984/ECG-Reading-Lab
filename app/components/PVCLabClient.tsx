@@ -3,54 +3,70 @@
 import { useMemo, useState } from 'react';
 import { InfoCard } from '@/app/components/InfoCard';
 import { PVCOriginDiagram } from '@/app/components/PVCOriginDiagram';
-import { PVCWaveform } from '@/app/components/PVCWaveform';
+import { PVCQuickWaveform, PVCWaveform } from '@/app/components/PVCWaveform';
 import { pvcOrigin, pvcOriginEstimate, pvcPolarityLabel, type PVCOriginId } from '@/app/domain/pvc';
-
-const inferiorLeads = ['II', 'III', 'aVF'] as const;
-const lateralLeads = ['I', 'aVL'] as const;
-const leftPrecordialLeads = ['V5', 'V6'] as const;
 
 export function PVCLabClient() {
   const [activeOriginId, setActiveOriginId] = useState<PVCOriginId>('right-upper-outer');
   const activeOrigin = useMemo(() => pvcOrigin(activeOriginId), [activeOriginId]);
   const estimate = useMemo(() => pvcOriginEstimate(activeOrigin.selections), [activeOrigin]);
+  const isRvotExample = activeOrigin.id === 'right-upper-outer';
 
   return (
     <div className="pvc-lab">
-      <p className="page-lead">心室の場所を選び、V1とQRSの向きがどう変わるかを連続波形で見比べます。</p>
-
-      <section className="pac-reading-order" aria-label="PVC起源を考える3つの順番">
-        <span><b>1</b>心室の場所を選ぶ</span><span><b>2</b>幅広QRSを比べる</span><span><b>3</b>4方向から考える</span>
-      </section>
-
       <section className="content-card pvc-origin-card" aria-labelledby="pvc-origin-heading">
         <div className="section-heading"><div><p className="eyebrow">場所からQRSへ</p><h2 id="pvc-origin-heading">心室の起源を選ぶ</h2></div><span className="unit-badge">候補8領域</span></div>
-        <p className="pvc-interaction-hint">心臓図の番号を選ぶと、下の8誘導のPVC波形と読み方が連動します。</p>
         <PVCOriginDiagram activeOriginId={activeOriginId} onSelect={setActiveOriginId} />
-        <div className="pvc-anatomy-key">
-          <p><strong>見え方：</strong>患者の右を画面左に置き、前面から右室・左室の内側を開いた学習用展開図です。右室は前面の大部分を占め、左室は左縁と心尖部を形づくります。</p>
-          <p><strong>流出路：</strong>右室流出路は左室流出路の前方を左上へ交差する位置関係として描いています。</p>
-          <div><span><i className="pvc-key-right" />右心系</span><span><i className="pvc-key-left" />左心系</span><span><i className="pvc-key-whole" />薄い青白＝心臓全体</span></div>
-        </div>
-        <div className="pvc-selected-origin" aria-live="polite">
-          <p>{activeOrigin.ventricle === 'right' ? '右室側' : '左室側'}</p><h3 style={{ color: activeOrigin.color }}>{activeOrigin.siteName}</h3><span>{estimate.location}</span>
+        <p className="pvc-selection-status" aria-live="polite">
+          {activeOrigin.markerNumber}番、{activeOrigin.siteName}を選択中
+        </p>
+        <div className="pvc-quick-grid" aria-label={`${activeOrigin.siteName}の8誘導早見波形`}>
+          <PVCQuickWaveform originId={activeOrigin.id} lead="I" color={activeOrigin.color} polarity={activeOrigin.selections.lateralPolarity} region={activeOrigin.region} />
+          <PVCQuickWaveform originId={activeOrigin.id} lead="II" color={activeOrigin.color} polarity={activeOrigin.selections.inferiorPolarity} region={activeOrigin.region} />
+          <PVCQuickWaveform originId={activeOrigin.id} lead="III" color={activeOrigin.color} polarity={activeOrigin.selections.inferiorPolarity} region={activeOrigin.region} />
+          <PVCQuickWaveform originId={activeOrigin.id} lead="aVL" color={activeOrigin.color} polarity={activeOrigin.selections.lateralPolarity} region={activeOrigin.region} />
+          <PVCQuickWaveform originId={activeOrigin.id} lead="aVF" color={activeOrigin.color} polarity={activeOrigin.selections.inferiorPolarity} region={activeOrigin.region} />
+          <PVCQuickWaveform originId={activeOrigin.id} lead="V1" color={activeOrigin.color} bundlePattern={activeOrigin.selections.bundlePattern} region={activeOrigin.region} />
+          <PVCQuickWaveform originId={activeOrigin.id} lead="V5" color={activeOrigin.color} polarity={activeOrigin.selections.leftPrecordialPolarity} region={activeOrigin.region} />
+          <PVCQuickWaveform originId={activeOrigin.id} lead="V6" color={activeOrigin.color} polarity={activeOrigin.selections.leftPrecordialPolarity} region={activeOrigin.region} />
         </div>
       </section>
 
       <section className="content-card pvc-wave-card" aria-labelledby="pvc-wave-heading">
         <div className="section-heading"><div><p className="eyebrow">QRSから場所へ</p><h2 id="pvc-wave-heading">8誘導を見比べる</h2></div></div>
-        <p className="pvc-wave-overview-intro">各誘導を「洞調律 → PVC → 洞調律」の同じ時間軸で表示します。中央の色付き波形が、選択した場所から出た幅広いQRSの代表モデルです。</p>
         <div className="pvc-lead-stack" aria-label={`${activeOrigin.siteName}の8誘導連続模式波形`}>
-          <PVCWaveform lead="V1" color={activeOrigin.color} bundlePattern={activeOrigin.selections.bundlePattern} />
-          {inferiorLeads.map((lead) => <PVCWaveform key={lead} lead={lead} color={activeOrigin.color} polarity={activeOrigin.selections.inferiorPolarity} />)}
-          {lateralLeads.map((lead) => <PVCWaveform key={lead} lead={lead} color={activeOrigin.color} polarity={activeOrigin.selections.lateralPolarity} />)}
-          {leftPrecordialLeads.map((lead) => <PVCWaveform key={lead} lead={lead} color={activeOrigin.color} polarity={activeOrigin.selections.leftPrecordialPolarity} />)}
+          <PVCWaveform originId={activeOrigin.id} lead="I" color={activeOrigin.color} polarity={activeOrigin.selections.lateralPolarity} region={activeOrigin.region} />
+          <PVCWaveform originId={activeOrigin.id} lead="II" color={activeOrigin.color} polarity={activeOrigin.selections.inferiorPolarity} region={activeOrigin.region} />
+          <PVCWaveform originId={activeOrigin.id} lead="III" color={activeOrigin.color} polarity={activeOrigin.selections.inferiorPolarity} region={activeOrigin.region} />
+          <PVCWaveform originId={activeOrigin.id} lead="aVL" color={activeOrigin.color} polarity={activeOrigin.selections.lateralPolarity} region={activeOrigin.region} />
+          <PVCWaveform originId={activeOrigin.id} lead="aVF" color={activeOrigin.color} polarity={activeOrigin.selections.inferiorPolarity} region={activeOrigin.region} />
+          <PVCWaveform originId={activeOrigin.id} lead="V1" color={activeOrigin.color} bundlePattern={activeOrigin.selections.bundlePattern} region={activeOrigin.region} />
+          <PVCWaveform originId={activeOrigin.id} lead="V5" color={activeOrigin.color} polarity={activeOrigin.selections.leftPrecordialPolarity} region={activeOrigin.region} />
+          <PVCWaveform originId={activeOrigin.id} lead="V6" color={activeOrigin.color} polarity={activeOrigin.selections.leftPrecordialPolarity} region={activeOrigin.region} />
         </div>
+        <p className="pvc-wave-overview-intro">参考書の4ステップに沿った極性模式波形です。横1小マスを40 msとし、PVCは予定より早く出現する約200 msの幅広QRS、主QRS方向と逆向きの二次性ST-T、その後の長めの休止を続けて示します。休止は完全代償性休止の代表例で、実際には間入性PVCや洞結節がリセットされる例もあります。</p>
+        {isRvotExample ? <p className="pvc-wave-overview-intro"><strong>右室流出路の実波形例：</strong>Ⅱ・Ⅲ・aVFの高いR優位、V1のQS優位、V5・V6のR優位と終末S、低振幅のⅠ、陰性のaVLを反映しています。4ステップ表は大まかな領域を考える入口で、実波形ではⅠ・aVLが同じ向きにならないことがあります。</p> : null}
         <div className="pvc-reasoning">
           <p><strong>① V1：</strong>{activeOrigin.selections.bundlePattern === 'rbbb-like' ? '右脚ブロック様なので左室側を示唆します。' : '左脚ブロック様なので右室または中隔側を示唆します。'}</p>
           <p><strong>② Ⅱ・Ⅲ・aVF：</strong>{pvcPolarityLabel(activeOrigin.selections.inferiorPolarity)}。{activeOrigin.selections.inferiorPolarity === 'positive' ? '興奮が下方へ向かうため、起源は相対的に上方です。' : '興奮が上方へ向かうため、起源は相対的に下方です。'}</p>
-          <p><strong>③ Ⅰ・aVL：</strong>{pvcPolarityLabel(activeOrigin.selections.lateralPolarity)}。体の左右方向を考える手がかりです。</p>
-          <p><strong>④ V5・V6：</strong>{pvcPolarityLabel(activeOrigin.selections.leftPrecordialPolarity)}。{activeOrigin.selections.leftPrecordialPolarity === 'positive' ? '心基部・弁輪側の候補へ寄せます。' : '心尖部側の候補へ寄せます。'}</p>
+          <p><strong>③ Ⅰ・aVL：</strong>{isRvotExample ? '実波形例ではⅠは低振幅rS型、aVLはQS型です。流出路内の前後・左右位置でも変化します。' : `${pvcPolarityLabel(activeOrigin.selections.lateralPolarity)}。体の左右方向を考える手がかりです。`}</p>
+          <p><strong>④ V5・V6：</strong>{isRvotExample ? 'R優位で終末Sを伴います。胸部誘導全体では遅い移行帯が右室流出路を支持します。' : `${pvcPolarityLabel(activeOrigin.selections.leftPrecordialPolarity)}。${activeOrigin.selections.leftPrecordialPolarity === 'positive' ? '心基部・弁輪側の候補へ寄せます。' : '心尖部側の候補へ寄せます。'}`}</p>
+        </div>
+      </section>
+
+      <section className="content-card pvc-guide-card" aria-labelledby="pvc-guide-heading">
+        <div className="section-heading"><div><p className="eyebrow">波形を見たあとに</p><h2 id="pvc-guide-heading">図の見方と考える順番</h2></div></div>
+        <p className="page-lead">心室の場所を選び、V1とQRSの向きがどう変わるかを連続波形で見比べます。</p>
+        <section className="pac-reading-order" aria-label="PVC起源を考える3つの順番">
+          <span><b>1</b>心室の場所を選ぶ</span><span><b>2</b>幅広QRSを比べる</span><span><b>3</b>4方向から考える</span>
+        </section>
+        <div className="pvc-selected-origin pvc-selected-origin-detail">
+          <p>{activeOrigin.ventricle === 'right' ? '右室側' : '左室側'}</p><h3 style={{ color: activeOrigin.color }}>{activeOrigin.siteName}</h3><span>{estimate.location}</span>
+        </div>
+        <div className="pvc-anatomy-key">
+          <p><strong>見え方：</strong>患者の右を画面左に置き、前面から右室・左室の内側を開いた学習用展開図です。右室は前面の大部分を占め、左室は左縁と心尖部を形づくります。</p>
+          <p><strong>流出路：</strong>右室流出路は左室流出路の前方を左上へ交差する位置関係として描いています。</p>
+          <div><span><i className="pvc-key-right" />右心系</span><span><i className="pvc-key-left" />左心系</span><span><i className="pvc-key-whole" />薄い青白＝心臓全体</span></div>
         </div>
       </section>
 
