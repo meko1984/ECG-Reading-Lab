@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useMemo, useState } from 'react';
 import { InfoCard } from '@/app/components/InfoCard';
 import { PACQuickWaveform, PACWaveform } from '@/app/components/PACWaveform';
@@ -49,9 +50,12 @@ export function PACLabClient() {
         </div>
 
         <div className="pac-atria-map">
-          <img
+          <Image
             className="pac-heart-anatomy"
             src={pacHeartImage}
+            width={1402}
+            height={1122}
+            sizes="(max-width: 760px) 100vw, 760px"
             alt="患者の右を画面左、患者の左を画面右に置き、右房内面と左房後面を同じ平面へ展開した心房の模式図。右房に上下大静脈、左房に4本の肺静脈が入ります。"
           />
           <svg
