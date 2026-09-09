@@ -1,38 +1,16 @@
 'use client';
 
-import Image from 'next/image';
 import { useMemo, useState } from 'react';
 import { InfoCard } from '@/app/components/InfoCard';
+import { PACOriginDiagram } from '@/app/components/PACOriginDiagram';
 import { PACQuickWaveform, PACWaveform } from '@/app/components/PACWaveform';
 import {
   PAC_LEADS,
-  PAC_ORIGINS,
   pacOrigin,
   type PACOriginId,
 } from '@/app/domain/pac';
 
-const markerLabels = Object.fromEntries(
-  PAC_ORIGINS.map((origin) => [origin.id, origin.siteName]),
-) as Record<PACOriginId, string>;
-
 const PAC_QUICK_LEADS = ['I', 'II', 'III', 'aVL', 'aVF', 'V1'] as const;
-
-const pacHeartImage = `${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/pac-unfolded-heart-v9.png`;
-
-const anatomyLabels = [
-  { id: 'svc', text: '上大静脈' },
-  { id: 'ivc', text: '下大静脈' },
-  { id: 'rupv', text: '右上肺静脈' },
-  { id: 'rlpv', text: '右下肺静脈' },
-  { id: 'lupv', text: '左上肺静脈' },
-  { id: 'llpv', text: '左下肺静脈' },
-  { id: 'raa', text: '右心耳' },
-  { id: 'laa', text: '左心耳' },
-  { id: 'cs', text: '冠静脈洞' },
-  { id: 'sa-node', text: '洞結節' },
-  { id: 'his', text: 'ヒス束近辺（投影）' },
-  { id: 'tricuspid', text: '三尖弁（投影）' },
-] as const;
 
 export function PACLabClient() {
   const [activeOriginId, setActiveOriginId] = useState<PACOriginId>('sinus-node');
@@ -49,57 +27,8 @@ export function PACLabClient() {
           <span className="unit-badge">候補9部位</span>
         </div>
 
-        <div className="pac-atria-map">
-          <Image
-            className="pac-heart-anatomy"
-            src={pacHeartImage}
-            width={1402}
-            height={1122}
-            sizes="(max-width: 760px) 100vw, 760px"
-            alt="患者の右を画面左、患者の左を画面右に置き、右房内面と左房後面を同じ平面へ展開した心房の模式図。右房に上下大静脈、左房に4本の肺静脈が入ります。"
-          />
-          <svg
-            className="pac-four-chambers"
-            viewBox="0 0 500 400"
-            role="img"
-              aria-label="薄く重ねた心臓の4部屋。画面左上が右房、右上が左房、左下が右室、右下が左室。"
-          >
-            <path className="pac-chamber pac-chamber-right" d="M145 125 C160 92 224 91 251 123 C266 145 265 218 239 247 C216 267 168 254 151 222 C138 197 135 148 145 125 Z" />
-            <path className="pac-chamber pac-chamber-left" d="M251 123 C283 91 374 95 407 130 C428 155 420 220 392 247 C361 272 285 266 260 239 C244 216 241 148 251 123 Z" />
-            <path className="pac-chamber pac-chamber-right" d="M171 248 C192 235 233 239 260 258 C278 278 277 335 255 365 C232 385 190 367 174 337 C160 312 155 271 171 248 Z" />
-            <path className="pac-chamber pac-chamber-left" d="M260 258 C287 232 353 227 383 252 C411 278 405 337 369 373 C340 397 286 382 264 356 C248 331 244 281 260 258 Z" />
-            <g className="pac-chamber-name" aria-hidden="true">
-              <text x="196" y="190">右房</text>
-              <text x="330" y="190">左房</text>
-              <text x="211" y="317">右室</text>
-              <text x="326" y="324">左室</text>
-            </g>
-          </svg>
-          <span className="pac-view-badge">心房を開いた展開図</span>
-          <span className="pac-side-guide"><b>患者の右</b><i aria-hidden="true">←　→</i><b>患者の左</b></span>
-          <span className="pac-whole-heart-note">淡い青白＝心臓全体</span>
-
-          {anatomyLabels.map((label) => (
-            <span className={`pac-anatomy-label pac-label-${label.id}`} key={label.id}>
-              {label.text}
-            </span>
-          ))}
-
-          {PAC_ORIGINS.map((origin) => (
-            <button
-              type="button"
-              key={origin.id}
-              className={`pac-origin-marker pac-marker-${origin.id} ${activeOriginId === origin.id ? 'is-active' : ''}`}
-              aria-pressed={activeOriginId === origin.id}
-              aria-label={`${markerLabels[origin.id]}を選ぶ`}
-              style={{ '--origin-color': origin.color } as React.CSSProperties}
-              onClick={() => setActiveOriginId(origin.id)}
-            >
-              <span aria-hidden="true">{origin.markerNumber}</span>
-              <small>{origin.shortName}</small>
-            </button>
-          ))}
-        </div>
+        <PACOriginDiagram activeOriginId={activeOriginId} onSelect={setActiveOriginId} />
+        <p className="pac-diagram-note">破線＝右房の奥を通る肺静脈。4本とも左房へ。</p>
 
         <p className="pac-selection-status" aria-live="polite">
           {activeOrigin.markerNumber}番、{activeOrigin.siteName}を選択中
@@ -146,12 +75,16 @@ export function PACLabClient() {
           })}
         </div>
 
-        <p className="pac-wave-overview-intro">各誘導を「洞調律 → PAC → 洞調律」の同じ時間軸で表示。洞性P波とQRS・Tも誘導ごとの代表形にし、中央の早いP′波を縦方向に揃えています（横1小マス＝40 ms）。</p>
+        <p className="pac-wave-overview-intro">洞調律 → PAC → 洞調律。中央の早いP′波を比べよう。</p>
 
         <div className="pac-reasoning">
           <p><strong>いちばんの手がかり：</strong>{activeOrigin.mainClue}</p>
-          <p><strong>ベクトルで考える：</strong>{activeOrigin.why}</p>
-          <p><strong>似る場所：</strong>{activeOrigin.limit}</p>
+          <details className="pac-detail">
+            <summary>理由と似る起源</summary>
+            <p><strong>興奮の向き：</strong>{activeOrigin.why}</p>
+            <p><strong>似る場所：</strong>{activeOrigin.limit}</p>
+            <p>6誘導は同じ時間軸。横1小マス＝40 ms。</p>
+          </details>
         </div>
       </section>
 
@@ -162,8 +95,6 @@ export function PACLabClient() {
             <h2 id="pac-guide-heading">図の見方と考える順番</h2>
           </div>
         </div>
-
-        <p className="page-lead">早く出たP′波の向きを手がかりに、心房内のどこから興奮が始まったかをたどります。</p>
 
         <section className="pac-reading-order" aria-label="起源を考える3つの順番">
           <span><b>1</b>早い拍を見つける</span>
@@ -177,26 +108,33 @@ export function PACLabClient() {
           <span>{activeOrigin.location}</span>
         </div>
 
-        <div className="pac-anatomy-key" aria-label="心臓図の色分けと向き">
-          <p><strong>向き：</strong>患者の右を画面左に置き、右房内面と左房後面を一枚へ開いた学習用投影です。厳密な一方向の解剖図ではありません。</p>
-          <p><strong>重なり：</strong>画面左の右上・右下肺静脈は右房へ入るのではなく、右房の後ろを通って左房へつながる部分を重ねて示しています。</p>
+        <details className="pac-detail">
+          <summary>図の向きと色分け</summary>
+          <div className="pac-anatomy-key" aria-label="心臓図の色分けと向き">
+          <p><strong>向き：</strong>患者の右が画面左。前方の右房を開き、後方の左房・肺静脈も透視・展開した模式図です。心耳は前方への突出を示し、単一の断面や正確な寸法は表しません。</p>
+          <p><strong>接続：</strong>上下大静脈と冠静脈洞は右房へ、左右4本の肺静脈は左房へ。右肺静脈の破線部分は右房の奥で、右房への開口ではありません。冠静脈洞は心臓後面の房室溝を通ります。</p>
           <div>
             <span><i className="pac-key-left-atrium" />左房・肺静脈</span>
             <span><i className="pac-key-right-atrium" />右房・上下大静脈</span>
             <span><i className="pac-key-coronary-sinus" />冠静脈洞</span>
-            <span><i className="pac-key-four-chambers" />薄い点線＝4部屋の大まかな位置</span>
+            <span><i className="pac-key-four-chambers" />淡い背景＝心臓全体</span>
           </div>
-        </div>
+          </div>
+        </details>
       </section>
 
       <InfoCard title="P′波は地図のヒント。確定診断ではありません">
-        <p>このラボは、P′波が確認できる心房期外収縮（PAC）を扱う入門用モデルです。P′波がT波に埋もれる例、非伝導性PAC、心房接合部起源、変行伝導、心房手術・アブレーション後は対象外です。</p>
+        <p>波形は学習用の代表例。P′波だけで起源は確定できません。</p>
       </InfoCard>
 
       <details className="pac-sources">
         <summary>正確さの範囲と参考文献</summary>
+        <p>P′波がT波に埋もれる例、非伝導性PAC、心房接合部起源、変行伝導、心房手術・アブレーション後は対象外です。</p>
         <p>表示した波形は患者の実記録ではなく、正常電気軸を想定した洞性P・QRS・Tと、各部位で報告された代表的なP′波を組み合わせた模式図です。個人差、電気軸偏位、胸部誘導の移行帯などは再現していません。起源推定アルゴリズムは主に焦点性心房頻拍で検証されたもので、単発PACへの適用は同じ心房興奮の方向を手がかりにする学習上の外挿です。</p>
         <ul>
+          <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4668306/" target="_blank" rel="noreferrer">心房・洞結節・心耳の解剖学的関係</a></li>
+          <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5705746/" target="_blank" rel="noreferrer">左心房・肺静脈・左心耳の解剖</a></li>
+          <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8576278/" target="_blank" rel="noreferrer">冠静脈洞と右房開口部の解剖研究</a></li>
           <li><a href="https://onlinelibrary.wiley.com/doi/10.1002/joa3.13052" target="_blank" rel="noreferrer">JCS/JHRS 2022 不整脈診断・リスク評価ガイドライン</a></li>
           <li><a href="https://www.jacc.org/doi/10.1016/j.jacep.2021.05.005" target="_blank" rel="noreferrer">Kistlerら：P波形による焦点性心房頻拍起源の更新アルゴリズム</a></li>
           <li><a href="https://www.jacc.org/doi/10.1016/j.jacep.2019.01.014" target="_blank" rel="noreferrer">分界稜起源のP波形と電気生理学的特徴</a></li>

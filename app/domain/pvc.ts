@@ -4,8 +4,7 @@ export type PVCBundlePattern = 'rbbb-like' | 'lbbb-like';
 export type PVCPolarity = 'positive' | 'negative';
 export type PVCVentricle = 'left' | 'right';
 export type PVCRegion = 'upper-outer' | 'upper-inner' | 'lower-outer' | 'apex';
-export type PVCLead = 'I' | 'II' | 'III' | 'aVL' | 'aVF' | 'V1' | 'V5' | 'V6';
-export type PVCLeadMorphology = 'rvot-low-rs' | 'rvot-inferior-rs' | 'rvot-avl-qs' | 'rvot-v1-qs' | 'rvot-lateral-rs';
+export type PVCLead = 'I' | 'II' | 'III' | 'aVR' | 'aVL' | 'aVF' | 'V1' | 'V2' | 'V3' | 'V4' | 'V5' | 'V6';
 export type PVCOriginId =
   | 'right-upper-outer'
   | 'right-upper-inner'
@@ -17,6 +16,8 @@ export type PVCOriginId =
   | 'left-apex';
 
 export type PVCSelections = {
+  // Reference-book polarity model, not measured lead morphology. In particular,
+  // the provided RVOT example has negative I/aVL despite the table's positive row.
   bundlePattern: PVCBundlePattern;
   inferiorPolarity: PVCPolarity;
   lateralPolarity: PVCPolarity;
@@ -42,7 +43,6 @@ export type PVCOrigin = {
   region: PVCRegion;
   color: string;
   selections: PVCSelections;
-  leadMorphologies?: Partial<Record<PVCLead, PVCLeadMorphology>>;
 };
 
 export const PVC_ORIGINS: PVCOrigin[] = [
@@ -55,16 +55,6 @@ export const PVC_ORIGINS: PVCOrigin[] = [
     region: 'upper-outer',
     color: ANATOMY_COLORS.rightAccent,
     selections: { bundlePattern: 'lbbb-like', inferiorPolarity: 'positive', lateralPolarity: 'positive', leftPrecordialPolarity: 'positive' },
-    leadMorphologies: {
-      I: 'rvot-low-rs',
-      II: 'rvot-inferior-rs',
-      III: 'rvot-inferior-rs',
-      aVL: 'rvot-avl-qs',
-      aVF: 'rvot-inferior-rs',
-      V1: 'rvot-v1-qs',
-      V5: 'rvot-lateral-rs',
-      V6: 'rvot-lateral-rs',
-    },
   },
   { id: 'right-upper-inner', markerNumber: 2, shortName: '右前壁', siteName: '右室前壁・心尖部寄り', ventricle: 'right', region: 'upper-inner', color: ANATOMY_COLORS.rightAccent, selections: { bundlePattern: 'lbbb-like', inferiorPolarity: 'positive', lateralPolarity: 'negative', leftPrecordialPolarity: 'negative' } },
   { id: 'right-lower-outer', markerNumber: 3, shortName: '右下壁', siteName: '右室弁輪後壁・下壁', ventricle: 'right', region: 'lower-outer', color: ANATOMY_COLORS.rightAccent, selections: { bundlePattern: 'lbbb-like', inferiorPolarity: 'negative', lateralPolarity: 'positive', leftPrecordialPolarity: 'positive' } },
@@ -100,6 +90,7 @@ const regionText: Record<PVCRegion, { short: string; location: string }> = {
 };
 
 export function pvcVentricle(pattern: PVCBundlePattern): PVCVentricle {
+  // Only the four-step teaching table; not a clinical classification algorithm.
   return pattern === 'rbbb-like' ? 'left' : 'right';
 }
 
@@ -112,7 +103,7 @@ export function pvcOriginEstimate(selections: PVCSelections): PVCOriginEstimate 
       ventricle,
       ventricleLabel: ventricleLabels[ventricle],
       region: null,
-      title: `${ventricleName}側までは絞れます`,
+      title: 'この組合せだけでは起源を絞れません',
       location: 'Ⅰ・aVLとV5・V6の向きが一致しないため、この4ステップの単純モデルでは細かな領域を決めません。',
       reason: 'この単純モデルで扱う代表パターンから外れます。移行帯、QRSの細部、12誘導全体を加えて評価する必要があります。',
       isWithinSimpleModel: false,
@@ -155,6 +146,6 @@ export function pvcOrigin(originId: PVCOriginId): PVCOrigin {
   return origin;
 }
 
-export function pvcLeadMorphology(originId: PVCOriginId, lead: PVCLead): PVCLeadMorphology | undefined {
-  return pvcOrigin(originId).leadMorphologies?.[lead];
+export function pvcRegionLocation(region: PVCRegion): string {
+  return regionText[region].location;
 }
