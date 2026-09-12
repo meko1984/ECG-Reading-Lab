@@ -43,11 +43,8 @@ jobs:
       - name: Build static site
         run: pnpm build
         env:
-          PAGES_BASE_PATH: /ECG-Reading-Lab
-          NEXT_PUBLIC_BASE_PATH: /ECG-Reading-Lab
-
-      - name: Place static assets at the Pages artifact root
-        run: cp -R ./dist/client/ECG-Reading-Lab/_next ./dist/client/_next
+          GITHUB_PAGES_BUILD: 'true'
+          NEXT_PUBLIC_STATIC_EXPORT: 'true'
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v6

@@ -1,13 +1,13 @@
 import type { NextConfig } from 'next';
 
 const pagesBasePath = process.env.PAGES_BASE_PATH ?? '';
-const isGitHubPagesBuild = pagesBasePath.length > 0;
+const isStaticExport = process.env.GITHUB_PAGES_BUILD === 'true' || pagesBasePath.length > 0;
 
 const nextConfig: NextConfig = {
-  output: isGitHubPagesBuild ? 'export' : undefined,
-  assetPrefix: isGitHubPagesBuild ? pagesBasePath : undefined,
+  output: isStaticExport ? 'export' : undefined,
+  assetPrefix: pagesBasePath || undefined,
   trailingSlash: false,
-  images: isGitHubPagesBuild ? { unoptimized: true } : undefined,
+  images: isStaticExport ? { unoptimized: true } : undefined,
 };
 
 export default nextConfig;
