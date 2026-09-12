@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import { InfoCard } from '@/app/components/InfoCard';
-import { MIHeartDiagram } from '@/app/components/MIHeartDiagram';
+import { MIHeart3D } from '@/app/components/MIHeart3D';
 import { MILeadStrip } from '@/app/components/MILeadStrip';
 import { MI_TERRITORIES, STANDARD_LEADS, miLeadChange, miLeadLabel, miTerritory, type MITerritoryId } from '@/app/domain/mi';
 
@@ -26,7 +26,7 @@ export function MILabClient() {
         </div>
 
         <div className="mi-map-layout">
-          <MIHeartDiagram activeId={activeId} color={territory.color} />
+          <MIHeart3D key={activeId} activeId={activeId} />
           <div className="mi-territory-result" aria-live="polite" style={{ '--mi-color': territory.color } as React.CSSProperties}>
             <p>{territory.wall}</p><h3>{territory.title}</h3><span>{territory.reading}</span>
             <dl><div><dt>ST上昇を見る誘導</dt><dd>{territory.standardElevation.length ? territory.standardElevation.map(miLeadLabel).join('・') : '標準12誘導では直接見えにくい'}</dd></div><div><dt>代表的な責任冠動脈候補</dt><dd>{territory.artery}</dd></div></dl>

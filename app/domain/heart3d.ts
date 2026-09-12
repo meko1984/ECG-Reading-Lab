@@ -76,7 +76,7 @@ export const HEART_PARTS: HeartPart[] = [
 ];
 
 // Original parametric meshes; no third-party model or texture assets.
-export type Mesh = { vertices: Float32Array; color: Vec3; anatomical: boolean; rightWeights?: Float32Array };
+export type Mesh = { vertices: Float32Array; color: Vec3; anatomical: boolean; rightWeights?: Float32Array; arteryName?: string };
 function surface(fn: (u: number,v: number) => Vec3, nu: number, nv: number): Float32Array {
   const out: number[] = [];
   const vertex = (u: number, v: number) => {
@@ -153,7 +153,7 @@ export const ARTERIES: Artery[] = [
   { name:'右縁枝',radius:.027,points:[[-1,.26,.53],[-.86,-.09,.7],[-.58,-.46,.72],[-.17,-.76,.58]] },
   { name:'後下行枝（PDA）',radius:.032,points:[[.05,.16,-.75],[.12,-.21,-.78],[.3,-.6,-.66],[.56,-.99,-.37],[.65,-1.17,.21]] },
 ];
-function ventricularSurface(p: Vec3, clearance: number): Vec3 {
+export function ventricularSurface(p: Vec3, clearance: number): Vec3 {
   // Fit a coronary centerline to the exterior of the ventricular surfaces.
   // At the base, preserve the coronary origins and atrioventricular course.
   if(p[1]>.55)return p;
@@ -198,6 +198,6 @@ export function createHeartMeshes(right: Vec3, left: Vec3, coronary: Vec3): Mesh
   meshes.push({vertices:tube([[-.9,.69,.01],[-.95,1.25,-.04],[-.95,1.55,-.03]],.17),color:right,anatomical:false});
   meshes.push({vertices:tube([[-.91,.41,-.01],[-.97,-.06,-.13],[-.95,-.36,-.16]],.15),color:right,anatomical:false});
   for(const side of [-1,1]) for(const dy of [0,.25]) meshes.push({vertices:tube([[.25,.69+dy,-.59],[.55*side,.7+dy,-.85],[.86*side,.74+dy,-.93]],.09),color:left,anatomical:false});
-  ARTERIES.forEach(a=>meshes.push({vertices:tube(a.points,a.radius,true),color:coronary,anatomical:false}));
+  ARTERIES.forEach(a=>meshes.push({vertices:tube(a.points,a.radius,true),color:coronary,anatomical:false,arteryName:a.name}));
   return meshes;
 }
