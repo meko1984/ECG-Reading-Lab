@@ -29,6 +29,7 @@ export function createHeartRenderer(canvas: HTMLCanvasElement, colors: { right: 
     uniform vec3 color; uniform vec3 target; uniform float radius;
     uniform float selected; uniform float anatomical; uniform float cone;
     uniform float regionMode; uniform vec3 extent; uniform vec3 regionColor; uniform float cutaway;
+    uniform float secondRegion; uniform vec3 secondTarget; uniform vec3 secondExtent; uniform vec3 secondColor;
     void main(){
       if(cutaway>.5 && point.x<.119) discard;
       if(cone>.5){gl_FragColor=vec4(1.0,.86,.45,.075);return;}
@@ -43,13 +44,15 @@ export function createHeartRenderer(canvas: HTMLCanvasElement, colors: { right: 
       float grain=sin(point.x*117.0+sin(point.z*93.0))*sin(point.y*103.0)*.006;
       vec3 base=pigment*(.59+.32*diffuse+rim+grain)*(1.0-selected*.2*anatomical);
       base=mix(base,regionMode>.5?regionColor:vec3(1.0,.83,.36),spot*.86)+spot*.08;
+      float secondSpot=(1.0-smoothstep(.55,1.0,length((point-secondTarget)/secondExtent)))*secondRegion*anatomical;
+      base=mix(base,secondColor,secondSpot*.92)+secondSpot*.035;
       gl_FragColor=vec4(base,1.0);
     }`);
   const program=gl.createProgram()!;gl.attachShader(program,vs);gl.attachShader(program,fs);gl.linkProgram(program);
   if(!gl.getProgramParameter(program,gl.LINK_STATUS)) throw new Error('3D描画を開始できなかったよ。');
   gl.useProgram(program);
   const positions=gl.getAttribLocation(program,'position'),normals=gl.getAttribLocation(program,'normal'),rightWeight=gl.getAttribLocation(program,'rightWeight');
-  const uniforms=Object.fromEntries(['rotation','scale','color','rightColor','leftColor','target','radius','selected','anatomical','cone','regionMode','extent','regionColor','cutaway'].map(k=>[k,gl.getUniformLocation(program,k)]));
+  const uniforms=Object.fromEntries(['rotation','scale','color','rightColor','leftColor','target','radius','selected','anatomical','cone','regionMode','extent','regionColor','cutaway','secondRegion','secondTarget','secondExtent','secondColor'].map(k=>[k,gl.getUniformLocation(program,k)]));
   gl.uniform3fv(uniforms.rightColor,colors.right);gl.uniform3fv(uniforms.leftColor,colors.left);
   const meshes=createHeartMeshes(colors.right,colors.left,colors.coronary).map(m=>{
     const buffer=gl.createBuffer()!;gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,m.vertices,gl.STATIC_DRAW);
@@ -75,7 +78,7 @@ export function createHeartRenderer(canvas: HTMLCanvasElement, colors: { right: 
     gl!.enableVertexAttribArray(normals);gl!.vertexAttribPointer(normals,3,gl!.FLOAT,false,24,12);
     gl!.drawArrays(gl!.TRIANGLES,0,count);
   }
-  function render(camera: Camera, lead?: LeadView, region?: HeartRegion) {
+  function render(camera: Camera, lead?: LeadView, region?: HeartRegion, secondary?: HeartRegion) {
     const width=canvas.clientWidth,height=canvas.clientHeight,dpr=Math.min(window.devicePixelRatio||1,2);
     if(canvas.width!==Math.round(width*dpr)||canvas.height!==Math.round(height*dpr)){canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);}
     gl!.viewport(0,0,canvas.width,canvas.height);gl!.clearColor(0,0,0,0);gl!.clear(gl!.COLOR_BUFFER_BIT|gl!.DEPTH_BUFFER_BIT);
@@ -86,6 +89,10 @@ export function createHeartRenderer(canvas: HTMLCanvasElement, colors: { right: 
     gl!.uniform3fv(uniforms.target,region?.target||lead?.target||[0,0,0]);
     gl!.uniform1f(uniforms.regionMode,region?1:0);gl!.uniform3fv(uniforms.extent,region?.extent||[1,1,1]);
     gl!.uniform3fv(uniforms.regionColor,region?.color||[1,.83,.36]);gl!.uniform1f(uniforms.cutaway,region?.cutaway?1:0);
+    gl!.uniform1f(uniforms.secondRegion,secondary?1:0);
+    gl!.uniform3fv(uniforms.secondTarget,secondary?.target||[0,0,0]);
+    gl!.uniform3fv(uniforms.secondExtent,secondary?.extent||[1,1,1]);
+    gl!.uniform3fv(uniforms.secondColor,secondary?.color||[0,0,0]);
     gl!.uniform1f(uniforms.radius,lead?.id==='aVR'?1.8:lead?.radius||1);
     gl!.uniform1f(uniforms.selected,lead||region?1:0);gl!.uniform1f(uniforms.cone,0);
     for(const mesh of meshes){

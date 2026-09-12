@@ -1444,42 +1444,6 @@ button { color: inherit; }
 .mi-reasoning p { margin: 0; color: rgba(10,31,87,0.68); font-size: 0.78rem; line-height: 1.6; }.mi-reasoning strong { color: var(--navy); }
 
 /* Mirror-image ST simulator */
-.mirror-simulator, .mirror-explanation-card { margin-top: 14px; padding: 18px; }
-.mirror-scenario-tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 10px; }
-.mirror-scenario-tabs button { display: grid; min-height: 64px; align-content: center; gap: 2px; padding: 9px 10px; border: 1px solid rgba(10,31,87,.14); border-radius: 13px; color: rgba(10,31,87,.65); background: #fff; font: inherit; cursor: pointer; }
-.mirror-scenario-tabs button strong { color: var(--navy); font-size: .98rem; }.mirror-scenario-tabs button span { font-size: .76rem; font-weight: 800; }
-.mirror-scenario-tabs button[aria-pressed="true"] { border: 2px solid var(--blue); color: var(--blue); background: var(--light-blue); box-shadow: 0 4px 13px rgba(20,110,214,.1); }
-.mirror-scenario-tabs button:focus-visible, .mirror-reset:focus-visible { outline: 3px solid rgba(20,110,214,.3); outline-offset: 2px; }
-.mirror-perspective { --mirror-color: var(--blue); width: min(100%, 610px); margin: 8px auto 0; }
-.mirror-perspective svg { display: block; width: 100%; height: auto; overflow: visible; }
-.mirror-perspective figcaption { margin-top: -3px; color: rgba(10,31,87,.6); font-size: .78rem; line-height: 1.5; text-align: center; }
-.mirror-arrow-head { fill: var(--mirror-color); }
-.mirror-anatomical-heart path, .mirror-heart-section path, .mirror-lead-group, .mirror-electrodes { transition: opacity 130ms ease; }
-.mirror-heart-outline { fill: #f7c2b6; stroke: rgba(10,31,87,.44); stroke-width: 3; }.mirror-right-atrium { fill: var(--anatomy-right-fill); stroke: var(--anatomy-right-accent); stroke-width: 2.5; }.mirror-left-atrium { fill: var(--anatomy-left-fill); stroke: var(--anatomy-left-accent); stroke-width: 2.5; }
-.mirror-right-ventricle { fill: var(--anatomy-right-fill); stroke: var(--anatomy-right-accent); stroke-width: 3; }.mirror-left-ventricle { fill: var(--anatomy-left-fill); stroke: var(--anatomy-left-accent); stroke-width: 3; }.mirror-septum { fill: none; stroke: rgba(10,31,87,.52); stroke-width: 8; stroke-linecap: round; }
-.mirror-aorta, .mirror-aorta-branch, .mirror-svc, .mirror-pulmonary { fill: none; stroke-linecap: round; stroke-linejoin: round; }.mirror-aorta { stroke: #d95e64; stroke-width: 34; }.mirror-aorta-branch { stroke: #d95e64; stroke-width: 15; }.mirror-svc { stroke: #a9c5d8; stroke-width: 29; }.mirror-pulmonary { stroke: #9fbfd3; stroke-width: 23; }
-.mirror-active-region { fill: var(--mirror-color); opacity: .76; stroke: rgba(10,31,87,.62); stroke-width: 2.5; }
-.mirror-orientation text, .mirror-section-orientation text { fill: rgba(10,31,87,.63); font-size: 15px; font-weight: 850; text-anchor: middle; }.mirror-orientation path, .mirror-section-orientation path { fill: none; stroke: rgba(10,31,87,.45); stroke-width: 1.7; }
-.mirror-anatomy-labels path, .mirror-section-labels path { fill: none; stroke: rgba(10,31,87,.55); stroke-width: 1.7; }.mirror-anatomy-labels text, .mirror-section-labels text { fill: var(--navy); font-size: 17px; font-weight: 900; text-anchor: start; }.mirror-anatomy-labels g:first-child text, .mirror-anatomy-labels g:nth-child(2) text { text-anchor: end; }.mirror-anatomy-labels .is-active text, .mirror-section-labels .is-active text { fill: var(--mirror-color); }.mirror-anatomy-labels .is-active path, .mirror-section-labels .is-active path { stroke: var(--mirror-color); stroke-width: 2.5; }
-.mirror-lead-group rect { fill: rgba(255,255,255,.97); stroke: var(--mirror-color); stroke-width: 2.5; }.mirror-lead-group text { fill: rgba(10,31,87,.66); font-size: 15px; font-weight: 850; text-anchor: middle; }.mirror-lead-group .mirror-lead-names { fill: var(--navy); font-size: 21px; font-weight: 950; }.mirror-lead-group path { fill: none; stroke: var(--mirror-color); stroke-width: 3; }
-.mirror-torso-section { fill: #edf4f8; stroke: rgba(10,31,87,.42); stroke-width: 3; }.mirror-right-lung, .mirror-left-lung { fill: #dceef5; stroke: #6f9db5; stroke-width: 2.5; }.mirror-sternum { fill: #f2e5cf; stroke: #927a59; stroke-width: 2; }.mirror-spine { fill: #f0e3cc; stroke: #8f7758; stroke-width: 2.5; }.mirror-spine-center { fill: #d7c7ab; stroke: #8f7758; stroke-width: 1.5; }
-.mirror-pericardium { fill: #f7c2b6; stroke: rgba(10,31,87,.4); stroke-width: 3; }.mirror-lv-ring { fill: var(--anatomy-left-fill); stroke: var(--anatomy-left-accent); stroke-width: 8; }.mirror-lv-cavity { fill: #fff5f4; stroke: var(--anatomy-left-accent); stroke-width: 2; }.mirror-rv-crescent { fill: var(--anatomy-right-fill); stroke: var(--anatomy-right-accent); stroke-width: 3; }
-.mirror-section-labels > text { text-anchor: middle; }.mirror-section-labels g text { text-anchor: start; }.mirror-section-labels g:nth-of-type(2) text { text-anchor: end; }
-.mirror-electrodes path { fill: none; stroke: var(--mirror-color); stroke-width: 2.7; }.mirror-electrodes circle { fill: #fff; stroke: var(--mirror-color); stroke-width: 4; }.mirror-electrodes text { fill: var(--navy); font-size: 16px; font-weight: 900; text-anchor: middle; }.mirror-electrodes text:last-child { fill: rgba(10,31,87,.62); font-size: 13px; }
-.mirror-view-control { margin-top: 10px; padding: 14px; border: 1px solid rgba(20,110,214,.17); border-radius: 15px; background: rgba(247,252,255,.9); }
-.mirror-view-status { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 9px; }.mirror-view-status span { color: rgba(10,31,87,.6); font-size: .82rem; font-weight: 850; }.mirror-view-status strong { color: var(--blue); font-size: .9rem; }
-.mirror-view-control > label { display: block; color: var(--navy); font-size: 1rem; font-weight: 900; }.mirror-view-control input { width: 100%; min-height: 42px; margin-top: 5px; accent-color: var(--blue); cursor: pointer; }
-.mirror-view-ends { display: flex; justify-content: space-between; gap: 12px; color: rgba(10,31,87,.65); font-size: .8rem; font-weight: 850; }.mirror-view-ends span:last-child { text-align: right; }
-.mirror-dynamic-wave { --mirror-color: var(--blue); margin: 12px 0 0; overflow: hidden; border: 2px solid var(--mirror-color); border-radius: 15px; background: #fff; box-shadow: 0 8px 22px rgba(10,31,87,.07); }
-.mirror-dynamic-wave figcaption { display: flex; justify-content: space-between; gap: 12px; align-items: center; padding: 11px 13px 6px; }.mirror-dynamic-wave figcaption div { display: grid; gap: 2px; }.mirror-dynamic-wave figcaption span { color: rgba(10,31,87,.58); font-size: .78rem; font-weight: 850; }.mirror-dynamic-wave figcaption strong { color: var(--navy); font-size: .95rem; }.mirror-dynamic-wave figcaption b { flex: 0 0 auto; color: var(--mirror-color); font-size: 1.05rem; }
-.mirror-dynamic-wave svg { display: block; width: 100%; height: auto; }.mirror-paper { fill: rgba(247,252,255,.92); }.mirror-grid-line { fill: none; stroke: rgba(20,110,214,.1); stroke-width: .65; }.mirror-baseline { fill: none; stroke: rgba(10,31,87,.25); stroke-width: 1.5; stroke-dasharray: 5 5; }.mirror-trace { fill: none; stroke: var(--mirror-color); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; transition: d 90ms linear; }.mirror-st-mark { fill: none; stroke: var(--mirror-color); stroke-width: 10; opacity: .13; }.mirror-st-label { fill: var(--mirror-color); font-size: 13px; font-weight: 900; text-anchor: middle; }.mirror-st-measure path { fill: none; stroke: var(--mirror-color); stroke-width: 2; }.mirror-st-measure circle { fill: var(--mirror-color); }
-.mirror-wave-scale { position: relative; display: flex; justify-content: space-between; gap: 12px; margin: 0 14px; padding-top: 13px; border-top: 3px solid color-mix(in srgb, var(--mirror-color) 24%, transparent); color: rgba(10,31,87,.62); font-size: .76rem; font-weight: 850; }.mirror-wave-scale i { position: absolute; top: -7px; width: 14px; height: 14px; border: 3px solid #fff; border-radius: 50%; background: var(--mirror-color); box-shadow: 0 1px 5px rgba(10,31,87,.28); transform: translateX(-50%); }
-.mirror-dynamic-wave > p { margin: 9px 13px 12px; color: rgba(10,31,87,.68); font-size: .86rem; line-height: 1.6; }
-.mirror-observation { display: grid; gap: 6px; margin-top: 11px; padding: 12px 14px; border-left: 5px solid var(--blue); border-radius: 12px; background: rgba(20,110,214,.055); }.mirror-observation p { margin: 0; color: rgba(10,31,87,.72); font-size: .9rem; line-height: 1.65; }.mirror-observation strong { color: var(--navy); }
-.mirror-endpoints { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 9px; }.mirror-endpoints > div { display: grid; gap: 3px; padding: 13px; border: 1px solid rgba(10,31,87,.13); border-top: 4px solid var(--blue); border-radius: 13px; background: #fff; }.mirror-endpoints span { color: rgba(10,31,87,.56); font-size: .78rem; font-weight: 850; }.mirror-endpoints strong { color: var(--navy); font-size: 1rem; }.mirror-endpoints b { color: var(--blue); font-size: .9rem; }.mirror-endpoints p { margin: 3px 0 0; color: rgba(10,31,87,.7); font-size: .86rem; line-height: 1.55; }
-.mirror-not-literal { margin: 12px 0 0; padding: 12px 13px; border-radius: 12px; color: rgba(10,31,87,.72); background: rgba(10,31,87,.045); font-size: .88rem; line-height: 1.65; }
-.mirror-reset { display: block; min-height: 44px; margin: 12px auto 0; padding: 8px 18px; border: 2px solid var(--blue); border-radius: 12px; color: var(--blue); background: #fff; font: inherit; font-size: .88rem; font-weight: 900; cursor: pointer; }.mirror-reset:active { background: var(--light-blue); }
-.mirror-sources { margin-bottom: 6px; }
 
 @media (max-width: 699px) {
   .axis-lab .diagram-card,
@@ -1598,16 +1562,6 @@ button { color: inherit; }
   .mi-territory-result { padding: 12px; }.mi-territory-result h3 { font-size: 1.08rem; }
   .mi-lead-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }.mi-lead-strip figcaption { font-size: 0.53rem; }.mi-lead-strip figcaption strong { font-size: 0.67rem; }
   .mi-extra-grid { grid-template-columns: 1fr; gap: 6px; }
-  .mirror-simulator, .mirror-explanation-card { margin-top: 8px; padding: 12px; }
-  .mirror-lab .section-heading { margin-bottom: 8px; }.mirror-lab .section-heading h2 { font-size: 1.05rem; }
-  .mirror-scenario-tabs button { min-height: 58px; padding: 7px; }.mirror-scenario-tabs button strong { font-size: .9rem; }.mirror-scenario-tabs button span { font-size: .72rem; }
-  .mirror-perspective { width: 100%; margin-top: 5px; }.mirror-perspective figcaption { font-size: .72rem; }
-  .mirror-view-control { margin-top: 7px; padding: 11px; }.mirror-view-control > label { font-size: .92rem; }.mirror-view-ends { font-size: .72rem; }
-  .mirror-dynamic-wave figcaption { padding: 9px 10px 5px; }.mirror-dynamic-wave figcaption span { font-size: .72rem; }.mirror-dynamic-wave figcaption strong { font-size: .86rem; }.mirror-dynamic-wave figcaption b { font-size: .94rem; }
-  .mirror-wave-scale { margin-inline: 10px; font-size: .7rem; }.mirror-dynamic-wave > p { margin: 8px 10px 10px; font-size: .8rem; }
-  .mirror-observation { padding: 10px 11px; }.mirror-observation p { font-size: .84rem; }
-  .mirror-endpoints { grid-template-columns: 1fr; gap: 7px; }.mirror-endpoints > div { padding: 11px; }.mirror-endpoints p { font-size: .82rem; }
-  .mirror-not-literal { font-size: .82rem; }
   .electrode-placement-card, .electrode-wave-card, .electrode-presets { margin-top: 8px; padding: 12px; }
   .electrode-lab .section-heading { margin-bottom: 9px; }.electrode-lab .section-heading h2 { font-size: 1.05rem; }
   .electrode-body-map { width: min(100%, 330px); }.electrode-wave-grid-layout { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 6px; }
