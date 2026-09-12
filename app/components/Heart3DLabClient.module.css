@@ -1,0 +1,44 @@
+.lab { --heart-coronary: #efc06a; }
+.header { margin: 6px 0 18px; }
+.header h1 { margin: 4px 0 8px; font-size: 1.8rem; letter-spacing: -.04em; }
+.header p:last-child { margin: 0; line-height: 1.7; font-size: 1rem; color: var(--muted, #64748b); }
+.viewer { overflow: hidden; border-radius: 22px; background: #101f36; color: #ecf3ff; box-shadow: 0 14px 30px #10213b1a; }
+.stage { position: relative; isolation: isolate; height: clamp(370px, 102vw, 460px); touch-action: none; cursor: grab; overflow: hidden; background: radial-gradient(ellipse at 48% 47%, #263953, #101f36 74%); }
+.stage:active { cursor: grabbing; }
+.canvas { width: 100%; height: 100%; display: block; }
+.stems { position: absolute; inset: 0; pointer-events: none; stroke: #b3c8df; fill: #b3c8df; stroke-width: .75; }
+.marker { position: absolute; transform: translate(-50%,-50%); width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%; background: transparent; color: #edf4ff; font: 600 .81rem system-ui,sans-serif; cursor: pointer; touch-action: none; display: grid; place-items: center; }
+.marker span { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; border: 1px solid #809ab8; background: #18334ec9; }
+.marker.rear span { border-style: dashed; background: #172c4138; color: #b5c8dd; opacity: .65; }
+.marker.active span { background: #f2d493; color: #3e2b0a; border-color: #ffe7b3; opacity: 1; box-shadow: 0 0 0 2px #ffd97a20; }
+.anatomyLabel { position: absolute; transform: translate(-50%,-50%); color: #fff; font-size: .78rem; font-weight: 650; text-shadow: 0 1px 4px #000,0 1px 2px #000; pointer-events: none; z-index: 30; background: #11243a65; padding: 2px 4px; border-radius: 4px; }
+.viewHint { margin: 0; padding: 10px 14px 0; font-size: .78rem; color: #b5c8e2; border-top: 1px solid #ffffff15; }
+.stageCaption { position: absolute; bottom: 10px; left: 0; right: 0; text-align: center; color: #b5c8e2; font-size: .78rem; pointer-events: none; }
+.controls { padding: 10px 12px; display: flex; flex-wrap: wrap; gap: 6px; }
+.controls button { min-width: 44px; min-height: 44px; border: 1px solid #ffffff24; border-radius: 10px; padding: 6px 10px; color: #e0ecff; background: #ffffff08; font: inherit; font-size: .85rem; cursor: pointer; }
+.controls button:hover { background: #ffffff19; }
+.legend { display: flex; flex-wrap: wrap; gap: 10px 14px; padding: 0 14px 14px; font-size: .8rem; color: #d5e2f3; }
+.legend span,.legend label { display: flex; align-items: center; gap: 5px; }
+.legend input { width: 18px; height: 18px; }
+.legend label { min-height: 32px; }
+.legend i { display: inline-block; width: 9px; height: 9px; border-radius: 50%; }
+.rightKey { background: var(--anatomy-right-fill); }.leftKey { background: var(--anatomy-left-fill); }.arteryKey { background: var(--heart-coronary); }
+.selection { margin-top: 22px; display: grid; gap: 16px; }
+.selection h2 { margin: 0 0 8px; font-size: 1rem; display: flex; align-items: center; gap: 12px; }
+.selection h2 span { color: #66758a; font-size: .8rem; font-weight: 400; }
+.leads { display: grid; grid-template-columns: repeat(6,minmax(0,1fr)); gap: 6px; }
+.leads button { min-width: 0; min-height: 46px; padding: 3px; border: 1px solid #d6e0ee; border-radius: 12px; color: #344c69; background: white; font: 650 .95rem system-ui,sans-serif; cursor: pointer; }
+.leads button.chosen { background: #183956; color: #fff0c4; border-color: #183956; box-shadow: inset 0 -3px #eac16d; }
+.description { margin: 20px 0 12px; padding: 18px 20px; border-left: 3px solid #dcb764; background: #fffaf0; border-radius: 0 14px 14px 0; min-height: 170px; }
+.description .kicker { margin: 0 0 5px; font-size: .78rem; letter-spacing: .04em; color: #816232; font-weight: 650; }
+.description h2 { margin: 0 0 8px; font-size: 1.25rem; }
+.description p { margin: 0; line-height: 1.8; font-size: 1rem; }
+.description button { background: none; border: 1px solid #cbbd9e; border-radius: 8px; padding: 8px 12px; min-height: 44px; margin-top: 12px; cursor: pointer; color: #634c25; font: inherit; }
+.note { font-size: .86rem; line-height: 1.8; color: #627087; margin: 12px 2px; }
+.details { margin-top: 20px; border-top: 1px solid #dce4ee; padding: 14px 0; line-height: 1.8; font-size: .95rem; }
+.details summary { min-height: 44px; cursor: pointer; font-weight: 650; }
+.details a { color: var(--blue,#245daa); text-decoration: underline; }
+.error,.loading { position: absolute; inset: 25% 10%; display: grid; place-content: center; text-align: center; line-height: 1.8; color: #fff; pointer-events: none; }
+.error { background: #10213bf0; padding: 15px; z-index: 100; border-radius: 15px; }
+.lab button:focus-visible,.lab summary:focus-visible,.lab input:focus-visible { outline: 3px solid #49a9ed; outline-offset: 3px; }
+@media (max-width:360px) { .marker { width:44px; }.legend { gap: 8px; }.selection h2 { gap: 8px; }.leads { gap:4px; }.description { padding: 16px; } }

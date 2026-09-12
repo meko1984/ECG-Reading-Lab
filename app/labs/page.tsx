@@ -14,6 +14,15 @@ export default function LabsPage() {
       </header>
 
       <div className="lab-list">
+        <a className="lab-card lab-card-active" href={appPath('/labs/lead-views')}>
+          <div className="lab-icon" aria-hidden="true">◎</div>
+          <div>
+            <span className="lab-status">体験できる</span>
+            <h2>心臓３Dモデル</h2>
+            <p>心臓と12誘導を一緒に回し、誘導が見る方向と代表領域を光で確かめます。</p>
+          </div>
+          <span className="lab-arrow" aria-hidden="true">›</span>
+        </a>
         <a className="lab-card lab-card-active" href={appPath('/labs/electrodes')}>
           <div className="lab-icon" aria-hidden="true">●</div>
           <div>
@@ -86,7 +95,7 @@ export default function LabsPage() {
       </div>
 
       <InfoCard title="研究室は順次追加します">
-        <p>現在は電極装着ミス、平均電気軸、WPW・ケント束、心房期外収縮、心室性期外収縮、心筋梗塞部位判定、ミラーイメージの7つを体験できます。ほかのテーマも順次追加する予定です。</p>
+        <p>現在は心臓３Dモデル、電極装着ミス、平均電気軸、WPW・ケント束、心房期外収縮、心室性期外収縮、心筋梗塞部位判定、ミラーイメージの8つを体験できます。ほかのテーマも順次追加する予定です。</p>
       </InfoCard>
     </AppShell>
   );
