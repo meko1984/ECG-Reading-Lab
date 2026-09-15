@@ -29,11 +29,7 @@ export default function Home() {
             <strong>ECG Reading Lab</strong>
             <span aria-hidden="true" />
           </div>
-          <p>
-            心電図を読む前の考え方を、
-            <br />
-            図と波形で見える化する学習ラボです。
-          </p>
+          <p>図で見る。動かして覚える。</p>
         </header>
 
         <nav className="home-actions" aria-label="メインメニュー">
@@ -47,19 +43,7 @@ export default function Home() {
           ))}
         </nav>
 
-        <aside className="info-card" aria-label="利用上の注意">
-          <span className="info-icon" aria-hidden="true">
-            i
-          </span>
-          <div>
-            <h2>学習用の簡易モデルです</h2>
-            <p>
-              このアプリは心電図判読や診断を代行するものではありません。
-              <br />
-              心電図の考え方を学ぶための補助ツールです。
-            </p>
-          </div>
-        </aside>
+        <p className="model-note">学習用の模式図・波形。診断には使えません。</p>
 
         <footer className="home-footer">
           <p>version 0.1.5</p>

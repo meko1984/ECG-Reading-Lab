@@ -81,8 +81,8 @@ test('the four pulmonary vein paths join LA, while caval paths join RA', () => {
 
 test('each appendage has a root in its own atrium and an upper projecting tip', () => {
   for (const [appendage, chamber, root, tip] of [
-    ['rightAppendage', 'rightAtrium', { x: 419, y: 228 }, { x: 465, y: 169 }],
-    ['leftAppendage', 'leftAtrium', { x: 662, y: 241 }, { x: 684, y: 193 }],
+    ['rightAppendage', 'rightAtrium', { x: 419, y: 228 }, { x: 479, y: 198 }],
+    ['leftAppendage', 'leftAtrium', { x: 662, y: 251 }, { x: 643, y: 182 }],
   ] as const) {
     assert.ok(inside(PAC_ANATOMY[appendage], root));
     assert.ok(inside(PAC_ANATOMY[chamber], root));

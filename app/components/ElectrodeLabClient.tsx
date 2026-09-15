@@ -46,7 +46,7 @@ export function ElectrodeLabClient() {
 
   return (
     <div className="electrode-lab">
-      <p className="page-lead">電極を選んで人体へ装着し、位置やケーブルを間違えたときの12誘導波形をその場で比べます。</p>
+      <p className="page-lead">電極を選ぶ → 人体に置く → 波形を比べる。</p>
 
       <section className="pac-reading-order" aria-label="電極装着ミスを理解する3つの順番">
         <span><b>1</b>電極を選ぶ</span><span><b>2</b>人体へ装着</span><span><b>3</b>12誘導を比較</span>
@@ -54,7 +54,7 @@ export function ElectrodeLabClient() {
 
       <section className="content-card electrode-placement-card" aria-labelledby="electrode-placement-heading">
         <div className="section-heading"><div><p className="eyebrow">10 electrodes → 12 leads</p><h2 id="electrode-placement-heading">電極を人体へつける</h2></div><span className="unit-badge">装着 {placedElectrodes.size}/10</span></div>
-        <p className="electrode-interaction-hint">下の電極を1つ選び、人体上の丸を押します。すでに電極がある場所へ置くと、2つが入れ替わります。</p>
+        <p className="electrode-interaction-hint">電極 → 人体の丸。重ねると入れ替え。</p>
         <div className="electrode-tray" aria-label="装着する電極を選ぶ">
           {ELECTRODES.map((electrode) => (
             <button
@@ -85,7 +85,7 @@ export function ElectrodeLabClient() {
       </section>
 
       <section className={`electrode-result ${scenario.id === 'correct' ? 'is-correct' : 'is-error'}`} aria-live="polite">
-        <p>{scenario.shortLabel}</p><h2>{scenario.title}</h2><span>{scenario.summary}</span><small>{scenario.clue}</small>
+        <p>{scenario.shortLabel}</p><h2>{scenario.title}</h2><details className="learning-details"><summary>変化の見方</summary><p>{scenario.summary}</p><p>{scenario.clue}</p></details>
       </section>
 
       <section className="content-card electrode-wave-card" aria-labelledby="electrode-wave-heading">
@@ -99,7 +99,7 @@ export function ElectrodeLabClient() {
             return <ElectrodeWaveform key={lead} lead={lead} normal={waveformForScenario(lead, 'correct')} current={waveformForScenario(lead, waveformScenario)} changed={changed} unavailableReason={unavailableReason} pWaveShape={pWaveShape} />;
           })}
         </div>
-        <p className="electrode-wave-note">10電極がそろうと測定できます。色のついた枠が変化した誘導で、細い点線は正しい装着時、濃い線は現在の配置です。</p>
+        <p className="electrode-wave-note">10電極で測定。点線＝正しい装着／実線＝現在／色枠＝変化。</p>
       </section>
 
       <section className="content-card electrode-presets" aria-labelledby="electrode-presets-heading">
@@ -111,7 +111,7 @@ export function ElectrodeLabClient() {
         </div>
       </section>
 
-      <InfoCard title="この波形は患者の実記録ではありません">
+      <InfoCard title="学習用・非診断用">
         <p>四肢電極の交換は誘導の電位関係に沿って組み替えています。V1・V2高位装着は代表的な変化を強調した学習モデルで、体格や心臓の向きによる個人差までは再現しません。実際に不自然な波形を見たときは、診断を決める前に電極位置とケーブルを確認し、必要なら正しく付け直して再記録します。</p>
       </InfoCard>
 

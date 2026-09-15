@@ -1585,3 +1585,9 @@ button { color: inherit; }
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Explanations stay secondary to the interactive learning surface. */
+.learning-details > summary, .info-message > summary { cursor: pointer; font-size: 0.875rem; font-weight: 600; min-height: 44px; display: list-item; align-content: center; }
+.learning-details:not([open]) { padding-block: 8px; }
+.model-note { color: var(--text-muted, #52616b); font-size: 0.875rem; line-height: 1.6; margin-block: 16px; }
+.page-info-card h2 { font-size: 0.875rem; }

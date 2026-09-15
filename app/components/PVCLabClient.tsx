@@ -32,12 +32,12 @@ export function PVCLabClient() {
           <p>{isLeft ? 'この表示はqR型・陽性優位 → 右脚ブロック様。左室側を考える手がかりです。' : 'この表示はrS型・陰性優位 → 左脚ブロック様。右室側を考える手がかりです。'}</p>
           <p>「様」はPVCの形の呼び方で、脚そのもののブロックを診断しているわけではありません。左室流出路・大動脈洞起源でも左脚ブロック様になるため、V1だけで左右を確定できません。</p>
         </div></details>
-        <div className="pvc-reasoning">
+        <details className="pvc-reasoning learning-details"><summary>4つの手がかり</summary>
           <p><strong>① V1：</strong>{isLeft ? 'qR型・陽性優位 → 右脚ブロック様' : 'rS型・陰性優位 → 左脚ブロック様'}</p>
           <p><strong>② Ⅱ・Ⅲ・aVF：</strong>{pvcPolarityLabel(selection.inferiorPolarity)} → {selection.inferiorPolarity === 'positive' ? '上方の起源を考える' : '下方の起源を考える'}</p>
           <p><strong>③ Ⅰ・aVL：</strong>{isRvot ? 'この例はⅠが低振幅rS、aVLがQS' : `${pvcPolarityLabel(selection.lateralPolarity)} → 左右方向の手がかり`}</p>
           <p><strong>④ V5・V6：</strong>{isRvot ? 'R優位。移行帯も確認' : `${pvcPolarityLabel(selection.leftPrecordialPolarity)} → このモデルでは${selection.leftPrecordialPolarity === 'positive' ? '心基部・弁輪側' : '心尖部側'}`}</p>
-        </div>
+        </details>
         {isRvot ? <details className="pvc-transition">
           <summary>V1〜V6で移行帯を見比べる</summary>
           <p>参考画像に合わせ、V1〜V3はS優位、V4からR優位になる例を表示。RとSの優位が切り替わるところが移行帯です。V4以降の遅い移行は右室流出路を支持しますが、個人差と左室流出路との重なりがあります。</p>
@@ -69,7 +69,7 @@ export function PVCLabClient() {
           <div><span><i className="pvc-key-right" />右心系</span><span><i className="pvc-key-left" />左心系</span><span><i className="pvc-key-whole" />心臓全体の輪郭</span></div>
         </div>
       </section>
-      <InfoCard title="大まかな領域を学ぶためのモデル">
+      <InfoCard title="学習用・非診断用">
         <p>学習用の代表波形です。同じ部位でも波形は変わり、起源を確定する診断には使えません。</p>
       </InfoCard>
       <details className="pvc-sources"><summary>図・波形の根拠と表現の範囲</summary>

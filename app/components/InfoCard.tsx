@@ -11,7 +11,7 @@ export function InfoCard({ title, children }: InfoCardProps) {
       <span className="info-icon" aria-hidden="true">i</span>
       <div>
         <h2>{title}</h2>
-        <div className="info-message">{children}</div>
+        <details className="info-message"><summary>補足</summary>{children}</details>
       </div>
     </aside>
   );

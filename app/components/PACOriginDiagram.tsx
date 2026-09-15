@@ -50,11 +50,13 @@ export function PACOriginDiagram({ activeOriginId, onSelect }: Props) {
           {/* Anterior appendages attach to their own atrium, not to a vein. */}
           <g className="pac-anatomy-right">
             <path data-anatomy="rightAppendage" d={anatomy.rightAppendage} />
-            <path className="pac-appendage-fold" d="M417 210 L451 174 M427 222 L467 195 M439 235 L465 215" />
+            <path className="pac-open-junction" d="M383 206 L391 275" />
+            <path className="pac-appendage-fold" d="M408 217 Q444 205 466 199 M410 240 Q440 231 460 216 M413 259 Q435 251 448 236" />
           </g>
           <g className="pac-anatomy-left">
             <path data-anatomy="leftAppendage" d={anatomy.leftAppendage} />
-            <path className="pac-appendage-fold" d="M658 238 L683 195 M673 244 L695 221" />
+            <path className="pac-open-junction" d="M639 247 L664 264" />
+            <path className="pac-appendage-fold" d="M652 244 Q681 226 670 207 M660 252 Q680 242 681 226" />
           </g>
           <path className="pac-sinus-node" data-anatomy="sinusNode" d={anatomy.sinusNode} />
 

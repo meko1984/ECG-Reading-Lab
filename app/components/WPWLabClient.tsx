@@ -12,7 +12,7 @@ export function WPWLabClient() {
 
   return (
     <div className="wpw-lab">
-      <p className="page-lead">心臓上のケント束とV1誘導の波形は、どちらを選んでも同じタイプへ連動します。</p>
+      <p className="page-lead">ケント束とV1波形を選んで比べる。</p>
 
       <section className="content-card wpw-explorer" aria-labelledby="wpw-explorer-heading">
         <div className="section-heading">
@@ -23,7 +23,7 @@ export function WPWLabClient() {
           <span className="unit-badge">代表位置</span>
         </div>
 
-        <p className="wpw-interaction-hint">図のA・C・Bを選ぶと、下のV1波形も切り替わります。</p>
+        <p className="wpw-interaction-hint">A・C・Bをタップ。</p>
         <WPWHeartDiagram activeType={activeTypeId} onSelect={setActiveTypeId} />
 
         <div className="wpw-anatomy-key" aria-label="心臓図の色分け">
@@ -34,8 +34,7 @@ export function WPWLabClient() {
 
         <div className="wpw-selected-region" aria-live="polite">
           <strong>{activeType.typeName}（{activeType.attachment}）</strong>
-          <span>{activeType.anatomy}</span>
-          <small>{activeType.clinicalLimit}</small>
+          <details className="learning-details"><summary>部位の補足</summary><p>{activeType.anatomy}</p><p>{activeType.clinicalLimit}</p></details>
         </div>
       </section>
 
@@ -66,14 +65,14 @@ export function WPWLabClient() {
           <h3>{activeType.typeName}の代表波形「{activeType.v1Pattern}」</h3>
           <WPWWaveform waveform={activeType.waveform} pattern={activeType.v1Pattern} />
 
-          <div className="wpw-clue">
+          <details className="wpw-clue learning-details"><summary>波形の見方</summary>
             <p><strong>波形：</strong>{activeType.v1Clue}</p>
             <p><strong>見え方：</strong>{activeType.direction}</p>
-          </div>
+          </details>
         </div>
       </section>
 
-      <InfoCard title="V1だけでは場所を確定できません">
+      <InfoCard title="学習用・非診断用">
         <p>A・C・Bは、V1波形と代表的な付着部位を結びつける入門用モデルです。実際はBとCが右側・中隔で重なり、前興奮の程度でも波形が変わります。12誘導全体による推定と、必要に応じた電気生理学的検査で確認します。</p>
       </InfoCard>
 

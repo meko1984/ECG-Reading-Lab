@@ -15,8 +15,8 @@ export const LEAD_VIEWS: LeadView[] = [
   { id: 'V2', label: 'V2', position: [-.23, .27, 2.55], target: [-.03, -.08, .72], region: '中隔方向', description: '胸骨の左側から見る方向。中隔は左右の心室の間にある内部構造。照らした表面の奥にある方向として読む。', radius: .62 },
   { id: 'V3', label: 'V3', position: [.66, -.19, 2.48], target: [.34, -.47, .73], region: '前壁', description: 'V2とV4の間から見る方向。V4とともに前壁に関連づけて学ぶ。', radius: .73 },
   { id: 'V4', label: 'V4', position: [1.49, -.63, 2.12], target: [.62, -.77, .6], region: '前壁〜心尖部方向', description: '左前胸部から心尖部方向を見込む。心尖部だけを測定する誘導ではない。', radius: .76 },
-  { id: 'V5', label: 'V5', position: [2.25, -.63, 1.36], target: [.97, -.39, .25], region: '側壁', description: '左前側胸部から見る方向。V4・V6と同じ高さに並び、左側壁に関連づけて学ぶ。', radius: .8 },
-  { id: 'V6', label: 'V6', position: [2.67, -.63, .36], target: [1.02, -.3, -.12], region: '側壁', description: '左側胸部から見る方向。V5とともに左側壁に関連づけて学ぶ。', radius: .8 },
+  { id: 'V5', label: 'V5', position: [2.15, -.63, 1.05], target: [.97, -.39, .25], region: '側壁', description: '左前側胸部から見る方向。V4・V6と同じ高さに並び、左側壁に関連づけて学ぶ。', radius: .8 },
+  { id: 'V6', label: 'V6', position: [2.85, -.63, .15], target: [1.02, -.3, -.12], region: '側壁', description: '左側胸部から見る方向。V5とともに左側壁に関連づけて学ぶ。', radius: .8 },
 ];
 export const add = (a: Vec3, b: Vec3): Vec3 => [a[0] + b[0], a[1] + b[1], a[2] + b[2]];
 export const sub = (a: Vec3, b: Vec3): Vec3 => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
@@ -29,7 +29,7 @@ export function rotate(p: Vec3, yaw: number, pitch: number): Vec3 {
   return [x, p[1]*Math.cos(pitch)-z*Math.sin(pitch), p[1]*Math.sin(pitch)+z*Math.cos(pitch)];
 }
 export type Camera = { yaw: number; pitch: number; zoom: number };
-export const INITIAL_CAMERA: Camera = { yaw: -.48, pitch: .32, zoom: 1 };
+export const INITIAL_CAMERA: Camera = { yaw: -.25, pitch: .12, zoom: 1 };
 export function project(p: Vec3, camera: Camera, width: number, height: number) {
   const v = rotate(p, camera.yaw, camera.pitch);
   const scale = Math.min(width, height) * .15 * camera.zoom;
@@ -90,7 +90,7 @@ function surface(fn: (u: number,v: number) => Vec3, nu: number, nv: number): Flo
   }
   return new Float32Array(out);
 }
-function chamberDistance(p: Vec3, part: HeartPart): number {
+export function chamberDistance(p: Vec3, part: HeartPart): number {
   const d=sub(p,part.center),c=Math.cos(part.tilt),s=Math.sin(part.tilt);
   const x=d[0]*c+d[1]*s,y=-d[0]*s+d[1]*c;
   const taper=part.name.includes('室')?Math.max(.55,.88+.16*y/part.radii[1]):1;

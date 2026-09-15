@@ -28,7 +28,7 @@ export function PACLabClient() {
         </div>
 
         <PACOriginDiagram activeOriginId={activeOriginId} onSelect={setActiveOriginId} />
-        <p className="pac-diagram-note">破線＝右房の奥を通る肺静脈。4本とも左房へ。</p>
+        <p className="pac-diagram-note">心耳は手前（前方）、肺静脈は奥（後方）。<br />破線＝右房の奥を通る肺静脈。4本とも左房へ。</p>
 
         <p className="pac-selection-status" aria-live="polite">
           {activeOrigin.markerNumber}番、{activeOrigin.siteName}を選択中
@@ -75,9 +75,9 @@ export function PACLabClient() {
           })}
         </div>
 
-        <p className="pac-wave-overview-intro">洞調律 → PAC → 洞調律。中央の早いP′波を比べよう。</p>
+        <p className="pac-wave-overview-intro">洞調律 → PAC → 洞調律</p>
 
-        <div className="pac-reasoning">
+        <details className="pac-reasoning learning-details"><summary>P′波の手がかり</summary>
           <p><strong>いちばんの手がかり：</strong>{activeOrigin.mainClue}</p>
           <details className="pac-detail">
             <summary>理由と似る起源</summary>
@@ -85,22 +85,16 @@ export function PACLabClient() {
             <p><strong>似る場所：</strong>{activeOrigin.limit}</p>
             <p>6誘導は同じ時間軸。横1小マス＝40 ms。</p>
           </details>
-        </div>
+        </details>
       </section>
 
       <section className="content-card pac-guide-card" aria-labelledby="pac-guide-heading">
         <div className="section-heading">
           <div>
             <p className="eyebrow">波形を見たあとに</p>
-            <h2 id="pac-guide-heading">図の見方と考える順番</h2>
+            <h2 id="pac-guide-heading">選んだ起源</h2>
           </div>
         </div>
-
-        <section className="pac-reading-order" aria-label="起源を考える3つの順番">
-          <span><b>1</b>早い拍を見つける</span>
-          <span><b>2</b>P′波を比べる</span>
-          <span><b>3</b>起源候補を絞る</span>
-        </section>
 
         <div className="pac-selected-origin pac-selected-origin-detail">
           <p>{activeOrigin.chamber}</p>
@@ -123,7 +117,7 @@ export function PACLabClient() {
         </details>
       </section>
 
-      <InfoCard title="P′波は地図のヒント。確定診断ではありません">
+      <InfoCard title="学習用・非診断用">
         <p>波形は学習用の代表例。P′波だけで起源は確定できません。</p>
       </InfoCard>
 
@@ -134,6 +128,8 @@ export function PACLabClient() {
         <ul>
           <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4668306/" target="_blank" rel="noreferrer">心房・洞結節・心耳の解剖学的関係</a></li>
           <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5705746/" target="_blank" rel="noreferrer">左心房・肺静脈・左心耳の解剖</a></li>
+          <li><a href="https://pubmed.ncbi.nlm.nih.gov/37523771/" target="_blank" rel="noreferrer">右心耳の幅広い付け根と大動脈・右室流出路との位置関係</a></li>
+          <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12441441/" target="_blank" rel="noreferrer">解剖標本で見る左心耳・肺動脈幹・左上肺静脈の位置関係</a></li>
           <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8576278/" target="_blank" rel="noreferrer">冠静脈洞と右房開口部の解剖研究</a></li>
           <li><a href="https://onlinelibrary.wiley.com/doi/10.1002/joa3.13052" target="_blank" rel="noreferrer">JCS/JHRS 2022 不整脈診断・リスク評価ガイドライン</a></li>
           <li><a href="https://www.jacc.org/doi/10.1016/j.jacep.2021.05.005" target="_blank" rel="noreferrer">Kistlerら：P波形による焦点性心房頻拍起源の更新アルゴリズム</a></li>

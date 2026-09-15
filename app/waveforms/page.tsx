@@ -11,7 +11,7 @@ export default function WaveformsPage() {
       <header className="page-header">
         <p className="eyebrow">12誘導を見比べる</p>
         <h1>基本波形を見る</h1>
-        <p className="page-lead">同じ心臓の電気を12方向から見たときの、代表的な波形を見比べられます。</p>
+        <p className="page-lead">12方向の波形を見比べる。</p>
       </header>
 
       <div className="waveform-list">

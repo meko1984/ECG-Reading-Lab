@@ -73,10 +73,10 @@ export function MIHeart3D({activeId}:{activeId:MITerritoryId}) {
       <button type="button" aria-label="3Dを拡大" onClick={()=>setCamera(c=>({...c,zoom:clampZoom(c.zoom+.15)}))}>＋</button>
       <label><input type="checkbox" checked={labels} onChange={e=>setLabels(e.target.checked)}/>血管名</label>
     </div>
-    <p className={styles.hint}>{region.hint}</p>
+    <details className="learning-details"><summary>領域の補足</summary><p className={styles.hint}>{region.hint}</p></details>
     <div className={styles.legend}><span><i style={{background:territory.color}}/>選択領域</span><span><i style={{background:'#f34e29'}}/>責任血管の代表例</span><span>淡い青＝右心系 · 淡い桃＝左心系</span></div>
     <div className={styles.vessels}>{CORONARY_LABELS.map(m=><span key={m.short} data-active={region.arteries.includes(m.name)}><b>{m.short}</b>{m.name.replace(/（.*）/,'')}</span>)}</div>
-    <p className={styles.note}>左右は患者基準。薄いラベルと破線は奥側の血管。色の境界は学習用の目安で、正確な灌流域を表すものではない。</p>
+    <p className={styles.note}>左右＝患者基準／破線＝奥の血管／色＝領域の目安。</p>
     <details open={error?true:undefined}><summary>参考画像に合わせた2D模式図を見る</summary><MIHeartDiagram activeId={activeId} color={territory.color}/></details>
   </div>;
 }

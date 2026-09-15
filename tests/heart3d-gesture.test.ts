@@ -3,6 +3,11 @@ import assert from 'node:assert/strict';
 import { createHeartGesture } from '../app/domain/heart3d-gesture.ts';
 import { INITIAL_CAMERA } from '../app/domain/heart3d.ts';
 
+test('heart anatomy viewer can pinch to 3x while other viewers retain their limit',()=>{
+  const gesture=createHeartGesture(3);gesture.down(1,{x:0,y:0});gesture.down(2,{x:100,y:0});
+  assert.equal(gesture.move(2,{x:400,y:0})!(INITIAL_CAMERA).zoom,3);
+});
+
 test('single pointer rotates both axes, and dragging does not select a lead',()=>{
   const gesture=createHeartGesture();gesture.down(1,{x:100,y:100});
   const update=gesture.move(1,{x:140,y:120})!;const c=update(INITIAL_CAMERA);

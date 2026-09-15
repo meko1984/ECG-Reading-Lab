@@ -36,7 +36,7 @@ export function AxisLabClient() {
 
   return (
     <div className="axis-lab">
-      <p className="page-lead">Ⅰ誘導とⅡ誘導のQRSを動かし、平均電気軸の変化を確認できます。</p>
+      <p className="page-lead">Q・R・Sを動かして、軸を比べる。</p>
 
       <section className="content-card diagram-card" aria-labelledby="diagram-heading">
         <div className="section-heading">
@@ -118,17 +118,16 @@ export function AxisLabClient() {
         </div>
       </section>
 
-      <section className="content-card calculation-card" aria-labelledby="calculation-heading">
-        <p className="eyebrow">計算の中身</p>
-        <h2 id="calculation-heading">正味QRSから角度へ</h2>
+      <details className="content-card calculation-card learning-details">
+        <summary>計算の中身</summary>
         <dl>
           <div><dt>Ⅰ誘導</dt><dd>Q + R + S = <strong>{signed(result.leadI)} mm</strong></dd></div>
           <div><dt>Ⅱ誘導</dt><dd>Q + R + S = <strong>{signed(result.leadII)} mm</strong></dd></div>
           <div><dt>座標</dt><dd>x = {signed(result.x, 2)} / y = {signed(result.y, 2)}</dd></div>
         </dl>
-      </section>
+      </details>
 
-      <InfoCard title="学習用の簡易モデル">
+      <InfoCard title="学習用・非診断用">
         <p>波形の見え方と電気軸の関係を学ぶための補助ツールです。実際の判読・診断には使用しないでください。</p>
       </InfoCard>
     </div>

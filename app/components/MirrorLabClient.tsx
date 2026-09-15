@@ -15,8 +15,9 @@ export function MirrorLabClient() {
         </button>)}
       </div>
       <MirrorHeart3D key={scenario?.id || 'none'} selection={selection} />
-      <p className={styles.brief} aria-live="polite">{scenario ? '心臓の青＝選択した誘導側、橙＝鏡像側。色は見る方向の目安。' : '選択した誘導側を青で表示。固定の鏡像ペアなし。'}</p>
+      <p className={styles.brief} aria-live="polite">{scenario ? '色＝観察方向の目安。' : '固定の鏡像ペアなし。'}</p>
     </section>
+    <p className="model-note">学習用の模式模型・非診断用。</p>
     <details className="pvc-sources"><summary>補足・参考資料</summary>
       <p>{scenario?.observation} {scenario?.caution}</p>
       <p>左右は患者基準。冠動脈は右優位型の模式模型。青と橙は誘導が見る方向を表し、二つの梗塞部位や正確な灌流域を意味しない。前胸部側の色は中隔そのものの描画ではない。鏡像変化は必発でも完全な波形反転でもなく、診断には使わない。</p>

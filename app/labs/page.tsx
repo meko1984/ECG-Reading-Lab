@@ -1,5 +1,4 @@
 import { AppShell } from '@/app/components/AppShell';
-import { InfoCard } from '@/app/components/InfoCard';
 import { appPath } from '@/app/domain/paths';
 
 export const dynamic = 'force-static';
@@ -10,25 +9,22 @@ export default function LabsPage() {
       <header className="page-header">
         <p className="eyebrow">動かして考える</p>
         <h1>心電図の研究室</h1>
-        <p className="page-lead">数字や波形を動かしながら、心電図を読むときの考え方を確認できます。</p>
       </header>
 
       <div className="lab-list">
         <a className="lab-card lab-card-active" href={appPath('/labs/lead-views')}>
           <div className="lab-icon" aria-hidden="true">◎</div>
           <div>
-            <span className="lab-status">体験できる</span>
             <h2>心臓３Dモデル</h2>
-            <p>心臓と12誘導を一緒に回し、誘導が見る方向と代表領域を光で確かめます。</p>
+            <p>回す → 誘導を選ぶ → 光を見る</p>
           </div>
           <span className="lab-arrow" aria-hidden="true">›</span>
         </a>
         <a className="lab-card lab-card-active" href={appPath('/labs/electrodes')}>
           <div className="lab-icon" aria-hidden="true">●</div>
           <div>
-            <span className="lab-status">体験できる</span>
             <h2>電極装着ラボ</h2>
-            <p>10個の電極を人体へつけ、入れ替えや位置の間違いで12誘導がどう変わるか比べます。</p>
+            <p>電極を置く → 波形を比べる</p>
           </div>
           <span className="lab-arrow" aria-hidden="true">›</span>
         </a>
@@ -36,9 +32,8 @@ export default function LabsPage() {
         <a className="lab-card lab-card-active" href={appPath('/labs/axis')}>
           <div className="lab-icon" aria-hidden="true">↗</div>
           <div>
-            <span className="lab-status">体験できる</span>
             <h2>平均電気軸ラボ</h2>
-            <p>Ⅰ誘導とⅡ誘導のQRSを動かし、電気軸をベクトルで確認できます。</p>
+            <p>QRSを動かす → 軸を見る</p>
           </div>
           <span className="lab-arrow" aria-hidden="true">›</span>
         </a>
@@ -46,9 +41,8 @@ export default function LabsPage() {
         <a className="lab-card lab-card-active" href={appPath('/labs/wpw')}>
           <div className="lab-icon" aria-hidden="true">⌁</div>
           <div>
-            <span className="lab-status">体験できる</span>
             <h2>WPW・ケント束ラボ</h2>
-            <p>タイプA・B・Cの付着部位と、V1誘導のQRS波形を模式断面で結びつけます。</p>
+            <p>ケント束 ↔ V1波形</p>
           </div>
           <span className="lab-arrow" aria-hidden="true">›</span>
         </a>
@@ -56,9 +50,8 @@ export default function LabsPage() {
         <a className="lab-card lab-card-active" href={appPath('/labs/pac')}>
           <div className="lab-icon" aria-hidden="true">P′</div>
           <div>
-            <span className="lab-status">体験できる</span>
             <h2>心房期外収縮・起源ラボ</h2>
-            <p>早く出たP′波の向きから、心房内の代表的な起源候補をたどります。</p>
+            <p>心房の起源 ↔ P′波</p>
           </div>
           <span className="lab-arrow" aria-hidden="true">›</span>
         </a>
@@ -66,9 +59,8 @@ export default function LabsPage() {
         <a className="lab-card lab-card-active" href={appPath('/labs/pvc')}>
           <div className="lab-icon" aria-hidden="true">V</div>
           <div>
-            <span className="lab-status">体験できる</span>
             <h2>心室性期外収縮・起源ラボ</h2>
-            <p>V1とQRSの向きを4段階で見て、心室内の大まかな起源候補をたどります。</p>
+            <p>心室の起源 ↔ QRS</p>
           </div>
           <span className="lab-arrow" aria-hidden="true">›</span>
         </a>
@@ -76,9 +68,8 @@ export default function LabsPage() {
         <a className="lab-card lab-card-active" href={appPath('/labs/mi')}>
           <div className="lab-icon" aria-hidden="true">ST</div>
           <div>
-            <span className="lab-status">体験できる</span>
             <h2>心筋梗塞・部位判定ラボ</h2>
-            <p>ST変化が見える連続誘導から、心筋の代表領域と次に追加する誘導をたどります。</p>
+            <p>心筋の領域 ↔ ST変化</p>
           </div>
           <span className="lab-arrow" aria-hidden="true">›</span>
         </a>
@@ -86,17 +77,12 @@ export default function LabsPage() {
         <a className="lab-card lab-card-active" href={appPath('/labs/mirror')}>
           <div className="lab-icon" aria-hidden="true">⇅</div>
           <div>
-            <span className="lab-status">体験できる</span>
             <h2>ミラーイメージ・ST変化ラボ</h2>
-            <p>心臓を挟んだ両側の誘導を行き来し、ST上昇と鏡像変化を同時に見比べます。</p>
+            <p>誘導を選ぶ → 両側のSTを比べる</p>
           </div>
           <span className="lab-arrow" aria-hidden="true">›</span>
         </a>
       </div>
-
-      <InfoCard title="研究室は順次追加します">
-        <p>現在は心臓３Dモデル、電極装着ミス、平均電気軸、WPW・ケント束、心房期外収縮、心室性期外収縮、心筋梗塞部位判定、ミラーイメージの8つを体験できます。ほかのテーマも順次追加する予定です。</p>
-      </InfoCard>
     </AppShell>
   );
 }
