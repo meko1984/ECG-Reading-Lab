@@ -5,9 +5,10 @@ type AppShellProps = {
   title: string;
   children: ReactNode;
   backHref?: string;
+  contentClassName?: string;
 };
 
-export function AppShell({ title, children, backHref = '/' }: AppShellProps) {
+export function AppShell({ title, children, backHref = '/', contentClassName }: AppShellProps) {
   return (
     <main className="app-page">
       <header className="app-nav">
@@ -17,7 +18,7 @@ export function AppShell({ title, children, backHref = '/' }: AppShellProps) {
         <p>{title}</p>
         <span className="nav-spacer" aria-hidden="true" />
       </header>
-      <div className="page-content">{children}</div>
+      <div className={`page-content ${contentClassName ?? ''}`.trim()}>{children}</div>
     </main>
   );
 }

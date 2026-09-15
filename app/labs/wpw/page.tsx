@@ -5,7 +5,7 @@ export const dynamic = 'force-static';
 
 export default function WPWLabPage() {
   return (
-    <AppShell title="WPW・ケント束ラボ" backHref="/labs">
+    <AppShell title="WPW・ケント束局在ラボ" backHref="/labs" contentClassName="wpw-page-content">
       <WPWLabClient />
     </AppShell>
   );

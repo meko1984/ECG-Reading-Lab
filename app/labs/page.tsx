@@ -41,8 +41,8 @@ export default function LabsPage() {
         <a className="lab-card lab-card-active" href={appPath('/labs/wpw')}>
           <div className="lab-icon" aria-hidden="true">⌁</div>
           <div>
-            <h2>WPW・ケント束ラボ</h2>
-            <p>ケント束 ↔ V1波形</p>
+            <h2>WPW・ケント束局在ラボ</h2>
+            <p>V1＋下壁3誘導 ↔ 弁輪上の代表位置</p>
           </div>
           <span className="lab-arrow" aria-hidden="true">›</span>
         </a>

@@ -62,14 +62,14 @@ export function WPWWaveform({ waveform, pattern }: WPWWaveformProps) {
     `L 94 ${baseline}`,
     `C 100 ${baseline} 106 ${y(waveform.t)} 112 ${y(waveform.t)}`,
     `C 119 ${y(waveform.t)} 125 ${baseline} 132 ${baseline}`,
-    `L 342 ${baseline}`,
+    `L 172 ${baseline}`,
   ].join(' ');
 
   const summary = `V1誘導の代表模式波形。紙送り速度25ミリ毎秒、感度10ミリ毎ミリボルト。短いPR間隔と幅広いQRSを示す${pattern}。`;
 
   return (
     <figure className="wpw-waveform-figure">
-      <svg viewBox="0 0 350 160" role="img" aria-label={summary}>
+      <svg viewBox="0 0 180 150" role="img" aria-label={summary}>
         <defs>
           <pattern id="wpw-small-grid-v1" width="8" height="8" patternUnits="userSpaceOnUse">
             <path d="M 8 0 L 0 0 0 8" className="wpw-grid-small" />
@@ -79,9 +79,9 @@ export function WPWWaveform({ waveform, pattern }: WPWWaveformProps) {
             <path d="M 40 0 L 0 0 0 40" className="wpw-grid-large" />
           </pattern>
         </defs>
-        <rect width="350" height="160" className="wpw-paper" />
-        <rect width="350" height="160" fill="url(#wpw-grid-v1)" />
-        <rect x={qrsOnsetX} y="8" width={deltaWindowEndX - qrsOnsetX} height="144" className="delta-window" />
+        <rect width="180" height="150" className="wpw-paper" />
+        <rect width="180" height="150" fill="url(#wpw-grid-v1)" />
+        <rect x={qrsOnsetX} y="8" width={deltaWindowEndX - qrsOnsetX} height="134" className="delta-window" />
         <path d={path} className="wpw-trace" />
         <path d={`M ${qrsOnsetX} ${baseline} L ${deltaWindowEndX} ${y(waveform.delta)}`} className="delta-emphasis" />
         <path d={`M${qrsOnsetX} 24V31M${deltaWindowEndX} 24V31M${qrsOnsetX} 27.5H${deltaWindowEndX}`} className="delta-measure" />
