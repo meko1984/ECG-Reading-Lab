@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   actionPotentialAt,
+  chlorideTransportAt,
   createMembraneModel,
   ecgLeadIIAt,
   NORMAL_ELECTROLYTES,
@@ -10,6 +11,21 @@ import {
 } from '../app/domain/membrane-potential.ts';
 
 const settings = (change: Partial<ElectrolyteSettings>): ElectrolyteSettings => ({ ...NORMAL_ELECTROLYTES, ...change });
+
+test('illustrative open chloride conductance reverses at its equilibrium potential', () => {
+  for (const cl of [-1, 0, 1]) {
+    const ions = settings({ cl });
+    const model = createMembraneModel(ions);
+    assert.equal(chlorideTransportAt(0, ions, model).inward, false);
+    assert.equal(chlorideTransportAt(300, ions, model).inward, true);
+    assert.equal(chlorideTransportAt(800, ions, model).inward, false);
+    for (const time of [100, 192, 220, 300, 440, 470, 700]) {
+      const transport = chlorideTransportAt(time, ions, model);
+      assert.equal(transport.inward, actionPotentialAt(time, model) > transport.equilibrium);
+      assert.ok(time >= transport.start && time < transport.end);
+    }
+  }
+});
 
 test('normal model starts at a physiologic representative resting potential', () => {
   const model = createMembraneModel(NORMAL_ELECTROLYTES);

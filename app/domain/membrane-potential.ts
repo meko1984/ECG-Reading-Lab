@@ -106,6 +106,27 @@ export function actionPotentialAt(time: number, model: MembraneModel): number {
   return model.plateauPotential - 7 + (model.restingPotential - (model.plateauPotential - 7)) * eased;
 }
 
+// Illustrative open Cl conductance: intracellular Cl is held fixed and the
+// relative extracellular control represents a +/-25% concentration change.
+// This Nernst shift is an assumption for showing direction, not serum values.
+export function chlorideTransportAt(time: number, settings: ElectrolyteSettings, model: MembraneModel) {
+  const equilibrium = -50 - 26.7 * Math.log(1 + settings.cl * 0.25);
+  const risingCrossing = model.depolarizationStart +
+    (equilibrium - model.restingPotential) / (model.peakPotential - model.restingPotential) *
+    (model.upstrokeEnd - model.depolarizationStart);
+  let left = model.plateauEnd;
+  let right = model.repolarizationEnd;
+  for (let i = 0; i < 24; i++) {
+    const middle = (left + right) / 2;
+    if (actionPotentialAt(middle, model) > equilibrium) left = middle;
+    else right = middle;
+  }
+  const fallingCrossing = (left + right) / 2;
+  if (time < risingCrossing) return { start: 0, end: risingCrossing, inward: false, equilibrium };
+  if (time < fallingCrossing) return { start: risingCrossing, end: fallingCrossing, inward: true, equilibrium };
+  return { start: fallingCrossing, end: CYCLE_MS + 1, inward: false, equilibrium };
+}
+
 export function ecgLeadIIAt(time: number, settings: ElectrolyteSettings, model = createMembraneModel(settings)): number {
   const lowNa = Math.max(0, -settings.na);
   const highNa = Math.max(0, settings.na);

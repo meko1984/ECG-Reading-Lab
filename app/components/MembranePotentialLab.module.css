@@ -40,7 +40,11 @@
 .zoneLabel { font-size: 13px; font-weight: 800; fill: #526474; }
 .ion { stroke: #fff; stroke-width: 2; }
 .ionText { fill: #fff; font-size: 10px; font-weight: 900; text-anchor: middle; dominant-baseline: central; }
-.flow { fill: none; stroke-width: 5; stroke-linecap: round; marker-end: url(#arrowhead); stroke-dasharray: 8 8; animation: flow 1s linear infinite; }
+.flow { fill: none; opacity: .4; stroke-width: 5; stroke-linecap: round; marker-end: url(#arrowhead); stroke-dasharray: 8 8; }
+.roleLabel { fill: #596b79; font-size: 12px; font-weight: 700; }
+.mgRelation path { fill: none; stroke: #a24e6c; stroke-width: 2; stroke-dasharray: 5 5; opacity: .65; }
+.mgBadge { fill: #fff3f7; stroke: #a24e6c; stroke-width: 1.5; }
+.particleNote { margin: 6px 0 0; color: #627385; font-size: .72rem; }
 .pump { fill: #fff; stroke: #183f63; stroke-width: 2; }
 .pumpText { fill: #183f63; font-size: 11px; font-weight: 800; text-anchor: middle; }
 .chartFrame { fill: #fff; stroke: #d5dfe6; }
@@ -65,4 +69,39 @@
 @keyframes flow { to { stroke-dashoffset: -16; } }
 @media (max-width: 820px) { .electrolytes { grid-template-columns: repeat(2, minmax(0, 1fr)); } .visualGrid { grid-template-columns: 1fr; } .cellPanel { grid-row: auto; } }
 @media (max-width: 520px) { .timelineCard, .panel, .electrolyteCard { padding: 12px; border-radius: 12px; } .timelineLabels { display: block; } .timelineLabels span { display: block; margin-top: 2px; font-size: .78rem; } .electrolytes { grid-template-columns: 1fr; } .cardHeading { align-items: center; } .phaseTrack { font-size: 9px; } }
+@media (min-width: 700px) and (max-width: 1199px) {
+  :global(.page-content):has(.lab) { padding: 16px 20px 32px; }
+  .lab { gap: 12px; }
+  .timelineCard, .panel, .electrolyteCard { padding: 12px; }
+  .timelineCard { position: static; }
+  .electrolytes { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
+  .electrolyte { padding: 8px; }
+  .visualGrid { grid-template-columns: 1.12fr .88fr; gap: 12px; }
+  .cellPanel { grid-row: span 2; }
+  .panelHeader { flex-wrap: wrap; gap: 4px; }
+  .panelHeader h2 { font-size: 1rem; }
+  .cellPanel .panelHeader span { flex-basis: 100%; }
+  .linkedMessage { margin-top: 0; }
+}
+@media (min-width: 1000px) and (max-width: 1199px) and (max-height: 850px) {
+  .lab { grid-template-columns: 260px minmax(0, 1fr); align-items: start; }
+  .intro { grid-column: 1 / -1; }
+  .timelineCard { grid-column: 1; grid-row: 2; }
+  .timelineLabels { display: block; }
+  .timelineLabels span { display: block; margin-top: 2px; font-size: .78rem; }
+  .electrolyteCard { grid-column: 1; grid-row: 3; }
+  .cardHeading { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px; margin-bottom: 8px; }
+  .cardHeading h2 { font-size: .9rem; }
+  .cardHeading p { font-size: .75rem; line-height: 1.4; }
+  .reset { min-height: 36px; padding-inline: 8px; font-size: .8rem; }
+  .electrolytes { grid-template-columns: 1fr; gap: 5px; }
+  .electrolyte { display: grid; grid-template-columns: 48px minmax(0, 1fr); grid-template-rows: 24px 18px; column-gap: 6px; padding: 5px 8px; }
+  .ionTitle { grid-row: 1 / span 2; flex-direction: column; justify-content: center; gap: 0; }
+  .ionTitle strong { font-size: .9rem; }
+  .ionTitle output { font-size: .75rem; }
+  .electrolyte input { display: block; align-self: center; }
+  .rangeEnds { grid-column: 2; }
+  .visualGrid { grid-column: 2; grid-row: 2 / span 2; }
+  .linkedMessage, .limits { grid-column: 1 / -1; }
+}
 @media (prefers-reduced-motion: reduce) { .flow { animation: none; } }
