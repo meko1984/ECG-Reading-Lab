@@ -1,0 +1,68 @@
+:global(.page-content):has(.lab) { max-width: 1100px; }
+.lab { display: grid; gap: 16px; }
+.intro { margin: 0; color: #516273; font-weight: 700; }
+.timelineCard, .panel, .electrolyteCard { border: 1px solid #d8e1e8; border-radius: 16px; background: #fff; box-shadow: 0 8px 24px rgba(29, 54, 78, .06); }
+.timelineCard { padding: 16px; position: sticky; top: 8px; z-index: 5; }
+.timelineTop { display: flex; align-items: center; gap: 12px; }
+.play { min-width: 48px; min-height: 44px; border: 0; border-radius: 12px; background: #183f63; color: #fff; font: inherit; font-weight: 800; cursor: pointer; }
+.timelineLabels { flex: 1; display: flex; justify-content: space-between; gap: 12px; }
+.timelineLabels strong { color: #183f63; }
+.timelineLabels span { color: #627385; font-variant-numeric: tabular-nums; }
+.timeRange { width: 100%; margin: 12px 0 4px; accent-color: #1976d2; }
+.phaseTrack { display: flex; gap: 3px; font-size: 11px; color: #58697a; text-align: center; }
+.phaseTrack span { min-width: 20px; padding: 4px 2px; border-radius: 5px; background: #edf3f7; }
+.phaseTrack .active { background: #183f63; color: #fff; font-weight: 800; }
+.electrolyteCard { padding: 16px; }
+.cardHeading { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin-bottom: 12px; }
+.cardHeading h2, .panel h2 { margin: 0; color: #183f63; font-size: 1.15rem; }
+.cardHeading p { margin: 3px 0 0; color: #687a8a; font-size: .84rem; }
+.reset { border: 1px solid #b9c6d1; border-radius: 9px; background: #f7f9fb; color: #183f63; min-height: 40px; padding: 0 13px; font: inherit; font-weight: 800; cursor: pointer; }
+.electrolytes { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+.electrolyte { --ion: #1976d2; padding: 10px; border: 1px solid #d9e2e9; border-radius: 12px; background: #fbfcfd; }
+.ionTitle { display: flex; align-items: baseline; justify-content: space-between; gap: 6px; }
+.ionTitle strong { color: var(--ion); font-size: 1rem; }
+.ionTitle output { color: #425568; font-weight: 800; font-size: .82rem; }
+.electrolyte input { width: 100%; accent-color: var(--ion); }
+.rangeEnds { display: flex; justify-content: space-between; color: #778694; font-size: .72rem; }
+.visualGrid { display: grid; grid-template-columns: 1.12fr .88fr; gap: 16px; align-items: stretch; }
+.panel { min-width: 0; padding: 16px; overflow: hidden; }
+.panelHeader { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 8px; }
+.panelHeader span { color: #536677; font-size: .82rem; font-weight: 800; }
+.cellPanel { grid-row: span 2; }
+.cellSvg, .chart { display: block; width: 100%; height: auto; }
+.cellSvg text, .chart text { font-family: inherit; }
+.outside { fill: #eef7fb; }
+.inside { fill: #fff8ed; }
+.membrane { fill: #ead09a; stroke: #b88a35; stroke-width: 1.5; }
+.channel { fill: #fff; stroke: currentColor; stroke-width: 3; }
+.channelGate { stroke: currentColor; stroke-width: 5; stroke-linecap: round; }
+.channelLabel { font-size: 13px; font-weight: 800; fill: currentColor; }
+.zoneLabel { font-size: 13px; font-weight: 800; fill: #526474; }
+.ion { stroke: #fff; stroke-width: 2; }
+.ionText { fill: #fff; font-size: 10px; font-weight: 900; text-anchor: middle; dominant-baseline: central; }
+.flow { fill: none; stroke-width: 5; stroke-linecap: round; marker-end: url(#arrowhead); stroke-dasharray: 8 8; animation: flow 1s linear infinite; }
+.pump { fill: #fff; stroke: #183f63; stroke-width: 2; }
+.pumpText { fill: #183f63; font-size: 11px; font-weight: 800; text-anchor: middle; }
+.chartFrame { fill: #fff; stroke: #d5dfe6; }
+.gridLine { stroke: #e5edf2; stroke-width: 1; }
+.baseline { stroke: #9aabb9; stroke-width: 1.2; stroke-dasharray: 5 5; }
+.apTrace { fill: none; stroke: #d26a24; stroke-width: 3.2; stroke-linejoin: round; stroke-linecap: round; }
+.ecgTrace { fill: none; stroke: #183f63; stroke-width: 3.2; stroke-linejoin: round; stroke-linecap: round; }
+.cursor { stroke: #e24c4b; stroke-width: 2; }
+.cursorDot { fill: #e24c4b; stroke: #fff; stroke-width: 2; }
+.axisLabel { fill: #657787; font-size: 11px; }
+.phaseLabel { fill: #546779; font-size: 10px; font-weight: 800; }
+.linkedMessage { display: flex; align-items: center; gap: 9px; margin: 10px 0 0; padding: 9px 11px; border-radius: 10px; background: #edf5fb; color: #264d6d; font-size: .84rem; font-weight: 700; }
+.linkedMessage i { width: 9px; height: 9px; border-radius: 50%; background: #e24c4b; flex: 0 0 auto; }
+.legend { display: flex; flex-wrap: wrap; gap: 8px 14px; margin-top: 8px; font-size: .76rem; color: #556879; }
+.legend span { display: inline-flex; align-items: center; gap: 5px; }
+.legend i { width: 9px; height: 9px; border-radius: 50%; background: var(--ion); }
+.limits { border: 1px solid #d8e1e8; border-radius: 12px; padding: 0 14px; background: #f8fafb; color: #44586a; }
+.limits summary { min-height: 44px; align-content: center; cursor: pointer; font-weight: 800; color: #183f63; }
+.limits p, .limits ul { margin: 0 0 12px; line-height: 1.7; }
+.limits ul { padding-left: 20px; }
+.limits a { color: #1769aa; }
+@keyframes flow { to { stroke-dashoffset: -16; } }
+@media (max-width: 820px) { .electrolytes { grid-template-columns: repeat(2, minmax(0, 1fr)); } .visualGrid { grid-template-columns: 1fr; } .cellPanel { grid-row: auto; } }
+@media (max-width: 520px) { .timelineCard, .panel, .electrolyteCard { padding: 12px; border-radius: 12px; } .timelineLabels { display: block; } .timelineLabels span { display: block; margin-top: 2px; font-size: .78rem; } .electrolytes { grid-template-columns: 1fr; } .cardHeading { align-items: center; } .phaseTrack { font-size: 9px; } }
+@media (prefers-reduced-motion: reduce) { .flow { animation: none; } }

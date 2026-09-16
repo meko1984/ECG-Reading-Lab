@@ -12,6 +12,14 @@ export default function LabsPage() {
       </header>
 
       <div className="lab-list">
+        <a className="lab-card lab-card-active" href={appPath('/labs/membrane-potential')}>
+          <div className="lab-icon" aria-hidden="true">K⁺</div>
+          <div>
+            <h2>膜電位・電解質ラボ</h2>
+            <p>細胞膜 ↔ 活動電位 ↔ Ⅱ誘導</p>
+          </div>
+          <span className="lab-arrow" aria-hidden="true">›</span>
+        </a>
         <a className="lab-card lab-card-active" href={appPath('/labs/lead-views')}>
           <div className="lab-icon" aria-hidden="true">◎</div>
           <div>
