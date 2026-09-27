@@ -12,6 +12,17 @@ export default function LabsPage() {
       </header>
 
       <div className="lab-list">
+        {[
+          { path: '/labs/svt', icon: '↻', title: '上室頻拍・回路ラボ', description: 'AVNRT・AVRT・ATの回路 ↔ P′と12誘導' },
+          { path: '/labs/atrial-flutter', icon: 'F', title: '心房粗動・回旋ラボ', description: '回る方向・房室伝導比 ↔ F波と12誘導' },
+          { path: '/labs/pacemaker', icon: '│', title: 'ペースメーカー・刺激と応答ラボ', description: '刺激を動かす ↔ 捕捉・センシングを読む' },
+        ].map(lab => (
+          <a key={lab.path} className="lab-card lab-card-active" href={appPath(lab.path)}>
+            <div className="lab-icon" aria-hidden="true">{lab.icon}</div>
+            <div><h2>{lab.title}</h2><p>{lab.description}</p></div>
+            <span className="lab-arrow" aria-hidden="true">›</span>
+          </a>
+        ))}
         <a className="lab-card lab-card-active" href={appPath('/labs/lead-views')}>
           <div className="lab-icon" aria-hidden="true">◎</div>
           <div>

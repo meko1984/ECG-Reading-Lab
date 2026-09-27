@@ -1,0 +1,149 @@
+.lab { --atrial: #bd6517; --ventricular: #1567ad; display: grid; gap: 14px; }
+.lab h1 { font-size: clamp(1.55rem, 4vw, 2.1rem); margin: 4px 0 8px; }
+.lab h2 { font-size: 1.12rem; margin: 0 0 12px; }
+.lab h3 { font-size: 1rem; margin: 0 0 8px; }
+.lab p { line-height: 1.7; margin: 6px 0; }
+.lead { color: #54677b; }
+.workspace { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 18px; align-items: start; }
+.panel { background: #fff; border: 1px solid #d8e3ed; border-radius: 18px; padding: 20px; min-width: 0; }
+.choices { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0; }
+.lab button { border: 1px solid #bbccdc; background: #f7fafc; color: #23435d; border-radius: 10px; padding: 10px 12px; cursor: pointer; min-height: 44px; font: inherit; }
+.lab button[aria-pressed='true'] { background: #e5f1ff; border-color: #2875bb; color: #12548d; box-shadow: inset 0 0 0 1px #2875bb; }
+.lab button:focus-visible, .lab input:focus-visible, .heart [role='button']:focus-visible { outline: 3px solid #9d4b00; outline-offset: 3px; }
+.heart { width: 100%; height: auto; background: #f6f9fc; border-radius: 14px; }
+.heart text { font-family: inherit; fill: #304860; font-size: 16px; }
+.heart .chamber { fill: #e9f1f8; stroke: #b0c6d8; stroke-width: 2; }
+.heart .route { fill: none; stroke: #bd6517; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+.heart .site { fill: white; stroke: #6c859b; stroke-width: 2; }
+.heart [aria-pressed='true'] .site { fill: #fff0d8; stroke: #a55312; stroke-width: 3; }
+.heart [role='button'] { cursor: pointer; }
+.heart .siteText { font-size: 14px; font-weight: 700; }
+.routeCaption { padding: 10px 12px; border-left: 4px solid #bd6517; background: #fff7ed; border-radius: 4px; }
+.controls { display: grid; gap: 14px; margin-top: 16px; min-width: 0; }
+.control { display: grid; gap: 6px; font-size: .9rem; min-width: 0; }
+.control span { display: flex; justify-content: space-between; gap: 8px; }
+.control input[type='range'] { box-sizing: border-box; display: block; width: calc(100% - 2px); max-width: calc(100% - 2px); min-width: 0; margin-inline: 1px; accent-color: #1767ae; min-height: 28px; }
+.badge { display: inline-block; padding: 4px 10px; border-radius: 20px; background: #eaf3fb; color: #245c89; font-size: .8rem; }
+.legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: .82rem; color: #586b7a; }
+.atrial { color: var(--atrial); }
+.ventricular { color: var(--ventricular); }
+.leads { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(6, auto); grid-auto-flow: column; gap: 6px 12px; margin-top: 12px; }
+.wave { margin: 0; min-width: 0; }
+.wave figcaption { display: flex; justify-content: space-between; font-size: .85rem; }
+.wave svg { display: block; width: 100%; border: 1px solid #e3eaf2; border-radius: 5px; background: #fbfdff; }
+.trace { fill: none; stroke: #1567ad; stroke-width: 1.7; stroke-linejoin: round; }
+.atrialTrace { fill: none; stroke: #bd6517; stroke-width: 1.4; stroke-dasharray: 4 2; }
+.zoom { margin-top: 16px; }
+.zoom svg { width: 100%; display: block; }
+.timeline { width: 100%; height: auto; background: #f9fbfd; border-radius: 10px; }
+.timeline text { font-family: inherit; font-size: 12px; fill: #3d546a; }
+.finding { border-left: 4px solid #2675b8; background: #eff6fd; padding: 12px 16px; margin-top: 14px; border-radius: 4px; }
+.small { font-size: .82rem; color: #5c6d7c; }
+.cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.mini { border: 1px solid #dce5ed; border-radius: 12px; padding: 14px; background: #fff; min-width: 0; }
+.mini b { display: block; color: #185c95; margin-bottom: 5px; }
+.mini p { font-size: .87rem; }
+.tableWrap { overflow-x: auto; }
+.table { border-collapse: collapse; width: 100%; font-size: .88rem; }
+.table th, .table td { padding: 12px; border-bottom: 1px solid #dfe7ef; text-align: left; min-width: 120px; vertical-align: top; }
+.table th { background: #f3f7fa; }
+.sources summary { cursor: pointer; min-height: 38px; font-weight: 700; }
+.sources a { color: #1767ae; text-decoration: underline; }
+.pacingStrip { overflow-x: auto; min-width: 0; max-width: 100%; }
+.pacingStrip svg { min-width: 0; width: 100%; display: block; }
+.result { font-size: 1.2rem; font-weight: 750; color: #125c98; }
+.flow { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+.flow span { background: #edf4fa; border: 1px solid #cadae7; padding: 9px 13px; border-radius: 9px; }
+.compactHeader { margin: 0; }
+.compactHeader :global(.eyebrow), .compactHeader h1 { display: none; }
+.compactHeader .lead { margin: 0; font-size: .86rem; font-weight: 700; }
+.rhythmWorkspace { grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr); gap: 14px; align-items: stretch; }
+.rhythmControls, .rhythmOutput { display: grid; align-content: start; min-width: 0; }
+.rhythmControls .heart { max-height: 275px; object-fit: contain; }
+.rhythmChoices { margin: 8px 0; gap: 6px; }
+.rhythmChoices button { min-height: 36px; padding: 7px 9px; font-size: .82rem; }
+.rhythmControls .routeCaption { margin: 0; padding: 8px 10px; font-size: .86rem; line-height: 1.45; }
+.rhythmSettings { gap: 7px; margin-top: 8px; }
+.rhythmSettings .control { gap: 1px; font-size: .82rem; }
+.conductionControl { display: flex; align-items: center; justify-content: space-between; gap: 8px; color: #52687b; font-size: .82rem; }
+.conductionControl .choices { margin: 0; gap: 5px; }
+.conductionControl button { min-height: 32px; padding: 5px 9px; font-size: .8rem; }
+.utilityRow { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: .8rem; }
+.utilityRow label { display: flex; align-items: center; gap: 5px; white-space: nowrap; }
+.utilityRow button { min-height: 32px; padding: 5px 9px; font-size: .78rem; }
+.rhythmControls .finding { margin-top: 8px; padding: 9px 11px; }
+.rhythmControls .finding p { margin: 3px 0; font-size: .83rem; line-height: 1.5; }
+.findingTitle { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.findingTitle h3 { margin: 0; font-size: .92rem; }
+.rhythmOutput .leads { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: none; grid-auto-flow: row; gap: 5px 7px; margin-top: 7px; }
+.rhythmOutput .wave figcaption { font-size: .72rem; }
+.rhythmOutput .zoom, .rhythmOutput .waveScaleNote { display: none; }
+.rhythmOutput .legend { gap: 8px; font-size: .72rem; }
+.supportDetails { padding-block: 12px; }
+.supportGrid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, .8fr); gap: 14px; margin-top: 10px; }
+.supportGrid .cards { grid-template-columns: 1fr; gap: 7px; }
+.supportGrid .mini { padding: 9px 11px; }
+.supportGrid .mini p { margin: 2px 0; line-height: 1.45; }
+.pacemakerWorkspace { grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 14px; align-items: stretch; }
+.pacemakerControls, .pacemakerOutput { display: grid; align-content: start; }
+.pacemakerHeart { max-height: 218px; object-fit: contain; }
+.pacemakerButtonGroups { display: grid; grid-template-columns: 1fr 1.35fr; gap: 12px; margin-top: 9px; }
+.pacemakerButtonGroups h3 { font-size: .87rem; margin: 0; color: #52687b; }
+.pacemakerButtonGroups .choices { margin: 6px 0 0; gap: 6px; }
+.pacemakerButtonGroups button { min-height: 36px; padding: 7px 9px; font-size: .83rem; }
+.pacemakerControls .controls { gap: 8px; margin-top: 10px; }
+.pacemakerControls .control { gap: 2px; font-size: .83rem; }
+.resetButton { justify-self: end; min-height: 34px !important; padding: 6px 10px !important; font-size: .8rem !important; }
+.pacingView { margin-top: 2px; }
+.pacingView .small { margin-top: 0; }
+.pacemakerOutput .pacingStrip { max-width: 100%; }
+.pacemakerOutput .finding { margin-top: 9px; padding: 10px 13px; }
+.pacemakerOutput .finding p { margin: 3px 0; }
+.pacemakerOutput .result { font-size: 1.08rem; }
+.pacemakerOutput .routeCaption { margin: 8px 0 0; padding: 8px 10px; font-size: .86rem; }
+@media (min-width: 700px) and (orientation: landscape) {
+  .rhythmWorkspace { grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); }
+  .pacemakerWorkspace { grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr); }
+  .compactHeader .lead { margin: 2px 0; }
+  .panel { padding: 14px; }
+  .rhythmControls .heart { max-height: min(34vh, 255px); }
+  .pacemakerHeart { max-height: min(29vh, 210px); }
+}
+@media (max-width: 800px) { .workspace { grid-template-columns: 1fr; } .cards { grid-template-columns: 1fr; } .panel { padding: 14px; } }
+@media (max-width: 600px) {
+  .lab { gap: 8px; }
+  .compactHeader { display: none; }
+  .panel { padding: 10px; border-radius: 13px; }
+  .panel h2 { margin-bottom: 6px; font-size: .94rem; }
+  .rhythmControls .heart { max-height: 130px; }
+  .rhythmChoices { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); margin: 6px 0; gap: 4px; }
+  .rhythmChoices button { min-height: 30px; padding: 4px 5px; font-size: .7rem; }
+  .rhythmControls .routeCaption { padding: 5px 7px; font-size: .72rem; }
+  .rhythmSettings { margin-top: 5px; gap: 4px; }
+  .control span { font-size: .74rem; }
+  .control input[type='range'] { min-height: 22px; }
+  .conductionControl { font-size: .72rem; }
+  .conductionControl button, .utilityRow button { min-height: 28px; padding: 3px 7px; font-size: .7rem; }
+  .utilityRow { font-size: .7rem; }
+  .rhythmControls .finding { padding: 6px 8px; margin-top: 5px; }
+  .rhythmControls .finding p { font-size: .72rem; line-height: 1.35; }
+  .findingTitle h3 { font-size: .78rem; }
+  .badge { padding: 2px 6px; font-size: .66rem; }
+  .rhythmOutput .leads { gap: 3px 4px; margin-top: 4px; }
+  .rhythmOutput .wave figcaption { font-size: .6rem; line-height: 1; }
+  .rhythmOutput .legend { font-size: .62rem; }
+  .pacemakerHeart { max-height: 130px; }
+  .pacemakerButtonGroups { grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: 6px; margin-top: 5px; }
+  .pacemakerButtonGroups h3 { font-size: .72rem; }
+  .pacemakerButtonGroups .choices { gap: 4px; margin-top: 3px; }
+  .pacemakerButtonGroups button { min-height: 28px; padding: 3px 5px; font-size: .68rem; }
+  .pacemakerControls .controls { gap: 4px; margin-top: 5px; }
+  .resetButton { min-height: 27px !important; padding: 3px 7px !important; }
+  .pacingStrip svg { min-width: 0; }
+  .pacingView .small, .pacemakerOutput > h2 { margin-bottom: 2px; }
+  .pacemakerOutput .finding { padding: 6px 8px; margin-top: 5px; }
+  .pacemakerOutput .finding p { font-size: .72rem; line-height: 1.35; }
+  .pacemakerOutput .result { font-size: .86rem; }
+  .supportGrid { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) { .lab * { scroll-behavior: auto; } }
