@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { InfoCard } from '@/app/components/InfoCard';
+import { LabDisclaimer } from '@/app/components/LabDisclaimer';
 import { PACOriginDiagram } from '@/app/components/PACOriginDiagram';
 import { PACQuickWaveform, PACWaveform } from '@/app/components/PACWaveform';
 import {
@@ -102,29 +102,18 @@ export function PACLabClient() {
           <span>{activeOrigin.location}</span>
         </div>
 
-        <details className="pac-detail">
-          <summary>図の向きと色分け</summary>
-          <div className="pac-anatomy-key" aria-label="心臓図の色分けと向き">
-          <p><strong>向き：</strong>患者の右が画面左。前方の右房を開き、後方の左房・肺静脈も透視・展開した模式図です。心耳は前方への突出を示し、単一の断面や正確な寸法は表しません。</p>
-          <p><strong>接続：</strong>上下大静脈と冠静脈洞は右房へ、左右4本の肺静脈は左房へ。右肺静脈の破線部分は右房の奥で、右房への開口ではありません。冠静脈洞は心臓後面の房室溝を通ります。</p>
+        <div className="pac-anatomy-key" aria-label="心臓図の色分け">
           <div>
             <span><i className="pac-key-left-atrium" />左房・肺静脈</span>
             <span><i className="pac-key-right-atrium" />右房・上下大静脈</span>
             <span><i className="pac-key-coronary-sinus" />冠静脈洞</span>
             <span><i className="pac-key-four-chambers" />淡い背景＝心臓全体</span>
           </div>
-          </div>
-        </details>
+        </div>
       </section>
-
-      <InfoCard title="学習用・非診断用">
-        <p>波形は学習用の代表例。P′波だけで起源は確定できません。</p>
-      </InfoCard>
 
       <details className="pac-sources">
         <summary>正確さの範囲と参考文献</summary>
-        <p>P′波がT波に埋もれる例、非伝導性PAC、心房接合部起源、変行伝導、心房手術・アブレーション後は対象外です。</p>
-        <p>表示した波形は患者の実記録ではなく、正常電気軸を想定した洞性P・QRS・Tと、各部位で報告された代表的なP′波を組み合わせた模式図です。個人差、電気軸偏位、胸部誘導の移行帯などは再現していません。起源推定アルゴリズムは主に焦点性心房頻拍で検証されたもので、単発PACへの適用は同じ心房興奮の方向を手がかりにする学習上の外挿です。</p>
         <ul>
           <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4668306/" target="_blank" rel="noreferrer">心房・洞結節・心耳の解剖学的関係</a></li>
           <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5705746/" target="_blank" rel="noreferrer">左心房・肺静脈・左心耳の解剖</a></li>
@@ -141,6 +130,7 @@ export function PACLabClient() {
           <li><a href="https://pubmed.ncbi.nlm.nih.gov/33076624/" target="_blank" rel="noreferrer">右心耳起源のP波形</a></li>
         </ul>
       </details>
+      <LabDisclaimer />
     </div>
   );
 }

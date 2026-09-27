@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { InfoCard } from '@/app/components/InfoCard';
+import { LabDisclaimer } from '@/app/components/LabDisclaimer';
 import { MIHeart3D } from '@/app/components/MIHeart3D';
 import { MILeadStrip } from '@/app/components/MILeadStrip';
 import { MI_TERRITORIES, STANDARD_LEADS, miLeadChange, miLeadLabel, miTerritory, type MITerritoryId } from '@/app/domain/mi';
@@ -48,11 +48,8 @@ export function MILabClient() {
         </details>
       </section>
 
-      <InfoCard title="学習用・非診断用">
-        <p>この研究室は、急性冠閉塞を疑う典型的なST変化と心筋領域を結ぶ学習用モデルです。実際は症状、発症時刻、連続する2誘導以上のJ点変化、過去心電図、経時変化、トロポニン、心エコー、冠動脈評価を合わせます。左脚ブロック、ペーシング、左室肥大、早期再分極、心膜炎などでは単純な対応が使えません。胸痛・冷汗・呼吸困難などがある実患者では、この画面で判定せず緊急評価につなげます。</p>
-      </InfoCard>
-
-      <details className="pvc-sources"><summary>正確さの範囲と参考文献</summary><p>波形と心臓図はECGlab用の独自模式図で、患者の実記録ではありません。「前壁」「後壁」などは心電図上の学習用領域名で、画像診断上の解剖学的区分や責任冠動脈と完全な一対一ではありません。</p><ul><li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4919754/" target="_blank" rel="noreferrer">冠動脈の正常走行と灌流領域</a></li><li><a href="https://www.ahajournals.org/doi/pdf/10.1161/CIR.0000000000001309" target="_blank" rel="noreferrer">2025 ACC/AHA 急性冠症候群ガイドライン</a></li><li><a href="https://academic.oup.com/eurheartj/article/39/2/119/4095042" target="_blank" rel="noreferrer">2017 ESC STEMIガイドライン</a></li><li><a href="https://www.ahajournals.org/doi/pdf/10.1161/CIR.0000000000000617" target="_blank" rel="noreferrer">Fourth Universal Definition of Myocardial Infarction</a></li></ul></details>
+      <details className="pvc-sources"><summary>参考文献</summary><ul><li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4919754/" target="_blank" rel="noreferrer">冠動脈の正常走行と灌流領域</a></li><li><a href="https://www.ahajournals.org/doi/pdf/10.1161/CIR.0000000000001309" target="_blank" rel="noreferrer">2025 ACC/AHA 急性冠症候群ガイドライン</a></li><li><a href="https://academic.oup.com/eurheartj/article/39/2/119/4095042" target="_blank" rel="noreferrer">2017 ESC STEMIガイドライン</a></li><li><a href="https://www.ahajournals.org/doi/pdf/10.1161/CIR.0000000000000617" target="_blank" rel="noreferrer">Fourth Universal Definition of Myocardial Infarction</a></li></ul></details>
+      <LabDisclaimer />
     </div>
   );
 }

@@ -1,11 +1,12 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { ARTERIES, HEART_PARTS, INITIAL_CAMERA, LEAD_VIEWS, project, type Camera, type Vec3 } from '@/app/domain/heart3d';
+import { HEART_PARTS, INITIAL_CAMERA, LEAD_VIEWS, project, type Camera, type Vec3 } from '@/app/domain/heart3d';
 import { ANATOMY_ITEMS, anatomyPoint, isNearSide } from '@/app/domain/heart3d-anatomy';
 import { createHeartRenderer } from './heart3d-renderer';
 import { clampZoom, createHeartGesture } from '@/app/domain/heart3d-gesture';
 import styles from './Heart3DLabClient.module.css';
+import { LabDisclaimer } from './LabDisclaimer';
 
 function colorValue(element: HTMLElement,name:string): Vec3 {
   const hex=getComputedStyle(element).getPropertyValue(name).trim();
@@ -13,11 +14,12 @@ function colorValue(element: HTMLElement,name:string): Vec3 {
 }
 export function Heart3DLabClient() {
   const [selected,setSelected]=useState<string|null>(null);
-  const [camera,setCamera]=useState<Camera>(INITIAL_CAMERA);
+  const [camera,setCamera]=useState<Camera>({...INITIAL_CAMERA,zoom:1.24});
   const [size,setSize]=useState({width:400,height:450});
   const [anatomy,setAnatomy]=useState(true);
   const [opacity,setOpacity]=useState(.3);
-  const [labelGroup,setLabelGroup]=useState('すべて');
+  const [labelGroup,setLabelGroup]=useState('表面');
+  const [labelLanguage,setLabelLanguage]=useState<'ja'|'en'>('ja');
   const [error,setError]=useState('');
   const [ready,setReady]=useState(false);
   const [contextVersion,setContextVersion]=useState(0);
@@ -43,14 +45,30 @@ export function Heart3DLabClient() {
     return()=>cancelAnimationFrame(frame);
   },[camera,lead,size,contextVersion,opacity]);
   const choose=(id:string)=>setSelected(previous=>previous===id?null:id);
-  const reset=()=>{setSelected(null);setCamera({...INITIAL_CAMERA});};
-  // Labels stay at their projected 3D locations: no screen-space shuffling.
+  const reset=()=>{setSelected(null);setCamera({...INITIAL_CAMERA,zoom:1.24});};
   const labels=LEAD_VIEWS.map(lead=>({...project(lead.position,camera,size.width,size.height),lead}));
   const visibleParts=HEART_PARTS.filter(part=>isNearSide(part.anchor,camera));
-  const occupied=visibleParts.map(part=>({...project(anatomyPoint(part.anchor),camera,size.width,size.height),width:32,height:20}));
+  const occupied:Array<{x:number;y:number;depth:number;width:number;height:number}>=labels.map(label=>({...label,width:size.width<480?20:25,height:size.width<480?20:25}));
+  const visiblePartLabels=visibleParts.map(part=>{
+    const anchor=project(anatomyPoint(part.anchor),camera,size.width,size.height);
+    const english:Record<string,string>={'右房':'Right atrium','左房':'Left atrium','右室':'Right ventricle','左室':'Left ventricle'};
+    const label=labelLanguage==='ja'?part.name:english[part.name]||part.name;
+    const width=label.length*(size.width<480?7:8)+8,height=20;
+    const offsets=[[0,0],[0,-24],[0,24],[-28,0],[28,0],[-24,-20],[24,-20],[-24,20],[24,20]];
+    const candidates=offsets.map(([dx,dy])=>{
+      const x=anchor.x+dx,y=anchor.y+dy;
+      const overlap=occupied.reduce((total,p)=>total+Math.max(0,(width+p.width)/2+3-Math.abs(x-p.x))*Math.max(0,(height+p.height)/2+3-Math.abs(y-p.y)),0);
+      const outside=Math.max(0,width/2+4-x)+Math.max(0,x+width/2+4-size.width)+Math.max(0,height/2+4-y)+Math.max(0,y+height/2+4-size.height);
+      return {x,y,cost:overlap*100+outside*200+Math.hypot(dx,dy)};
+    });
+    const position=candidates.reduce((best,p)=>p.cost<best.cost?p:best);
+    occupied.push({...position,width,height,depth:anchor.depth});
+    return {part,label,anchor,...position};
+  });
   const anatomyLabels=ANATOMY_ITEMS.filter(item=>(labelGroup==='すべて'||item.group===labelGroup)&&isNearSide(item.point,camera)).map(item=>{
     const anchor=project(anatomyPoint(item.point),camera,size.width,size.height);
-    const width=item.name.length*(size.width<400?10:11)+8,height=18;
+    const label=labelLanguage==='ja'?item.name:item.english;
+    const width=label.length*(size.width<400?7:8)+8,height=18;
     // Stay attached to the anatomy. Only a small local offset is permitted;
     // never move a label to a screen-edge column to resolve overlap.
     const offsets=[[0,-10],[0,10],[0,0],...Array.from({length:32},(_,i)=>{
@@ -60,11 +78,11 @@ export function Heart3DLabClient() {
     const candidates=offsets.map(([dx,dy])=>{
       const x=anchor.x+dx,y=anchor.y+dy;
       const overlap=occupied.reduce((total,p)=>total+Math.max(0,(width+p.width)/2+3-Math.abs(x-p.x))*Math.max(0,(height+p.height)/2+2-Math.abs(y-p.y)),0);
-      return {x,y,cost:overlap+Math.hypot(dx,dy)*2};
+      return {x,y,cost:overlap*100+Math.hypot(dx,dy)*2};
     });
     const position=candidates.reduce((best,p)=>p.cost<best.cost?p:best);
     occupied.push({...position,width,height,depth:anchor.depth});
-    return {...item,anchor,...position};
+    return {...item,label,anchor,...position};
   });
   return <div className={styles.lab}>
     <header className={styles.header}><p className="eyebrow">回して、誘導の視点をたどる</p><h1>心臓３Dモデル</h1><p>ドラッグで回す → 誘導を選ぶ。</p></header>
@@ -102,8 +120,8 @@ export function Heart3DLabClient() {
           {ready&&anatomy&&anatomyLabels.map(p=><g key={p.name}><line x1={p.x} y1={p.y} x2={p.anchor.x} y2={p.anchor.y} opacity=".65"/><circle cx={p.anchor.x} cy={p.anchor.y} r="1.6"/></g>)}
         </svg>
         {ready&&!error&&labels.map(p=><button key={p.lead.id} data-lead={p.lead.id} className={`${styles.marker} ${p.lead.id===selected?styles.active:''} ${p.depth<-.3?styles.rear:''}`} style={{left:p.x,top:p.y,zIndex:Math.round(p.depth*10)+50}} aria-label={`${p.lead.label}誘導の観察方向`} aria-pressed={p.lead.id===selected} onClick={event=>{if(event.detail===0)choose(p.lead.id);}}><span>{p.lead.label}</span></button>)}
-        {ready&&anatomy&&!error&&anatomyLabels.map(p=><span key={p.name} className={styles.callout} style={{left:p.x,top:p.y}}>{p.name}</span>)}
-        {ready&&anatomy&&!error&&visibleParts.map(part=>{const p=project(anatomyPoint(part.anchor),camera,size.width,size.height);return <span key={part.name} className={styles.anatomyLabel} style={{left:p.x,top:p.y}}>{part.name}</span>;})}
+        {ready&&anatomy&&!error&&anatomyLabels.map(p=><span key={p.name} className={styles.callout} style={{left:p.x,top:p.y}}>{p.label}</span>)}
+        {ready&&anatomy&&!error&&visiblePartLabels.map(({part,label,x,y})=><span key={part.name} className={styles.anatomyLabel} style={{left:x,top:y}}>{label}</span>)}
         {error&&<div className={styles.error} role="alert">{error}</div>}
         {!ready&&!error&&<div className={styles.loading}>3D模型を準備中…</div>}
         <span className={styles.stageCaption}>指1本で回転 · 2本／ホイールで拡大（最大3倍）</span>
@@ -114,27 +132,12 @@ export function Heart3DLabClient() {
       <div className={styles.legend}><span><i className={styles.rightKey}/>右心系</span><span><i className={styles.leftKey}/>左心系</span><span><i className={styles.arteryKey}/>冠動脈</span><label><input type="checkbox" checked={anatomy} onChange={e=>setAnatomy(e.target.checked)}/>名称を表示</label></div>
       <div className={styles.displayControls}>
         <label>名称の種類 <select value={labelGroup} onChange={e=>setLabelGroup(e.target.value)}>{['すべて','表面','血管','内部'].map(group=><option key={group}>{group}</option>)}</select></label>
+        <label>ラベル <select aria-label="ラベルの言語" value={labelLanguage} onChange={e=>setLabelLanguage(e.target.value as 'ja'|'en')}><option value="ja">日本語</option><option value="en">English</option></select></label>
       </div>
       <p className={styles.viewHint}>名称は手前側の部位だけ表示。裏側の構造は透過した模型で見られる。誘導は図のマークをタップ。左右は患者基準。</p>
     </section>
-    <section className={styles.description} aria-live="polite" aria-atomic="true">
-      <p className={styles.kicker}>{lead?`${lead.label} 誘導 · 観察方向`:'LIGHT ON · 誘導を選ぼう'}</p>
-      <h2>{lead?.region||'どの方向から心臓を見る？'}</h2>
-      {lead&&<details className={styles.details}><summary>誘導の補足</summary><p>{lead.description}</p></details>}
-      {lead&&<button type="button" onClick={()=>setSelected(null)}>光を消す</button>}
-    </section>
-    <p className={styles.note}>胸部誘導は装着位置の方向を模式表示。V1・V2は第4肋間、V3はV2とV4の間、V4〜V6は同じ高さ。四肢誘導のマークは貼付位置ではなく電気軸の方向。回転しても心臓との位置関係は固定。</p>
-    <details className={styles.details}><summary>模型の見方・冠動脈について</summary>
-      <p>右室は前方、左房は後方、心尖部は左下前方に配置。前後の厚み、心耳、房室弁と流出路を示した模式模型。弁は弁輪と弁尖を簡略化して表示し、心筋の透過で内部を観察できる。実測画像から再構成した形状ではないよ。</p>
-      <p>右上肺動脈は右肺上葉へ向かう枝（上葉枝）を表示。右上肺静脈とは別の血管で、右上・右下・左上・左下の4本の肺静脈は左房へ入る。冠静脈洞は後面の房室溝を通って右房へつながる。</p>
-      <p>肺動脈幹は上行大動脈の左前方へ上がり、右肺動脈は大動脈の後ろを通って右肺へ向かう。左房から肺側へたどると、上肺静脈は前上方、下肺静脈は後下方へ向かう代表的な配置を示す。肺門や気管支、細かな分枝・個人差は省略しているよ。</p>
-      <p>冠動脈は大動脈の根元から分かれ、心臓の表面を走る。前面の左前下行枝、左側から後面へ回る左回旋枝、右側を回る右冠動脈と後下行枝を示している。後下行枝が右冠動脈から分かれる代表例で、実際の走行には個人差がある。</p>
-      <p>表示する主な枝：{[...new Set(ARTERIES.map(a=>a.name))].join('・')}。</p>
-      <p>模型を回しても、心臓に対する各誘導の向きは変わらない。光と領域の対応は学習用の簡略化で、冠動脈の支配域や病変部位を判定するものではない。1つの誘導だけで部位や病気を決めず、実際の判読では12誘導全体と臨床情報を合わせて考える。</p>
-      <p>参考：<a href="https://www.ncbi.nlm.nih.gov/books/NBK594493/" target="_blank" rel="noreferrer">Open RN：心電図の誘導</a>／<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8200569/" target="_blank" rel="noreferrer">冠動脈の解剖</a></p>
-      <p>形状・位置の照合：<a href="https://www.ncbi.nlm.nih.gov/books/NBK470256/" target="_blank" rel="noreferrer">心臓・弁・流出路</a>／<a href="https://www.ncbi.nlm.nih.gov/books/NBK557566/" target="_blank" rel="noreferrer">冠静脈洞</a>／<a href="https://www.kenhub.com/en/library/anatomy/pulmonary-arteries-and-veins" target="_blank" rel="noreferrer">肺動脈・肺静脈</a>／<a href="https://www.gehealthcare.co.uk/-/jssmedia/0ef8abc252094d10ab6c95f34abce977.pdf" target="_blank" rel="noreferrer">胸部誘導の配置</a></p>
-      <p>大血管の位置関係：<a href="https://www.vhlab.umn.edu/atlas/pulmonary-artery/index.shtml" target="_blank" rel="noreferrer">ミネソタ大学：肺動脈</a>／<a href="https://www.ncbi.nlm.nih.gov/books/NBK534804/" target="_blank" rel="noreferrer">肺静脈の走行</a>／<a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4195839/" target="_blank" rel="noreferrer">冠静脈洞のCT・MRI解剖</a></p>
-    </details>
-    <p className={styles.note}>学習用の模式模型・非診断用。</p>
+    {lead&&<section className={styles.description} aria-live="polite" aria-atomic="true"><h2>{lead.region}</h2><button type="button" onClick={()=>setSelected(null)}>光を消す</button></section>}
+    <details className={styles.details}><summary>参考文献</summary><ul><li><a href="https://www.ncbi.nlm.nih.gov/books/NBK594493/" target="_blank" rel="noreferrer">Open RN：心電図の誘導</a></li><li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC8200569/" target="_blank" rel="noreferrer">冠動脈の解剖</a></li><li><a href="https://www.ncbi.nlm.nih.gov/books/NBK470256/" target="_blank" rel="noreferrer">心臓・弁・流出路の解剖</a></li></ul></details>
+    <LabDisclaimer />
   </div>;
 }

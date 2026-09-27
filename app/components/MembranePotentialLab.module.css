@@ -68,7 +68,42 @@
 .limits a { color: #1769aa; }
 @keyframes flow { to { stroke-dashoffset: -16; } }
 @media (max-width: 820px) { .electrolytes { grid-template-columns: repeat(2, minmax(0, 1fr)); } .visualGrid { grid-template-columns: 1fr; } .cellPanel { grid-row: auto; } }
-@media (max-width: 520px) { .timelineCard, .panel, .electrolyteCard { padding: 12px; border-radius: 12px; } .timelineLabels { display: block; } .timelineLabels span { display: block; margin-top: 2px; font-size: .78rem; } .electrolytes { grid-template-columns: 1fr; } .cardHeading { align-items: center; } .phaseTrack { font-size: 9px; } }
+@media (max-width: 520px) {
+  :global(.page-content):has(.lab) { padding:8px 10px 18px; }
+  .lab { gap:7px; }
+  .intro { font-size:.76rem; line-height:1.35; }
+  .timelineCard, .panel, .electrolyteCard { padding:8px; border-radius:10px; }
+  .timelineCard { position:static; }
+  .timelineTop { gap:8px; }
+  .play { min-width:42px; min-height:40px; }
+  .timelineLabels { display:flex; }
+  .timelineLabels strong { font-size:.82rem; }
+  .timelineLabels span { font-size:.7rem; }
+  .timeRange { margin:5px 0 1px; }
+  .phaseTrack { font-size:8px; }
+  .phaseTrack span { padding:2px 1px; }
+  .cardHeading { align-items:center; margin-bottom:5px; }
+  .cardHeading h2,.panel h2 { font-size:.86rem; }
+  .cardHeading p { display:none; }
+  .reset { min-height:34px; padding-inline:7px; font-size:.72rem; }
+  .electrolytes { grid-template-columns:repeat(5,minmax(0,1fr)); gap:3px; }
+  .electrolyte { min-width:0; padding:4px 3px; border-radius:8px; }
+  .ionTitle { display:grid; justify-items:center; gap:0; }
+  .ionTitle strong { font-size:.72rem; }
+  .ionTitle output { font-size:.56rem; white-space:nowrap; }
+  .electrolyte input { margin:1px 0; }
+  .rangeEnds { font-size:.48rem; }
+  .visualGrid { grid-template-columns:1.12fr .88fr; grid-template-rows:1fr 1fr; gap:5px; }
+  .cellPanel { grid-row:1 / span 2; }
+  .panel { padding:5px; }
+  .panelHeader { display:block; margin-bottom:2px; }
+  .panelHeader h2 { font-size:.72rem; }
+  .panelHeader span { display:none; }
+  .particleNote,.legend { display:none; }
+  .linkedMessage { margin:0; padding:6px 8px; font-size:.66rem; }
+  .limits { padding-inline:10px; font-size:.72rem; }
+  .limits summary { min-height:38px; }
+}
 @media (min-width: 700px) and (max-width: 1199px) {
   :global(.page-content):has(.lab) { padding: 16px 20px 32px; }
   .lab { gap: 12px; }

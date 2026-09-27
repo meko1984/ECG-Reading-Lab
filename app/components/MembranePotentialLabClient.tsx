@@ -20,6 +20,7 @@ import {
   type MembraneModel,
 } from '@/app/domain/membrane-potential';
 import styles from './MembranePotentialLab.module.css';
+import { LabDisclaimer } from './LabDisclaimer';
 
 const CHART = { left: 52, right: 748, top: 18, bottom: 202 };
 const xForTime = (time: number) => CHART.left + (time / CYCLE_MS) * (CHART.right - CHART.left);
@@ -44,11 +45,11 @@ function SyncedChart({ kind, time, settings, model }: { kind: 'ap' | 'ecg'; time
       <rect x="52" y="18" width="696" height="184" rx="7" className={styles.chartFrame} />
       {[0, 225, 450, 675, 900].map((tick) => <line key={tick} x1={xForTime(tick)} x2={xForTime(tick)} y1="18" y2="202" className={styles.gridLine} />)}
       {isAp ? [-100, -50, 0].map((tick) => <g key={tick}><line x1="52" x2="748" y1={yForValue(tick)} y2={yForValue(tick)} className={styles.gridLine} /><text x="46" y={yForValue(tick) + 4} textAnchor="end" className={styles.axisLabel}>{tick}</text></g>) : <line x1="52" x2="748" y1={yForValue(0)} y2={yForValue(0)} className={styles.baseline} />}
-      {isAp && phaseBoundaries.slice(0, -1).map((boundary, index) => <text key={boundary} x={xForTime(boundary) + 5} y="34" className={styles.phaseLabel}>{index}</text>)}
+      {isAp && phaseBoundaries.slice(0, -1).map((boundary, index) => <text key={boundary} x={xForTime((boundary + phaseBoundaries[index + 1]) / 2)} y="34" textAnchor="middle" className={styles.phaseLabel}>{index}</text>)}
       <path d={pathFromSeries(points, yForValue)} className={isAp ? styles.apTrace : styles.ecgTrace} />
       <line x1={cursorX} x2={cursorX} y1="18" y2="202" className={styles.cursor} />
       <circle cx={cursorX} cy={cursorY} r="5.5" className={styles.cursorDot} />
-      {[0, 225, 450, 675, 900].map((tick) => <text key={tick} x={xForTime(tick)} y="221" textAnchor="middle" className={styles.axisLabel}>{tick}</text>)}
+      {[0, 225, 675, 900].map((tick) => <text key={tick} x={xForTime(tick)} y="221" textAnchor="middle" className={styles.axisLabel}>{tick}</text>)}
       <text x="16" y="112" transform="rotate(-90 16 112)" textAnchor="middle" className={styles.axisLabel}>{isAp ? '膜電位 (mV)' : '電位 (模式)'}</text>
       <text x="400" y="228" textAnchor="middle" className={styles.axisLabel}>時間 (ms)</text>
     </svg>
@@ -60,7 +61,7 @@ const outsidePositions: Record<ElectrolyteId, Array<[number, number]>> = {
   k: [[102, 110], [185, 140], [274, 116], [372, 140], [480, 119], [586, 138], [550, 150]],
   cl: [[455, 76], [565, 94], [652, 62], [710, 100], [394, 54], [600, 48], [494, 105]],
   ca: [[305, 70], [370, 102], [430, 70], [510, 105], [583, 72], [750, 50], [338, 50]],
-  mg: [[690, 66], [720, 92], [740, 150], [628, 82], [704, 44], [622, 48], [742, 68]],
+  mg: [[690, 66], [750, 122], [740, 150], [628, 82], [704, 44], [622, 48], [742, 68]],
 };
 
 const insidePositions: Record<ElectrolyteId, Array<[number, number]>> = {
@@ -196,8 +197,6 @@ export function MembranePotentialLabClient() {
 
       <details className={styles.limits}>
         <summary>モデルの範囲・参考文献</summary>
-        <p>心室筋細胞1個の代表的な活動電位と体表Ⅱ誘導を対応させた模式図。体表心電図は多数の細胞と伝導系の合成なので、細胞1個の電位と同じ波形ではない。K⁺とCa²⁺の典型的な方向を強調し、Na⁺・Cl⁻・Mg²⁺は根拠の不確実さに合わせて変化を小さくしている。濃度値、重症度、疾患、治療判断には使えない。</p>
-        <p>粒子の移動速度・個数は実測値ではなく、膜を通る向きを見るための模式表現。濃度操作は細胞外の条件を変え、細胞内の粒数が即座に逆向きに変わる表現はしない。ポンプは活動電位の各相を通じて働くが、図の矢印は静止期に代表表示している。Clはチャネルが開いていると仮定した方向の模式表示。細胞内Clを固定し、基準のCl平衡電位を−50 mV、細胞外Cl操作を基準の±25％と仮定している。膜電位がCl平衡電位より高いと流入、低いと流出を示す。実際の開閉や流量は再現していない。MgはCa電流の調節とMg–ATPの関与を点線で示す（移動経路や結合の再現ではない）。Mgの濃度による波形変化には仮の設定を含み、実際の変化量を予測するものではない。</p>
         <ul>
           <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7935690/" target="_blank" rel="noreferrer">心室筋活動電位の相と主要イオン電流</a></li>
           <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5399982/" target="_blank" rel="noreferrer">低K・高Kの電気生理</a></li>
@@ -208,6 +207,7 @@ export function MembranePotentialLabClient() {
           <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3110595/" target="_blank" rel="noreferrer">心室筋モデルとCl電流の限界</a></li>
         </ul>
       </details>
+      <LabDisclaimer />
     </div>
   );
 }

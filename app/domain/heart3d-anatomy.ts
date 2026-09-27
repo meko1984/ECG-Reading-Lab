@@ -9,25 +9,25 @@ export function isNearSide(point:Vec3,camera:Camera):boolean {
   const relative=sub(anatomyPoint(point),anatomyPoint([0,.3,-.15]));
   return rotate(relative,camera.yaw,camera.pitch)[2]>.025;
 }
-export type AnatomyItem = { name:string; point:Vec3; group:'表面'|'血管'|'内部'; side: 'left'|'right' };
+export type AnatomyItem = { name:string; english:string; point:Vec3; group:'表面'|'血管'|'内部'; side: 'left'|'right' };
 export const ANATOMY_ITEMS: AnatomyItem[] = [
-  {name:'左回旋枝',point:vesselAnchor('左回旋枝',8),group:'血管',side:'right'},
-  {name:'右冠動脈',point:vesselAnchor('右冠動脈',5),group:'血管',side:'left'},
-  {name:'左前下行枝',point:vesselAnchor('左前下行枝',7),group:'血管',side:'right'},
-  {name:'左心耳',point:[.73,.99,.35],group:'表面',side:'right'},
-  {name:'右心耳',point:[-.51,1.03,.48],group:'表面',side:'left'},
-  {name:'心尖部',point:[.72,-1.29,.05],group:'表面',side:'right'},
-  {name:'僧帽弁',point:[.3,.4,-.35],group:'内部',side:'right'},
-  {name:'三尖弁',point:[-.48,.26,.2],group:'内部',side:'left'},
-  {name:'右室流出路',point:vesselAnchor('肺動脈幹',1),group:'内部',side:'left'},
-  {name:'左室流出路',point:[.04,.57,.04],group:'内部',side:'right'},
-  {name:'上大静脈',point:[-.95,1.48,-.03],group:'血管',side:'left'},
-  {name:'右上肺動脈',point:vesselAnchor('右上肺動脈',1),group:'血管',side:'left'},
-  {name:'右上肺静脈',point:vesselAnchor('右上肺静脈',2),group:'血管',side:'left'},
-  {name:'右下肺静脈',point:vesselAnchor('右下肺静脈',2),group:'血管',side:'left'},
-  {name:'左上肺静脈',point:vesselAnchor('左上肺静脈',2),group:'血管',side:'right'},
-  {name:'左下肺静脈',point:vesselAnchor('左下肺静脈',2),group:'血管',side:'right'},
-  {name:'冠静脈洞',point:vesselAnchor('冠静脈洞',5),group:'血管',side:'left'},
+  {name:'左回旋枝',english:'Left circumflex',point:vesselAnchor('左回旋枝',8),group:'血管',side:'right'},
+  {name:'右冠動脈',english:'Right coronary artery',point:vesselAnchor('右冠動脈',5),group:'血管',side:'left'},
+  {name:'左前下行枝',english:'Left anterior descending',point:vesselAnchor('左前下行枝',7),group:'血管',side:'right'},
+  {name:'左心耳',english:'Left atrial appendage',point:[.73,.99,.35],group:'表面',side:'right'},
+  {name:'右心耳',english:'Right atrial appendage',point:[-.51,1.03,.48],group:'表面',side:'left'},
+  {name:'心尖部',english:'Cardiac apex',point:[.72,-1.29,.05],group:'表面',side:'right'},
+  {name:'僧帽弁',english:'Mitral valve',point:[.3,.4,-.35],group:'内部',side:'right'},
+  {name:'三尖弁',english:'Tricuspid valve',point:[-.48,.26,.2],group:'内部',side:'left'},
+  {name:'右室流出路',english:'RV outflow tract',point:vesselAnchor('肺動脈幹',1),group:'内部',side:'left'},
+  {name:'左室流出路',english:'LV outflow tract',point:[.04,.57,.04],group:'内部',side:'right'},
+  {name:'上大静脈',english:'Superior vena cava',point:[-.95,1.48,-.03],group:'血管',side:'left'},
+  {name:'右上肺動脈',english:'Right upper pulmonary artery',point:vesselAnchor('右上肺動脈',1),group:'血管',side:'left'},
+  {name:'右上肺静脈',english:'Right upper pulmonary vein',point:vesselAnchor('右上肺静脈',2),group:'血管',side:'left'},
+  {name:'右下肺静脈',english:'Right lower pulmonary vein',point:vesselAnchor('右下肺静脈',2),group:'血管',side:'left'},
+  {name:'左上肺静脈',english:'Left upper pulmonary vein',point:vesselAnchor('左上肺静脈',2),group:'血管',side:'right'},
+  {name:'左下肺静脈',english:'Left lower pulmonary vein',point:vesselAnchor('左下肺静脈',2),group:'血管',side:'right'},
+  {name:'冠静脈洞',english:'Coronary sinus',point:vesselAnchor('冠静脈洞',5),group:'血管',side:'left'},
 ];
 
 function valve(center:Vec3, rx:number, rz:number, cusps:number):Float32Array {

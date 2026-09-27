@@ -19,6 +19,29 @@ test('the five teaching errors are recognized from physical placement', () => {
   }
 });
 
+test('right-sided placement moves all six chest electrodes to V1R through V6R', () => {
+  const placement = placementForScenario('right-sided');
+  assert.equal(analyzePlacement(placement).id, 'right-sided');
+  assert.equal(Object.values(placement).length, 10);
+  assert.equal(placement.V1R, 'V1');
+  assert.equal(placement.V4R, 'V4');
+  assert.equal(placement.V6R, 'V6');
+  assert.equal(placement.V1, undefined);
+  assert.equal(placement.V6, undefined);
+});
+
+test('posterior placement keeps V1 to V3 anterior and relabels V4 to V6 as V7 to V9', () => {
+  const placement = placementForScenario('posterior');
+  assert.equal(analyzePlacement(placement).id, 'posterior');
+  assert.equal(Object.values(placement).length, 10);
+  assert.equal(placement.V1, 'V1');
+  assert.equal(placement.V3, 'V3');
+  assert.equal(placement.V7, 'V4');
+  assert.equal(placement.V8, 'V5');
+  assert.equal(placement.V9, 'V6');
+  assert.equal(placement.V4, undefined);
+});
+
 test('RA-LA reversal inverts I and swaps II with III', () => {
   const normalI = waveformForScenario('I', 'correct');
   const reversedI = waveformForScenario('I', 'ra-la');

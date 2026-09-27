@@ -7,7 +7,7 @@ type Props = {
   normal: ECGWaveformParameters;
   current: ECGWaveformParameters;
   changed: boolean;
-  unavailableReason?: 'disconnected' | 'unsupported';
+  unavailableReason?: 'disconnected' | 'unsupported' | 'placement-only';
   pWaveShape?: 'single' | 'biphasic';
 };
 
@@ -27,11 +27,13 @@ function trace(parameters: ECGWaveformParameters, pWaveShape: 'single' | 'biphas
 
 export function ElectrodeWaveform({ lead, normal, current, changed, unavailableReason, pWaveShape = 'single' }: Props) {
   const unavailable = unavailableReason !== undefined;
-  const stateLabel = unavailableReason === 'disconnected' ? '未接続' : unavailableReason === 'unsupported' ? 'モデル外' : changed ? '変化' : '基準';
+  const stateLabel = unavailableReason === 'disconnected' ? '未接続' : unavailableReason === 'unsupported' ? 'モデル外' : unavailableReason === 'placement-only' ? '位置確認' : changed ? '変化' : '基準';
   const accessibleDescription = unavailableReason === 'disconnected'
     ? '電極未接続のため波形なし'
     : unavailableReason === 'unsupported'
       ? '簡易モデル対象外のため波形なし'
+      : unavailableReason === 'placement-only'
+        ? '追加誘導の位置確認用。波形モデルは表示しません'
       : changed ? '装着ミス時と基準の比較' : '基準波形';
   return (
     <figure className={`electrode-waveform ${changed ? 'is-changed' : ''} ${unavailable ? 'is-unavailable' : ''}`}>
@@ -42,7 +44,7 @@ export function ElectrodeWaveform({ lead, normal, current, changed, unavailableR
         <rect className="electrode-wave-grid" width="180" height="68" fill={`url(#electrode-grid-${lead})`} />
         {!unavailable && changed && <path className="electrode-wave-normal" d={trace(normal)} />}
         {!unavailable && <path className="electrode-wave-current" d={trace(current, pWaveShape)} />}
-        {unavailable && <text className="electrode-wave-unavailable" x="90" y="38">{unavailableReason === 'disconnected' ? '電極未接続' : 'モデル外'}</text>}
+        {unavailable && <text className="electrode-wave-unavailable" x="90" y="38">{unavailableReason === 'disconnected' ? '電極未接続' : unavailableReason === 'placement-only' ? '位置確認用' : 'モデル外'}</text>}
       </svg>
     </figure>
   );

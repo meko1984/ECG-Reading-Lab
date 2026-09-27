@@ -2,6 +2,7 @@ import type { CSSProperties } from 'react';
 import { PVC_ORIGINS, type PVCOriginId } from '@/app/domain/pvc';
 
 type Props = { activeOriginId: PVCOriginId; onSelect: (id: PVCOriginId) => void };
+const ORIGINS_BY_NUMBER = [...PVC_ORIGINS].sort((a, b) => a.markerNumber - b.markerNumber);
 const MARKERS: Record<PVCOriginId, readonly [number, number]> = {
   'right-upper-outer': [342, 247], 'right-upper-inner': [216, 500],
   'right-lower-outer': [151, 383], 'right-apex': [352, 564],
@@ -92,19 +93,19 @@ export function PVCOriginDiagram({ activeOriginId, onSelect }: Props) {
             <text x="464" y="286">左房</text>
             <text x="475" y="211">肺動脈弁</text><path d="M447 207L398 189" />
             <text x="249" y="207">大動脈弁</text><path d="M270 211L301 226" />
-            <text x="96" y="435">下大静脈</text><path d="M115 426L131 407" />
+            <text x="210" y="455">下大静脈</text><path d="M195 447L150 410" />
             <text x="285" y="484">調節帯</text><path d="M281 468L272 447" />
             <text x="377" y="487">心室中隔</text><path d="M369 474L348 449" />
           </g>
           <g className="pvc-anatomy-labels" aria-hidden="true"><text x="205" y="402">右室</text><text x="464" y="420">左室</text></g>
           <g className="pvc-annulus-note" aria-hidden="true">
             <path d="M194 346 Q189 333 203 324" />
-            <text x="182" y="290">三尖弁輪</text><text x="182" y="312">自由壁</text>
+            <text x="182" y="290">三尖弁輪</text><text x="182" y="318">自由壁</text>
           </g>
           </g>
           {/* Labels and numbers share one control; small dots locate the broad regions. */}
           <g className="pvc-site-leaders" aria-hidden="true">
-            {PVC_ORIGINS.map(origin => {
+            {ORIGINS_BY_NUMBER.map(origin => {
               const [x, y] = MARKERS[origin.id];
               const isRight = origin.ventricle === 'right';
               const start = isRight ? 250 : 750;
@@ -115,7 +116,7 @@ export function PVCOriginDiagram({ activeOriginId, onSelect }: Props) {
             })}
           </g>
         </svg>
-        {PVC_ORIGINS.map(origin => {
+        {ORIGINS_BY_NUMBER.map(origin => {
           return <button key={origin.id} type="button" className={`pvc-origin-marker pvc-origin-callout ${origin.ventricle === 'right' ? 'on-left' : 'on-right'} ${origin.region === 'lower-outer' ? 'is-posterior' : ''} ${activeOriginId === origin.id ? 'is-active' : ''}`} style={{ top: `${LABELS[origin.id].y / 800 * 100}%`, '--origin-color': origin.color } as CSSProperties} onClick={() => onSelect(origin.id)} aria-pressed={activeOriginId === origin.id} aria-label={`${origin.markerNumber}：${origin.siteName}を選ぶ`}><span>{origin.markerNumber}</span><strong>{LABELS[origin.id].lines.map(line => <span key={line}>{line}</span>)}</strong></button>;
         })}
       </div>

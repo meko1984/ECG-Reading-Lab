@@ -46,7 +46,7 @@ export const PAC_ORIGINS: PACOrigin[] = [
   {
     id: 'sinus-node',
     waveformGroup: 'sinus-node',
-    markerNumber: 1,
+    markerNumber: 2,
     shortName: '洞結節',
     siteName: '洞結節付近',
     chamber: '右房・上外側',
@@ -68,7 +68,7 @@ export const PAC_ORIGINS: PACOrigin[] = [
   {
     id: 'right-atrial-appendage',
     waveformGroup: 'right-atrial-appendage',
-    markerNumber: 2,
+    markerNumber: 3,
     shortName: '右心耳',
     siteName: '右心耳',
     chamber: '右房・前上方',
@@ -91,7 +91,7 @@ export const PAC_ORIGINS: PACOrigin[] = [
   {
     id: 'left-atrial-appendage',
     waveformGroup: 'left-superior',
-    markerNumber: 3,
+    markerNumber: 6,
     shortName: '左心耳',
     siteName: '左心耳',
     chamber: '左房・前外側',
@@ -114,7 +114,7 @@ export const PAC_ORIGINS: PACOrigin[] = [
   {
     id: 'left-superior-pv',
     waveformGroup: 'left-superior',
-    markerNumber: 4,
+    markerNumber: 7,
     shortName: '左上肺静脈',
     siteName: '左上肺静脈',
     chamber: '左房・上後方',
@@ -137,7 +137,7 @@ export const PAC_ORIGINS: PACOrigin[] = [
   {
     id: 'left-inferior-pv',
     waveformGroup: 'left-inferior-pv',
-    markerNumber: 5,
+    markerNumber: 8,
     shortName: '左下肺静脈',
     siteName: '左下肺静脈',
     chamber: '左房・下後方',
@@ -160,7 +160,7 @@ export const PAC_ORIGINS: PACOrigin[] = [
   {
     id: 'right-superior-pv',
     waveformGroup: 'right-superior-pv',
-    markerNumber: 6,
+    markerNumber: 4,
     shortName: '右上肺静脈',
     siteName: '右上肺静脈',
     chamber: '左房・右上後方',
@@ -182,7 +182,7 @@ export const PAC_ORIGINS: PACOrigin[] = [
   {
     id: 'right-inferior-pv',
     waveformGroup: 'right-inferior-pv',
-    markerNumber: 7,
+    markerNumber: 5,
     shortName: '右下肺静脈',
     siteName: '右下肺静脈',
     chamber: '左房・右下後方',
@@ -204,7 +204,7 @@ export const PAC_ORIGINS: PACOrigin[] = [
   {
     id: 'cs-ostium',
     waveformGroup: 'cs-ostium',
-    markerNumber: 8,
+    markerNumber: 9,
     shortName: '冠静脈洞入口部',
     siteName: '冠静脈洞入口部',
     chamber: '右房・下後方',
@@ -226,7 +226,7 @@ export const PAC_ORIGINS: PACOrigin[] = [
   {
     id: 'svc',
     waveformGroup: 'svc',
-    markerNumber: 9,
+    markerNumber: 1,
     shortName: '上大静脈',
     siteName: '上大静脈',
     chamber: '右房・頭側',

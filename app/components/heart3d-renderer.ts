@@ -45,7 +45,8 @@ export function createHeartRenderer(canvas: HTMLCanvasElement, colors: { right: 
       vec3 pigment=mix(color,tissue,anatomical);
       // Broad diffuse lighting, no glossy specular lobe. Grain stays in model space.
       float grain=sin(point.x*117.0+sin(point.z*93.0))*sin(point.y*103.0)*.006;
-      vec3 base=pigment*(.59+.32*diffuse+rim+grain)*(1.0-selected*.2*anatomical);
+      // Preserve the chamber palette under the dark teaching-stage backgrounds.
+      vec3 base=pigment*(.72+.32*diffuse+rim+grain)*(1.0-selected*.12*anatomical);
       base=mix(base,regionMode>.5?regionColor:vec3(1.0,.83,.36),spot*.86)+spot*.08;
       float secondSpot=(1.0-smoothstep(.55,1.0,length((point-secondTarget)/secondExtent)))*secondRegion*anatomical;
       base=mix(base,secondColor,secondSpot*.92)+secondSpot*.035;

@@ -24,7 +24,18 @@ test('PAC teaching model contains all nine answer-candidate origin sites', () =>
     'svc',
   ]);
   assert.equal(PAC_ORIGINS.length, 9);
-  assert.deepEqual(PAC_ORIGINS.map((origin) => origin.markerNumber), [1, 2, 3, 4, 5, 6, 7, 8, 9]);
+  assert.deepEqual(PAC_ORIGINS.map((origin) => origin.markerNumber).toSorted((a, b) => a - b), [1, 2, 3, 4, 5, 6, 7, 8, 9]);
+  assert.deepEqual(Object.fromEntries(PAC_ORIGINS.map((origin) => [origin.id, origin.markerNumber])), {
+    'sinus-node': 2,
+    'right-atrial-appendage': 3,
+    'left-atrial-appendage': 6,
+    'left-superior-pv': 7,
+    'left-inferior-pv': 8,
+    'right-superior-pv': 4,
+    'right-inferior-pv': 5,
+    'cs-ostium': 9,
+    svc: 1,
+  });
 });
 
 test('each origin includes all six teaching leads', () => {

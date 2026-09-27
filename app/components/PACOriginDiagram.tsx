@@ -3,11 +3,12 @@ import { PAC_ORIGINS, type PACOriginId } from '@/app/domain/pac';
 import { PAC_ANATOMY as anatomy, PAC_ANATOMY_SITES as sites } from '@/app/domain/pac-anatomy';
 
 type Props = { activeOriginId: PACOriginId; onSelect: (id: PACOriginId) => void };
+const ORIGINS_BY_NUMBER = [...PAC_ORIGINS].sort((a, b) => a.markerNumber - b.markerNumber);
 
 export function PACOriginDiagram({ activeOriginId, onSelect }: Props) {
   return <div className="pac-diagram">
     <div className="pac-diagram-orientation"><span>患者の右</span><span>心房の展開模式図</span><span>患者の左</span></div>
-    <div className="pac-diagram-viewport" role="region" aria-label="心房図（狭い画面では左右にスクロールできます）" tabIndex={0}>
+    <div className="pac-diagram-viewport" role="region" aria-label="心房の起源を選ぶ図">
       <div className="pac-diagram-map">
         <svg className="pac-diagram-image" viewBox="0 0 1000 640" role="img" aria-labelledby="pac-anatomy-title pac-anatomy-desc">
           <title id="pac-anatomy-title">心房の起源と心臓全体の位置関係</title>
@@ -75,7 +76,7 @@ export function PACOriginDiagram({ activeOriginId, onSelect }: Props) {
             <text x="451" y="489">三尖弁</text><text x="586" y="397">僧帽弁</text>
           </g>
           <g className="pac-diagram-leaders" aria-hidden="true">
-            {PAC_ORIGINS.map(origin => {
+            {ORIGINS_BY_NUMBER.map(origin => {
               const site = sites[origin.id];
               const { x, y } = site;
               const left = site.side === 'left';
@@ -86,9 +87,9 @@ export function PACOriginDiagram({ activeOriginId, onSelect }: Props) {
             })}
           </g>
         </svg>
-        {PAC_ORIGINS.map(origin => {
+        {ORIGINS_BY_NUMBER.map(origin => {
           const site = sites[origin.id];
-          return <button key={origin.id} type="button" className={`pac-origin-marker pac-origin-callout on-${site.side} ${activeOriginId === origin.id ? 'is-active' : ''}`} style={{ top: `${site.row / 640 * 100}%`, '--origin-color': origin.color } as CSSProperties} onClick={() => onSelect(origin.id)} aria-label={`${origin.siteName}を選ぶ`} aria-pressed={activeOriginId === origin.id}>
+          return <button key={origin.id} type="button" className={`pac-origin-marker pac-origin-callout on-${site.side} ${activeOriginId === origin.id ? 'is-active' : ''}`} style={{ top: `${site.row / 640 * 100}%`, '--origin-color': origin.color } as CSSProperties} onClick={() => onSelect(origin.id)} aria-label={`${origin.markerNumber}：${origin.siteName}を選ぶ`} aria-pressed={activeOriginId === origin.id}>
             <span aria-hidden="true">{origin.markerNumber}</span><strong>{origin.siteName}</strong>
           </button>;
         })}

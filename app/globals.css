@@ -7,10 +7,10 @@
   --pale-blue: #f5fcff;
   --soft-gray: #adbaca;
   --card-border: #c7e0f5;
-  --anatomy-right-fill: #8ebbe8;
-  --anatomy-right-accent: #4d83ad;
-  --anatomy-left-fill: #e9a2ad;
-  --anatomy-left-accent: #b76473;
+  --anatomy-right-fill: #54b5ed;
+  --anatomy-right-accent: #197ab5;
+  --anatomy-left-fill: #f1849a;
+  --anatomy-left-accent: #c43e60;
   --anatomy-neutral-fill: #f3faff;
   --anatomy-neutral-stroke: #8ebbe8;
   --anatomy-coronary: #87d7df;
@@ -531,6 +531,9 @@ button { color: inherit; }
   cursor: pointer;
 }
 .lead-tabs button[aria-selected="true"] { background: #fff; color: var(--blue); box-shadow: 0 4px 12px rgba(10, 31, 87, 0.09); }
+.axis-lead-comparison { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.axis-lead-panel { min-width: 0; padding: 10px; border: 1px solid var(--card-border); border-radius: 14px; background: var(--pale-blue); }
+.axis-lead-panel h3 { margin: 0 0 7px; color: var(--blue); font-size: 1rem; text-align: center; }
 .slider-list { display: grid; gap: 18px; margin-top: 18px; }
 .slider-label-row label { font-weight: 800; }
 .slider-label-row output { color: var(--blue); font-size: 0.86rem; font-variant-numeric: tabular-nums; font-weight: 900; }
@@ -1335,8 +1338,8 @@ button { color: inherit; }
 .pac-marker-svc { top: 19%; left: 29%; }
 
 .pac-diagram-orientation { display: flex; justify-content: space-between; gap: 8px; max-width: 420px; margin: 6px auto 0; color: rgba(10, 31, 87, .6); font-size: .65rem; }
-.pac-diagram-viewport { overflow-x: auto; }
-.pac-diagram-map { position: relative; width: 100%; min-width: 420px; max-width: 520px; margin: 0 auto; }
+.pac-diagram-viewport { overflow: visible; }
+.pac-diagram-map { position: relative; width: min(100%, 520px); max-width: 520px; margin: 0 auto; }
 .pac-diagram-image { display: block; width: 100%; height: auto; }
 .pac-anatomy-context { fill: var(--anatomy-neutral-fill, #f3faff); stroke: #8ebbe8; stroke-width: 3; opacity: .48; }
 .pac-anatomy-right { fill: var(--anatomy-right-fill); stroke: var(--anatomy-right-accent, #4d83ad); stroke-width: 3; stroke-linejoin: round; }
@@ -1562,8 +1565,8 @@ button { color: inherit; }
 .pvc-wave-overview-intro { margin: 0 0 13px; color: rgba(10, 31, 87, 0.7); font-size: 0.82rem; line-height: 1.65; }
 
 .pvc-orientation { display: flex; justify-content: space-between; gap: 6px; width: min(100%, 340px); margin: 0 auto 4px; color: var(--navy); font-size: 0.65rem; font-weight: 700; }
-.pvc-heart-viewport { max-width: 100%; overflow-x: auto; }
-.pvc-heart-map { position: relative; width: 100%; min-width: 420px; max-width: 520px; margin: 0 auto; }
+.pvc-heart-viewport { max-width: 100%; overflow: visible; }
+.pvc-heart-map { position: relative; width: min(100%, 520px); max-width: 520px; margin: 0 auto; }
 .pvc-site-leaders { fill: none; stroke: #405778; stroke-width: 1.7; stroke-linejoin: round; }
 .pvc-site-leaders circle { fill: #405778; stroke: white; stroke-width: 1; }
 .pvc-context-anatomy { opacity: 0.55; }
@@ -1589,15 +1592,15 @@ button { color: inherit; }
 .pvc-anatomy-labels path { fill: none; stroke: #607088; stroke-width: 1.3; }
 .pvc-origin-marker { --origin-color: var(--blue); position: absolute; z-index: 5; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%; background: transparent; cursor: pointer; transform: translate(-50%, -50%); }
 .pvc-origin-marker > span { display: grid; place-items: center; width: 27px; height: 27px; border: 2px solid white; border-radius: 50%; color: white; background: var(--origin-color); font-size: 0.72rem; font-weight: 900; }
-.pvc-origin-marker.is-posterior > span { border-style: dashed; }
+.pvc-origin-marker.is-posterior > span { border-style: solid; }
 .pvc-origin-marker.is-active > span { outline: 2px solid var(--blue); outline-offset: 3px; }
 .pvc-origin-marker:focus-visible { outline: 2px solid var(--navy); outline-offset: 1px; }
-.pvc-origin-callout { width: 25%; height: auto; min-height: 44px; display: flex; gap: 4px; padding: 4px 3px; border-radius: 8px; border: 1px solid rgba(64,87,120,0.18); background: white; transform: translateY(-50%); text-align: left; }
+.pvc-origin-callout { width: 27%; height: auto; min-height: 36px; display: flex; gap: 3px; padding: 3px; border-radius: 8px; border: 1px solid rgba(64,87,120,0.18); background: white; transform: translateY(-50%); text-align: left; }
 .pvc-origin-callout.on-left { left: 0; }
 .pvc-origin-callout.on-right { right: 0; }
-.pvc-origin-callout > span { flex: 0 0 23px; width: 23px; height: 23px; font-size: 11px; }
-.pvc-origin-callout strong { color: var(--navy); font-size: 11px; line-height: 1.45; }
-.pvc-origin-callout strong > span { display: block; }
+.pvc-origin-callout > span { flex: 0 0 21px; width: 21px; height: 21px; aspect-ratio: 1; border-radius: 50%; font-size: 10px; line-height: 1; }
+.pvc-origin-callout strong { color: var(--navy); font-size: 10px; line-height: 1.2; }
+.pvc-origin-callout strong > span { display: block; white-space: nowrap; }
 .pvc-origin-callout.is-active { border-color: var(--blue); background: #f1f7ff; }
 .pvc-origin-callout.is-active > span { outline: none; }
 .pvc-selection-status { margin: 14px 0 6px; color: var(--navy); font-size: 0.82rem; font-weight: 800; }
@@ -1670,14 +1673,46 @@ button { color: inherit; }
 .electrode-tray button { min-height: 49px; padding: 5px 2px; border: 1px solid rgba(10,31,87,.14); border-radius: 11px; background: #fff; cursor: pointer; }
 .electrode-tray button strong, .electrode-tray button span { display: block; }.electrode-tray button strong { font-size: .8rem; }.electrode-tray button span { margin-top: 1px; color: rgba(10,31,87,.48); font-size: .52rem; font-weight: 800; }
 .electrode-tray button.is-placed { background: rgba(230,245,255,.72); }.electrode-tray button.is-selected { border: 3px solid var(--blue); background: #fff; box-shadow: 0 0 0 3px rgba(20,110,214,.12); }
-.electrode-body-map { position: relative; width: min(100%, 360px); margin: 13px auto 0; }
-.electrode-body { display: block; width: 100%; height: auto; }.electrode-body circle, .electrode-body-torso { fill: rgba(230,245,255,.86); stroke: rgba(10,31,87,.5); stroke-width: 2; }.electrode-body-extremity { fill: none; stroke: rgba(230,245,255,.94); stroke-width: 34; stroke-linecap: round; paint-order: stroke; filter: drop-shadow(0 0 1px rgba(10,31,87,.55)); }.electrode-body-midline, .electrode-body-rib { fill: none; stroke: rgba(10,31,87,.15); stroke-width: 2; }.electrode-body text { fill: rgba(10,31,87,.56); font-size: 11px; font-weight: 800; text-anchor: middle; }
+.electrode-map-tabs { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:5px; margin:10px auto 0; width:min(100%,420px); }
+.electrode-map-tabs button { min-height:38px; padding:4px 6px; border:1px solid rgba(10,31,87,.16); border-radius:9px; color:var(--navy); background:#fff; font-size:.68rem; font-weight:900; cursor:pointer; }
+.electrode-map-tabs button[aria-pressed="true"] { border:2px solid var(--blue); color:var(--blue); background:var(--light-blue); }
+.electrode-body-map { position: relative; width: min(100%, 390px); margin: 13px auto 0; }
+.electrode-body { display: block; width: 100%; height: auto; }
+.electrode-body-head,.electrode-body-ear,.electrode-body-neck-fill,.electrode-body-arm,.electrode-body-hand,.electrode-body-torso,.electrode-body-pelvis,.electrode-body-leg,.electrode-body-foot { fill:#fff0e7; stroke:rgba(10,31,87,.5); stroke-width:2; stroke-linejoin:round; }
+.electrode-body-ear { stroke-width:1.6; }
+.electrode-body-neck-fill { stroke-width:1.8; }
+.electrode-body-pelvis { fill:#ffeadf; }
+.electrode-body-midline { fill:none; stroke:rgba(10,31,87,.22); stroke-width:1.2; }
+.electrode-body-chest-field { fill:rgba(255,255,255,.42); stroke:rgba(10,31,87,.1); stroke-width:1.4; }
+.electrode-body-rib,.electrode-body-clavicle,.electrode-body-sternum,.electrode-body-spine { fill:none; stroke:#9aa9b8; stroke-width:2; stroke-linecap:round; }.electrode-body-clavicle,.electrode-body-sternum { stroke:#77899b; stroke-width:2.5; }.electrode-body-scapula { fill:rgba(255,255,255,.65); stroke:#9aa9b8; stroke-width:2; }.electrode-intercostal-space { fill:none; stroke:#d9534f; stroke-width:2.4; stroke-dasharray:4 3; opacity:.78; }.electrode-intercostal-space.is-fifth { stroke:#c78319; opacity:.65; }.electrode-reference-lines { fill:none; stroke:#146ed6; stroke-width:1.4; stroke-dasharray:4 4; opacity:.62; }.electrode-posterior-plane { fill:none; stroke:#d9534f; stroke-width:2.2; stroke-dasharray:5 3; }.electrode-body text { fill:rgba(10,31,87,.62); font-size:11px; font-weight:800; text-anchor:middle; }.electrode-body .electrode-rib-number { fill:#7a8998; font-size:7px; font-weight:700; }.electrode-body .electrode-space-label { fill:#a43f3b; font-size:9px; font-weight:950; paint-order:stroke; stroke:#fff; stroke-width:3px; }.electrode-body .electrode-back-line-label { fill:#385a80; font-size:7px; font-weight:900; paint-order:stroke; stroke:#fff; stroke-width:3px; }
 .electrode-drop-site { position: absolute; display: grid; z-index: 3; width: 40px; min-height: 40px; place-items: center; padding: 0; border: 2px dashed rgba(20,110,214,.42); border-radius: 50%; background: rgba(255,255,255,.92); cursor: pointer; transform: translate(-50%,-50%); }
 .electrode-drop-site:disabled { cursor: default; opacity: 1; }.electrode-drop-site > span { display: grid; width: 28px; height: 28px; place-items: center; border-radius: 50%; color: var(--blue); font-size: .7rem; font-weight: 900; }.electrode-drop-site small { position: absolute; top: 36px; padding: 1px 3px; border-radius: 4px; color: rgba(10,31,87,.68); background: rgba(255,255,255,.88); font-size: .5rem; font-weight: 900; white-space: nowrap; }.electrode-drop-site.is-filled { border-style: solid; border-color: #fff; background: var(--state-attention); box-shadow: 0 2px 7px rgba(10,31,87,.24); }.electrode-drop-site.is-filled > span { color: var(--navy); }.electrode-drop-site.is-high-site { width: 31px; min-height: 31px; border-color: rgba(214,119,0,.5); background: rgba(255,244,218,.82); }.electrode-drop-site.is-high-site > span { width: 23px; height: 23px; font-size: .58rem; }.electrode-drop-site.is-high-site small { top: -17px; color: var(--state-attention-text); }
-.electrode-site-ra { top: 46%; left: 12%; }.electrode-site-la { top: 46%; left: 88%; }.electrode-site-rl { top: 88%; left: 37%; }.electrode-site-ll { top: 88%; left: 63%; }
-.electrode-site-v1 { top: 34%; left: 46%; }.electrode-site-v2 { top: 34%; left: 54%; }.electrode-site-v3 { top: 38%; left: 59%; }.electrode-site-v4 { top: 42%; left: 64%; }.electrode-site-v5 { top: 42%; left: 71%; }.electrode-site-v6 { top: 42%; left: 79%; }.electrode-site-v1-high { top: 27%; left: 44%; }.electrode-site-v2-high { top: 27%; left: 56%; }
+.electrode-site-ra { top: 24%; left: 9%; }.electrode-site-la { top: 24%; left: 91%; }.electrode-site-rl { top: 92%; left: 39%; }.electrode-site-ll { top: 92%; left: 61%; }
+.electrode-body-map.is-back .electrode-site-ra { left:91%; }.electrode-body-map.is-back .electrode-site-la { left:9%; }.electrode-body-map.is-back .electrode-site-rl { left:61%; }.electrode-body-map.is-back .electrode-site-ll { left:39%; }
+.electrode-site-v1,.electrode-site-v2 { top:38%; }.electrode-site-v1 { left:46.25%; }.electrode-site-v2 { left:53.75%; }.electrode-site-v3 { top:40.7%; left:57%; }.electrode-site-v4,.electrode-site-v5,.electrode-site-v6 { top:43.4%; }.electrode-site-v4 { left:60.5%; }.electrode-site-v5 { left:68.5%; }.electrode-site-v6 { left:75%; }.electrode-site-v1-high,.electrode-site-v2-high { top:31.2%; }.electrode-site-v1-high { left:43.5%; }.electrode-site-v2-high { left:56.5%; }
+.electrode-site-v1r,.electrode-site-v2r { top:38%; }.electrode-site-v1r { left:53.75%; }.electrode-site-v2r { left:46.25%; }.electrode-site-v3r { top:40.7%; left:43%; }.electrode-site-v4r,.electrode-site-v5r,.electrode-site-v6r { top:43.4%; }.electrode-site-v4r { left:39.5%; }.electrode-site-v5r { left:31.5%; }.electrode-site-v6r { left:25%; }
+.electrode-site-v7,.electrode-site-v8,.electrode-site-v9 { top:43.4%; }.electrode-site-v7 { left:26%; }.electrode-site-v8 { left:35.5%; }.electrode-site-v9 { left:45%; }
+.electrode-site-v1,.electrode-site-v2,.electrode-site-v3,
+.electrode-site-v4,.electrode-site-v5,.electrode-site-v6,
+.electrode-site-v1r,.electrode-site-v2r,.electrode-site-v3r,.electrode-site-v4r,.electrode-site-v5r,.electrode-site-v6r,
+.electrode-site-v7,.electrode-site-v8,.electrode-site-v9 {
+  width:22px; min-height:22px; border-width:1px;
+}
+.electrode-site-v1 > span,.electrode-site-v2 > span,.electrode-site-v3 > span,
+.electrode-site-v4 > span,.electrode-site-v5 > span,.electrode-site-v6 > span,
+.electrode-site-v1r > span,.electrode-site-v2r > span,.electrode-site-v3r > span,.electrode-site-v4r > span,.electrode-site-v5r > span,.electrode-site-v6r > span,
+.electrode-site-v7 > span,.electrode-site-v8 > span,.electrode-site-v9 > span {
+  width:16px; height:16px; font-size:.45rem;
+}
+.electrode-site-v1r > span,.electrode-site-v2r > span,.electrode-site-v3r > span,.electrode-site-v4r > span,.electrode-site-v5r > span,.electrode-site-v6r > span { font-size:.42rem; }
+.electrode-site-v3,.electrode-site-v3r { width:14px; min-height:14px; }
+.electrode-site-v3 > span,.electrode-site-v3r > span { width:12px; height:12px; font-size:.32rem; }
+.electrode-site-v1 small,.electrode-site-v2 small,.electrode-site-v3 small,
+.electrode-site-v4 small,.electrode-site-v5 small,.electrode-site-v6 small,
+.electrode-site-v1r small,.electrode-site-v2r small,.electrode-site-v3r small,.electrode-site-v4r small,.electrode-site-v5r small,.electrode-site-v6r small,
+.electrode-site-v7 small,.electrode-site-v8 small,.electrode-site-v9 small { display:none; }
 .electrode-placement-guide { margin-top: 10px; padding: 10px 12px; border: 1px solid rgba(20,110,214,.16); border-radius: 13px; background: rgba(247,252,255,.88); }.electrode-placement-guide summary { color: var(--navy); font-size: .73rem; font-weight: 900; cursor: pointer; }.electrode-placement-guide dl { display: grid; gap: 6px; margin: 9px 0 0; }.electrode-placement-guide dl div { display: grid; grid-template-columns: 92px minmax(0,1fr); gap: 7px; }.electrode-placement-guide dt { color: var(--blue); font-size: .66rem; font-weight: 900; }.electrode-placement-guide dd { margin: 0; color: rgba(10,31,87,.68); font-size: .66rem; line-height: 1.5; }
-.electrode-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }.electrode-actions button { min-height: 43px; border: 2px solid var(--blue); border-radius: 12px; color: #fff; background: var(--blue); font-size: .76rem; font-weight: 900; cursor: pointer; }.electrode-actions button.is-secondary { color: var(--blue); background: #fff; }
+.electrode-actions { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 8px; margin-top: 10px; }.electrode-actions button { min-height: 43px; border: 2px solid var(--blue); border-radius: 12px; color: #fff; background: var(--blue); font-size: .72rem; font-weight: 900; cursor: pointer; }.electrode-actions button.is-secondary { color: var(--blue); background: #fff; }
 .electrode-result { margin-top: 13px; padding: 15px; border: 1px solid rgba(20,110,214,.22); border-left: 6px solid var(--blue); border-radius: 15px; background: #fff; }.electrode-result.is-error { border-left-color: var(--state-attention-strong); background: rgba(255,249,235,.94); }.electrode-result > p { margin: 0; color: rgba(10,31,87,.5); font-size: .65rem; font-weight: 900; }.electrode-result h2 { margin: 2px 0 5px; font-size: 1rem; }.electrode-result span, .electrode-result small { display: block; color: rgba(10,31,87,.7); font-size: .77rem; line-height: 1.6; }.electrode-result small { margin-top: 5px; color: var(--state-attention-text); }
 .electrode-wave-legend { display: flex; justify-content: flex-end; gap: 12px; margin: -3px 0 8px; color: rgba(10,31,87,.56); font-size: .62rem; font-weight: 800; }.electrode-wave-legend span { display: inline-flex; align-items: center; gap: 4px; }.electrode-wave-legend i { width: 18px; border-top: 3px solid var(--state-attention-strong); }.electrode-wave-legend i.is-normal { border-top: 2px dashed rgba(10,31,87,.3); }
 .electrode-wave-grid-layout { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 7px; }.electrode-waveform { overflow: hidden; margin: 0; border: 1px solid rgba(10,31,87,.13); border-radius: 10px; background: white; }.electrode-waveform.is-changed { border: 2px solid var(--state-attention-strong); background: rgba(255,249,235,.7); }.electrode-waveform.is-unavailable { border-style: dashed; background: rgba(247,252,255,.62); }.electrode-waveform figcaption { display: flex; justify-content: space-between; padding: 4px 6px 0; font-size: .56rem; }.electrode-waveform figcaption strong { color: var(--navy); font-size: .68rem; }.electrode-waveform figcaption span { color: rgba(10,31,87,.5); font-weight: 900; }.electrode-waveform.is-changed figcaption span { color: var(--state-attention-text); }.electrode-waveform svg { display: block; width: 100%; height: auto; }.electrode-waveform svg > rect:first-of-type { fill: rgba(247,252,255,.88); }.electrode-wave-grid path { fill: none; stroke: rgba(20,110,214,.11); stroke-width: .6; }.electrode-wave-normal, .electrode-wave-current { fill: none; stroke-linecap: round; stroke-linejoin: round; }.electrode-wave-normal { stroke: rgba(10,31,87,.27); stroke-width: 1.8; stroke-dasharray: 4 3; }.electrode-wave-current { stroke: var(--navy); stroke-width: 2.5; }.electrode-waveform.is-changed .electrode-wave-current { stroke: var(--state-attention-strong); stroke-width: 3; }.electrode-wave-unavailable { fill: rgba(10,31,87,.42); font-size: 10px; font-weight: 900; text-anchor: middle; }
@@ -1748,10 +1783,16 @@ button { color: inherit; }
 }
 
 @media (max-width: 699px) {
+  .app-nav { min-height:48px; padding-bottom:2px; }
+  .app-nav p { margin-bottom:6px; font-size:.88rem; }
+  .back-link { width:40px; height:40px; }
+  .page-content { padding-top:8px; padding-bottom:20px; }
+  .page-lead { margin:0 0 6px; font-size:.76rem; line-height:1.35; }
+
   .axis-lab .diagram-card,
   .axis-lab .controls-card {
-    margin-top: 8px;
-    padding: 10px 12px;
+    margin-top: 5px;
+    padding: 7px 9px;
   }
 
   .axis-lab .section-heading {
@@ -1768,7 +1809,7 @@ button { color: inherit; }
   }
 
   .axis-lab .axis-diagram {
-    width: min(100%, 216px);
+    width: min(100%, 178px);
     margin: -4px auto 0;
   }
 
@@ -1793,11 +1834,12 @@ button { color: inherit; }
   }
 
   .axis-lab .lead-tabs button {
-    min-height: 31px;
+    min-height: 34px;
   }
 
   .axis-lab .ecg-canvas {
     border-radius: 11px;
+    max-height: 46px;
   }
 
   .axis-lab .slider-list {
@@ -1811,17 +1853,32 @@ button { color: inherit; }
   }
 
   .axis-lab .slider-control-row {
-    grid-template-columns: 34px minmax(0, 1fr) 34px;
+    grid-template-columns: 40px minmax(0, 1fr) 40px;
     gap: 6px;
     margin-top: 1px;
   }
 
   .axis-lab .slider-control-row button {
-    width: 34px;
-    height: 34px;
+    width: 40px;
+    height: 40px;
     border-radius: 10px;
     font-size: 1.05rem;
   }
+
+  .axis-lab > .page-lead { margin-bottom:3px; }
+  .axis-lab .axis-controls-heading { margin-bottom:4px; }
+  .axis-lab .axis-controls-heading h2 { font-size:.9rem; }
+  .axis-lab .axis-controls-heading .eyebrow { display:none; }
+  .axis-lead-comparison { gap:4px; }
+  .axis-lead-panel { padding:5px 4px; border-radius:9px; }
+  .axis-lead-panel h3 { margin-bottom:3px; font-size:.78rem; }
+  .axis-lab .axis-lead-panel .ecg-canvas { height:46px; }
+  .axis-lab .axis-lead-panel .slider-list { gap:2px; margin-top:3px; }
+  .axis-lab .axis-lead-panel .slider-label-row { gap:4px; }
+  .axis-lab .axis-lead-panel .slider-label-row label,
+  .axis-lab .axis-lead-panel .slider-label-row output { font-size:.62rem; }
+  .axis-lab .axis-lead-panel .slider-control-row { grid-template-columns:28px minmax(0,1fr) 28px; gap:3px; }
+  .axis-lab .axis-lead-panel .slider-control-row button { width:28px; height:34px; min-height:34px; padding:0; border-radius:8px; font-size:.9rem; }
 
   .wpw-explorer,
   .wpw-wave-card {
@@ -1898,6 +1955,131 @@ button { color: inherit; }
   .electrode-placement-card, .electrode-wave-card, .electrode-presets { margin-top: 8px; padding: 12px; }
   .electrode-lab .section-heading { margin-bottom: 9px; }.electrode-lab .section-heading h2 { font-size: 1.05rem; }
   .electrode-body-map { width: min(100%, 330px); }.electrode-wave-grid-layout { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 6px; }
+
+  .pac-reading-order { display:none; }
+  .electrode-placement-card { margin-top:5px; padding:8px; }
+  .electrode-interaction-hint { display:none; }
+  .electrode-tray { gap:3px; }
+  .electrode-tray button { min-height:38px; padding:3px; border-radius:8px; }
+  .electrode-tray button span { display:none; }
+  .electrode-map-tabs { margin-top:5px; gap:3px; }
+  .electrode-map-tabs button { min-height:34px; padding:2px; font-size:.6rem; }
+  .electrode-body-map { width:min(100%,280px); margin-top:4px; }
+  .electrode-placement-guide { margin-top:4px; padding:0 8px; }
+  .electrode-placement-guide:not([open]) { display:block; }
+  .electrode-placement-guide[open] dl { display:none; }
+  .electrode-placement-guide summary { min-height:34px; align-content:center; }
+  .electrode-actions { margin-top:4px; }
+  .electrode-actions button { min-height:40px; }
+  .electrode-result { margin-top:6px; padding:8px 10px; }
+  .electrode-result h2 { margin:1px 0; font-size:.86rem; }
+  .electrode-wave-card { margin-top:6px; padding:8px; }
+  .electrode-wave-card .section-heading,.electrode-wave-legend,.electrode-wave-note { display:none; }
+  .electrode-wave-grid-layout { grid-template-columns:repeat(4,minmax(0,1fr)); gap:3px; }
+  .electrode-waveform figcaption { padding:2px 3px 0; }
+  .electrode-waveform figcaption span { display:none; }
+  .electrode-waveform svg { max-height:44px; }
+
+  .pac-origin-card,.pvc-origin-card { margin-top:0; padding:8px; }
+  .pac-diagram-map,.pvc-heart-map { width:100%; min-width:0; max-width:340px; }
+  .pac-diagram-note { display:none; }
+  .pac-quick-grid { grid-template-columns:repeat(3,minmax(0,1fr)); grid-template-rows:repeat(2,auto); grid-auto-flow:row; gap:3px; margin-top:3px; }
+  .pac-quick-waveform { border-radius:7px; }
+  .pac-origin-callout { width:29%; min-height:32px; gap:2px; padding:2px; }
+  .pac-origin-callout > span { flex-basis:19px; width:19px; height:19px; font-size:.56rem; }
+  .pac-origin-callout strong { font-size:.53rem; line-height:1.18; white-space:nowrap; }
+  .pac-lead-stack { grid-template-columns:repeat(2,minmax(0,1fr)); gap:4px; }
+  .pac-waveform-figure figcaption { gap:3px; font-size:.55rem; }
+  .pac-waveform-figure figcaption span { white-space:nowrap; }
+  .pvc-heart-map { max-width:340px; }
+  .pvc-context-labels { display:none; }
+  .pvc-origin-callout { width:27%; min-height:32px; gap:2px; padding:2px; }
+  .pvc-origin-callout > span { flex-basis:19px; width:19px; height:19px; font-size:.56rem; }
+  .pvc-origin-callout strong { font-size:.53rem; line-height:1.18; white-space:nowrap; }
+  .pvc-quick-grid { grid-template-columns:repeat(4,minmax(0,1fr)); grid-template-rows:repeat(2,auto); grid-auto-flow:row; gap:3px; margin-top:3px; }
+  .pvc-quick-waveform { border-radius:7px; }
+  .pvc-lead-stack { grid-template-columns:repeat(2,minmax(0,1fr)); gap:4px; }
+  .pvc-waveform-figure figcaption { min-height:24px; gap:3px; font-size:.52rem; }
+  .pvc-waveform-figure figcaption span { white-space:nowrap; }
+  .pvc-wave-card > .pvc-wave-overview-intro,
+  .pvc-wave-card > .pvc-transition { display:none; }
+
+  .mi-lab .page-lead { display:none; }
+  .mi-selector-card { margin-top:0; padding:8px; }
+  .mi-territory-tabs { grid-template-columns:repeat(6,minmax(0,1fr)); gap:3px; }
+  .mi-territory-tabs button { min-height:38px; padding:3px 1px; border-radius:8px; font-size:.62rem; }
+  .mi-map-layout { margin-top:5px; }
+  .mi-territory-result { padding:7px 9px; }
+  .mi-territory-result h3 { font-size:.9rem; }
+  .mi-territory-result dl { grid-template-columns:1fr 1fr; gap:5px; margin-top:4px; }
+  .mi-territory-result dl div { padding-top:4px; }
+  .mi-territory-result dt { font-size:.55rem; }
+  .mi-territory-result dd { font-size:.66rem; line-height:1.35; }
+  .mi-diagram-note { display:none; }
+  .mi-vessel-callouts { display:none; }
+
+  .wpw-lab > .page-lead { margin-bottom:4px; font-size:.7rem; }
+  .wpw-workbench { padding:7px; }
+  .wpw-result-bar { display:flex; gap:6px; padding:7px 8px; }
+  .wpw-result-bar span { font-size:.62rem; }
+  .wpw-result-bar h2 { margin:0; font-size:.92rem; }
+  .wpw-result-badges { gap:3px; }
+  .wpw-result-badges strong,.wpw-result-badges span { min-height:26px; padding:3px 6px; font-size:.6rem; }
+  .wpw-workbench-grid { gap:5px; margin-top:6px; }
+  .wpw-map-panel { padding-bottom:5px; }
+  .wpw-panel-heading h3 { font-size:.84rem; }
+  .wpw-panel-heading span,.wpw-panel-heading > strong { font-size:.62rem; }
+  .wpw-compact-hint { display:none; }
+  .wpw-annulus-map { width:min(100%,170px); margin-top:2px; }
+  .wpw-anatomy-key { margin-top:0; gap:4px 7px; font-size:.6rem; }
+  .wpw-selected-region { display:none; }
+  .wpw-four-lead-controls { gap:6px; }
+  .wpw-v1-panel { padding-bottom:5px; }
+  .wpw-v1-layout { grid-template-columns:minmax(0,1fr) 104px; gap:5px; margin-top:2px; }
+  .wpw-v1-layout .wpw-waveform-figure { padding:4px; }
+  .wpw-v1-layout .wpw-waveform-figure svg { width:min(100%,170px); }
+  .wpw-v1-layout .wpw-waveform-figure figcaption { display:none; }
+  .wpw-v1-type-options { grid-template-rows:repeat(3,44px); gap:4px; }
+  .wpw-v1-type-button { grid-template-columns:31px 1fr; min-height:44px; padding:2px 3px; border-radius:9px; }
+  .wpw-v1-type-button span,.wpw-v1-type-button small { font-size:.58rem; }
+  .wpw-inferior-grid { margin-top:4px; }
+  .wpw-inferior-card { padding:3px; border-radius:9px; }
+  .wpw-polarity-options { margin-top:2px; }
+  .wpw-polarity-options button { min-height:34px; }
+  .wpw-decision-summary { display:none; }
+
+  .electrode-body-map { width:min(100%,280px); }
+  .electrode-site-v1,.electrode-site-v2,.electrode-site-v3,
+  .electrode-site-v4,.electrode-site-v5,.electrode-site-v6,
+  .electrode-site-v1r,.electrode-site-v2r,.electrode-site-v3r,.electrode-site-v4r,.electrode-site-v5r,.electrode-site-v6r,
+  .electrode-site-v7,.electrode-site-v8,.electrode-site-v9 {
+    width:16px; min-height:16px; border-width:1px;
+  }
+  .electrode-site-v1 > span,.electrode-site-v2 > span,.electrode-site-v3 > span,
+  .electrode-site-v4 > span,.electrode-site-v5 > span,.electrode-site-v6 > span,
+  .electrode-site-v1r > span,.electrode-site-v2r > span,.electrode-site-v3r > span,.electrode-site-v4r > span,.electrode-site-v5r > span,.electrode-site-v6r > span,
+  .electrode-site-v7 > span,.electrode-site-v8 > span,.electrode-site-v9 > span {
+    width:14px; height:14px; font-size:.39rem;
+  }
+  .electrode-site-v1r > span,.electrode-site-v2r > span,.electrode-site-v3r > span,
+  .electrode-site-v4r > span,.electrode-site-v5r > span,.electrode-site-v6r > span { font-size:.34rem; }
+  .electrode-site-v3,.electrode-site-v3r { width:12px; min-height:12px; }
+  .electrode-site-v3 > span,.electrode-site-v3r > span { width:10px; height:10px; font-size:.29rem; }
+  .electrode-site-v1 small,.electrode-site-v2 small,.electrode-site-v3 small,
+  .electrode-site-v4 small,.electrode-site-v5 small,.electrode-site-v6 small,
+  .electrode-site-v1-high small,.electrode-site-v2-high small { display:none; }
+  .electrode-drop-site.electrode-site-v1-high,
+  .electrode-drop-site.electrode-site-v2-high { width:20px; min-height:20px; }
+  .electrode-site-v1-high > span,.electrode-site-v2-high > span { width:16px; height:16px; font-size:.45rem; }
+}
+
+@media (max-width: 420px) {
+  .electrode-body-map { width:min(100%,320px); }
+  .electrode-result { min-height:0; }
+  .electrode-result > p { display:none; }
+  .electrode-result h2 { margin:0; }
+  .electrode-result .learning-details { display:none; }
+  .electrode-waveform svg { max-height:34px; }
 }
 
 @media (max-width: 359px) {
@@ -1926,3 +2108,53 @@ button { color: inherit; }
 .learning-details:not([open]) { padding-block: 8px; }
 .model-note { color: var(--text-muted, #52616b); font-size: 0.875rem; line-height: 1.6; margin-block: 16px; }
 .page-info-card h2 { font-size: 0.875rem; }
+.lab-disclaimer { margin-top:14px; }
+.lab-disclaimer p { margin:4px 0 0; color:rgba(10,31,87,.7); font-size:.78rem; line-height:1.55; }
+
+/* Landscape is a workbench: keep the live diagram and its controls together.
+   Narrow/portrait screens retain the larger touch targets above. */
+@media (min-width: 700px) and (orientation: landscape) {
+  :root { --content-max: 1240px; }
+  .page-content { padding: 16px clamp(20px, 3vw, 44px) 28px; }
+  .page-lead { margin: 0 0 14px; }
+  .page-header { margin-bottom: 16px; }
+  .lab-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .lab-card { min-height: 112px; padding: 14px; }
+  .axis-lab { display: grid; grid-template-columns: minmax(280px, .92fr) minmax(340px, 1.08fr); gap: 14px; align-items: start; }
+  .axis-lab > .page-lead, .axis-lab > .calculation-card, .axis-lab > .info-card { grid-column: 1 / -1; }
+  .axis-lab .diagram-card, .axis-lab .controls-card { margin-top: 0; padding: 14px; }
+  .axis-lab .axis-diagram { max-height: min(44vh, 380px); margin-inline: auto; }
+  .axis-lab .slider-list { gap: 8px; margin-top: 10px; }
+  .axis-lab .slider-control-row button { min-height: 40px; height: 40px; }
+  .pac-lab, .pvc-lab { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; align-items: start; }
+  .pac-lab > .pac-origin-card, .pvc-lab > .pvc-origin-card { grid-column: 1; }
+  .pac-lab > .pac-clue-card, .pvc-lab > .pvc-wave-card { grid-column: 2; }
+  .pac-lab > .pac-guide-card, .pvc-lab > .pvc-guide-card, .pac-lab > .info-card, .pvc-lab > .info-card, .pac-lab > .pac-sources, .pvc-lab > .pvc-sources, .pac-lab > .lab-disclaimer, .pvc-lab > .lab-disclaimer { grid-column: 1 / -1; }
+  .pac-origin-card, .pvc-origin-card, .pac-clue-card, .pvc-wave-card { margin-top: 0; padding: 14px; }
+  .pac-atria-map { width: min(100%, 360px); margin-block: 8px; }
+  .pac-quick-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, auto)); grid-auto-flow: row; }
+  .pvc-heart-map { max-width: 440px; }
+  .mi-map-layout { grid-template-columns: minmax(0, 1.35fr) minmax(240px, .65fr); gap: 12px; }
+  .mi-map-layout .viewer { align-self: start; }
+  .mi-lab .mi-selector-card, .mi-lab .mi-leads-card { padding: 14px; }
+  .electrode-placement-card { padding: 14px; }
+  .electrode-lab .electrode-body-map { width: min(100%, 390px); margin-inline: auto; }
+}
+
+@media (min-width: 700px) and (max-height: 850px) and (orientation: landscape) {
+  .app-nav { min-height: 52px; padding-bottom: 4px; }
+  .app-nav p { margin-bottom: 7px; }
+  .page-content { padding-top: 10px; }
+  .page-header h1 { font-size: 1.8rem; }
+  .page-lead { font-size: .86rem; line-height: 1.5; }
+  .lab-card { min-height: 88px; }
+  .lab-icon { width: 44px; height: 44px; border-radius: 14px; font-size: 1.4rem; }
+  .lab-card { grid-template-columns: 44px minmax(0, 1fr) 22px; }
+  .lab-card h2 { font-size: 1.05rem; }
+  .lab-card p { font-size: .75rem; }
+  .axis-lab .axis-diagram { max-height: min(38vh, 300px); }
+  .axis-lab .ecg-canvas { max-height: 70px; }
+  .pac-atria-map { width: min(100%, 300px); }
+  .pvc-heart-map { max-width: 360px; }
+  .pac-lab .pac-lead-stack, .pvc-lab .pvc-lead-stack { gap: 5px; }
+}

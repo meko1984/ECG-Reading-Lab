@@ -14,6 +14,11 @@ const GREAT_VESSELS: {name:string;short:string;anchor:Vec3}[] = [
   {name:'下大静脈',short:'下大静脈',anchor:[-.97,-.06,-.13]},
   {name:'肺静脈',short:'肺静脈',anchor:[.55,.95,-.85]},
 ];
+const ENGLISH_LABELS:Record<string,string>={
+  '右心房':'Right atrium','左心房':'Left atrium','右心室':'Right ventricle','左心室':'Left ventricle',
+  '大動脈':'Aorta','肺動脈幹':'Pulmonary trunk','上大静脈':'Superior vena cava','下大静脈':'Inferior vena cava','肺静脈':'Pulmonary veins',
+  LMT:'Left main',LAD:'Left anterior descending',LCx:'Left circumflex',RCA:'Right coronary artery',PDA:'Posterior descending artery',
+};
 
 const SELECTED_COLOR:Vec3=[.075,.46,.82];
 const MIRROR_COLOR:Vec3=[1,.55,.08];
@@ -30,6 +35,7 @@ export function MirrorHeart3D({selection}:{selection:ReturnType<typeof mirrorSel
   const [size,setSize]=useState({width:600,height:480});
   const [ready,setReady]=useState(false),[error,setError]=useState('');
   const [labels,setLabels]=useState<'chambers'|'arteries'|'vessels'>('arteries');
+  const [labelLanguage,setLabelLanguage]=useState<'ja'|'en'>('ja');
   const [version,setVersion]=useState(0);
   const canvas=useRef<HTMLCanvasElement>(null),stage=useRef<HTMLDivElement>(null);
   const renderer=useRef<ReturnType<typeof createHeartRenderer>|null>(null);
@@ -37,7 +43,7 @@ export function MirrorHeart3D({selection}:{selection:ReturnType<typeof mirrorSel
   useEffect(()=>{
     const element=canvas.current!,host=stage.current!;
     let instance:ReturnType<typeof createHeartRenderer>|undefined;
-    try {instance=createHeartRenderer(element,{right:[.72,.75,.78],left:[.8,.74,.73],coronary:[.83,.51,.20]});renderer.current=instance;}
+    try {instance=createHeartRenderer(element,{right:[.24,.67,.94],left:[.95,.38,.53],coronary:[.94,.48,.12]});renderer.current=instance;}
     catch {queueMicrotask(()=>setError('3D描画を開始できなかった。WebGL対応のブラウザで開いてね。'));}
     const resize=new ResizeObserver(()=>setSize({width:host.clientWidth,height:host.clientHeight}));resize.observe(host);
     const lost=(event:Event)=>{event.preventDefault();setReady(false);setError('3D表示が中断された。復旧を待っているよ。');};
@@ -74,9 +80,9 @@ export function MirrorHeart3D({selection}:{selection:ReturnType<typeof mirrorSel
       onPointerUp={e=>gesture.current.up(e.pointerId)} onPointerCancel={e=>gesture.current.cancel(e.pointerId)} onLostPointerCapture={e=>gesture.current.cancel(e.pointerId)}>
       <canvas ref={canvas} role="img" aria-label={`3D心臓の表面。${selection.lead}側を青で表示。${selection.reciprocal.length?selection.reciprocal.join('・')+'側を橙で表示。':'鏡像側の割り当てなし。'}ドラッグで回転。`} />
       {ready&&!error&&<svg className={styles.annotations} width={size.width} height={size.height} aria-hidden="true">
-        <g data-lead-highlight="selected"><rect x="10" y="12" width={(size.width-30)/2} height="46" rx="10" fill="#1375d1"/><text x={(size.width-30)/4+10} y="31" textAnchor="middle" fill="white" fontSize="12">選択中</text><text x={(size.width-30)/4+10} y="49" textAnchor="middle" fill="white" fontWeight="700" fontSize="17">{selection.lead}</text></g>
-        <g data-lead-highlight="reciprocal"><rect x={(size.width+10)/2} y="12" width={(size.width-30)/2} height="46" rx="10" fill="#fff0d6" stroke="#ad6400" strokeWidth="2"/><text x={size.width*3/4-2.5} y="31" textAnchor="middle" fill="#774400" fontSize="12">鏡像側</text><text x={size.width*3/4-2.5} y="49" textAnchor="middle" fill="#774400" fontWeight="700" fontSize="17">{selection.reciprocal.join('・') || '―'}</text></g>
-        {markers.map(m=><g key={m.name}><line x1={m.point.x} y1={m.point.y} x2={m.x} y2={m.y} stroke="#66778b" strokeDasharray={m.point.depth<-.25?'4 4':undefined}/><circle cx={m.point.x} cy={m.point.y} r="3" fill="#5b6573"/><rect x={m.x-46} y={m.y-23} width="92" height="46" rx="8" fill="white" stroke="#cad6df"/><text x={m.x} y={m.y+(labels==='arteries'?-4:5)} textAnchor="middle" fill="#23354b" fontSize="14" fontWeight="700">{labels==='arteries'?arteryNames[m.short]:m.short}</text>{labels==='arteries'&&<text x={m.x} y={m.y+14} textAnchor="middle" fill="#53687b" fontSize="12">{m.short}</text>}</g>)}
+        <g data-lead-highlight="selected"><rect x="10" y="12" width={(size.width-30)/2} height="46" rx="10" fill="#1375d1"/><text x={(size.width-30)/4+10} y="27" textAnchor="middle" fill="white" fontSize="12">選択中</text><text x={(size.width-30)/4+10} y="52" textAnchor="middle" fill="white" fontWeight="700" fontSize="17">{selection.lead}</text></g>
+        <g data-lead-highlight="reciprocal"><rect x={(size.width+10)/2} y="12" width={(size.width-30)/2} height="46" rx="10" fill="#fff0d6" stroke="#ad6400" strokeWidth="2"/><text x={size.width*3/4-2.5} y="27" textAnchor="middle" fill="#774400" fontSize="12">鏡像側</text><text x={size.width*3/4-2.5} y="52" textAnchor="middle" fill="#774400" fontWeight="700" fontSize="17">{selection.reciprocal.join('・') || '―'}</text></g>
+        {markers.map(m=>{const japanese=labels==='arteries'?arteryNames[m.short]:m.short;const display=labelLanguage==='ja'?japanese:(ENGLISH_LABELS[m.short]||ENGLISH_LABELS[m.name]||m.short);return <g key={m.name}><line x1={m.point.x} y1={m.point.y} x2={m.x} y2={m.y} stroke="#66778b" strokeDasharray={m.point.depth<-.25?'4 4':undefined}/><circle cx={m.point.x} cy={m.point.y} r="3" fill="#5b6573"/><rect x={m.x-52} y={m.y-23} width="104" height="46" rx="8" fill="white" stroke="#cad6df"/><text x={m.x} y={m.y+(labels==='arteries'?-4:5)} textAnchor="middle" fill="#23354b" fontSize={labelLanguage==='ja'?14:11} fontWeight="700">{display}</text>{labels==='arteries'&&<text x={m.x} y={m.y+14} textAnchor="middle" fill="#53687b" fontSize="12">{m.short}</text>}</g>})}
         {territoryPoint&&<g><line x1={territoryPoint.x} y1={territoryPoint.y} x2={size.width/2} y2={size.height-60} stroke={selection.side==='direct'?'#1375d1':'#a05a00'}/><rect x={size.width/2-45} y={size.height-76} width="90" height="30" rx="8" fill={selection.side==='direct'?'#dceeff':'#fff0cc'} stroke={selection.side==='direct'?'#1375d1':'#a05a00'}/><text x={size.width/2} y={size.height-56} textAnchor="middle" fill="#23354b" fontSize="14" fontWeight="700">左室{selection.scenario?.shortLabel}</text></g>}
       </svg>}
       {(!ready||error)&&<p className={styles.loading} role="status">{error||'心臓の立体模型を準備中…'}</p>}
@@ -88,6 +94,7 @@ export function MirrorHeart3D({selection}:{selection:ReturnType<typeof mirrorSel
       <button type="button" aria-label="3Dを縮小" onClick={()=>setCamera(c=>({...c,zoom:clampZoom(c.zoom-.15)}))}>−</button><button type="button" aria-label="3Dを拡大" onClick={()=>setCamera(c=>({...c,zoom:clampZoom(c.zoom+.15)}))}>＋</button>
       <button type="button" aria-pressed={labels==='chambers'} onClick={()=>setLabels('chambers')}>心房・心室名</button><button type="button" aria-pressed={labels==='arteries'} onClick={()=>setLabels('arteries')}>冠動脈名</button>
       <button type="button" aria-pressed={labels==='vessels'} onClick={()=>setLabels('vessels')}>大血管名</button>
+      <label>ラベル <select aria-label="心臓ラベルの言語" value={labelLanguage} onChange={e=>setLabelLanguage(e.target.value as 'ja'|'en')}><option value="ja">日本語</option><option value="en">English</option></select></label>
     </div>
     <p className={styles.note}>破線＝奥側 · 金色の管＝冠動脈</p>
   </div>;

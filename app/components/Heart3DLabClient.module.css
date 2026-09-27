@@ -1,4 +1,4 @@
-.lab { --heart-coronary: #efc06a; }
+.lab { --heart-coronary: #ffb52f; }
 .header { margin: 6px 0 18px; }
 .header h1 { margin: 4px 0 8px; font-size: 1.8rem; letter-spacing: -.04em; }
 .header p:last-child { margin: 0; line-height: 1.7; font-size: 1rem; color: var(--muted, #64748b); }
@@ -54,5 +54,48 @@
 .opacityControl output { min-width:3em; text-align:right; }
 .stage:focus-visible { outline:2px solid #83d4ed; outline-offset:-3px; }
 .viewer > .viewHint:last-child { padding-bottom:14px; line-height:1.7; }
-@media(max-width:480px) { .marker span { width:20px; height:20px; font-size:.62rem; }.callout { font-size:10px; } }
+@media(max-width:480px) {
+  .header { margin:0 0 8px; }
+  .header p:first-child { display:none; }
+  .header h1 { margin:0 0 3px; font-size:1.35rem; }
+  .header p:last-child { font-size:.78rem; line-height:1.35; }
+  .viewer { margin-inline:-4px; border-radius:18px; }
+  .stage { height:clamp(360px,56svh,500px); aspect-ratio:auto; min-height:0; }
+  .marker span { width:20px; height:20px; font-size:.62rem; }
+  .callout { font-size:10px; }
+  .stageCaption { bottom:6px; font-size:.66rem; }
+  .opacityControl { margin:0; padding:5px 10px; }
+  .opacityControl label { min-height:38px; font-size:.75rem; }
+  .controls,.viewer > .viewHint { display:none; }
+  .legend { display:flex; align-items:center; padding:4px 10px 2px; gap:0; border-top:1px solid #ffffff15; }
+  .legend span { display:none; }
+  .legend label { min-height:34px; font-size:.72rem; }
+  .legend input { width:16px; height:16px; }
+  .displayControls { display:flex; gap:6px 10px; padding:2px 10px 8px; font-size:.7rem; }
+  .displayControls label { min-height:34px; gap:5px; }
+  .displayControls select { min-height:32px; padding:4px 6px; font-size:.7rem; }
+  .selection { margin-top:8px; gap:6px; }
+  .selection h2 { margin-bottom:3px; font-size:.86rem; }
+  .selection h2 span { display:none; }
+  .leads { gap:4px; }
+  .leads button { min-height:40px; border-radius:9px; font-size:.82rem; }
+  .description { min-height:0; margin:8px 0; padding:10px 12px; }
+  .description .kicker,.description p,.description button { display:none; }
+  .description h2 { margin:0; font-size:.92rem; }
+  .note,.details { margin-top:8px; font-size:.78rem; }
+}
 @media (max-width:360px) { .marker { width:44px; }.legend { gap: 8px; }.selection h2 { gap: 8px; }.leads { gap:4px; }.description { padding: 16px; } }
+@media (min-width:700px) and (max-width:1199px) and (orientation:portrait) {
+  .header { margin:0 0 10px; }
+  .header h1 { margin-block:2px 4px; font-size:1.5rem; }
+  .header p:last-child { font-size:.88rem; line-height:1.4; }
+  .stage { height:auto; aspect-ratio:16 / 10; max-height:450px; }
+  .controls { padding:10px 14px 6px; }
+  .opacityControl { padding-block:8px; margin-bottom:8px; }
+  .legend { padding-bottom:8px; }
+  .displayControls { padding:0 14px 8px; }
+  .viewHint { padding-top:6px; }
+  .selection { margin-top:10px; }
+  .description { min-height:0; margin-block:10px; padding:12px 16px; }
+}
+@media (min-width:700px) and (orientation:landscape) { .stage { height:clamp(360px,58vh,560px); } .viewer { display:grid; grid-template-columns:minmax(0,1fr) 270px; grid-template-rows:auto 1fr auto; } .stage { grid-column:1; grid-row:1 / span 3; } .controls,.legend,.displayControls,.opacityControl,.viewer > .viewHint { grid-column:2; } .controls { align-content:start; padding:12px; } .legend { padding:0 12px 12px; } .displayControls,.opacityControl { padding-inline:12px; } }

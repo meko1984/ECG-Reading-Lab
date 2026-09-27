@@ -4,14 +4,20 @@ import { presetForLead } from './waveform.ts';
 export const ELECTRODES = ['RA', 'LA', 'RL', 'LL', 'V1', 'V2', 'V3', 'V4', 'V5', 'V6'] as const;
 export type ElectrodeId = (typeof ELECTRODES)[number];
 
-export const BODY_SITES = ['RA', 'LA', 'RL', 'LL', 'V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V1_HIGH', 'V2_HIGH'] as const;
+export const RIGHT_CHEST_SITES = ['V1R', 'V2R', 'V3R', 'V4R', 'V5R', 'V6R'] as const;
+export const POSTERIOR_SITES = ['V7', 'V8', 'V9'] as const;
+export const BODY_SITES = ['RA', 'LA', 'RL', 'LL', 'V1', 'V2', 'V3', 'V4', 'V5', 'V6', 'V1_HIGH', 'V2_HIGH', ...RIGHT_CHEST_SITES, ...POSTERIOR_SITES] as const;
 export type BodySiteId = (typeof BODY_SITES)[number];
 export type ElectrodePlacement = Partial<Record<BodySiteId, ElectrodeId>>;
 
 export const ECG_LEADS = ['I', 'II', 'III', 'aVR', 'aVL', 'aVF', 'V1', 'V2', 'V3', 'V4', 'V5', 'V6'] as const;
-export type ECGLead = (typeof ECG_LEADS)[number];
+export const RIGHT_CHEST_LEADS = [...RIGHT_CHEST_SITES] as const;
+export const POSTERIOR_LEADS = [...POSTERIOR_SITES] as const;
+export type StandardECGLead = (typeof ECG_LEADS)[number];
+export type SupplementalECGLead = (typeof RIGHT_CHEST_LEADS)[number] | (typeof POSTERIOR_LEADS)[number];
+export type ECGLead = StandardECGLead | SupplementalECGLead;
 
-export type PlacementScenarioId = 'correct' | 'ra-la' | 'ra-ll' | 'la-ll' | 'v1-v2' | 'v1-v2-high' | 'incomplete' | 'custom';
+export type PlacementScenarioId = 'correct' | 'right-sided' | 'posterior' | 'ra-la' | 'ra-ll' | 'la-ll' | 'v1-v2' | 'v1-v2-high' | 'incomplete' | 'custom';
 
 export type PlacementScenario = {
   id: PlacementScenarioId;
@@ -27,6 +33,16 @@ export const SCENARIOS: Record<PlacementScenarioId, PlacementScenario> = {
     id: 'correct', shortLabel: '正しい装着', title: '10個の電極が正しい位置です',
     summary: '四肢誘導と胸部誘導は、基準となる代表波形のままです。',
     clue: 'まずこのR波の進み方と、I・II誘導の上向き成分を基準にします。', affectedLeads: [],
+  },
+  'right-sided': {
+    id: 'right-sided', shortLabel: '右胸部誘導', title: 'V1R〜V6Rの右胸部配置です',
+    summary: 'V1R〜V6Rは標準胸部誘導を患者の右胸へ鏡像配置した追加誘導です。臨床ではV3R・V4Rが特に用いられます。',
+    clue: 'V1Rは第4肋間・胸骨左縁、V2Rは第4肋間・胸骨右縁、V4Rは第5肋間・右鎖骨中線です。', affectedLeads: [...RIGHT_CHEST_LEADS],
+  },
+  posterior: {
+    id: 'posterior', shortLabel: '背部誘導', title: 'V7〜V9の背部配置です',
+    summary: 'V4〜V6の電極を背面へ移し、V7〜V9として記録する配置を示しています。',
+    clue: 'V7・V8・V9はV6と同じ水平面で、左後腋窩線・左肩甲骨中線・左脊柱傍に置きます。', affectedLeads: [...POSTERIOR_LEADS],
   },
   'ra-la': {
     id: 'ra-la', shortLabel: '右腕↔左腕', title: '右腕（RA）と左腕（LA）が逆です',
@@ -74,6 +90,22 @@ function swapped(a: BodySiteId, b: BodySiteId): ElectrodePlacement {
 }
 
 export function placementForScenario(id: Exclude<PlacementScenarioId, 'incomplete' | 'custom'>): ElectrodePlacement {
+  if (id === 'right-sided') {
+    const placement = { ...CORRECT_PLACEMENT };
+    for (const electrode of ['V1', 'V2', 'V3', 'V4', 'V5', 'V6'] as const) delete placement[electrode];
+    RIGHT_CHEST_SITES.forEach((site, index) => { placement[site] = ELECTRODES[index + 4]; });
+    return placement;
+  }
+  if (id === 'posterior') {
+    const placement = { ...CORRECT_PLACEMENT };
+    delete placement.V4;
+    delete placement.V5;
+    delete placement.V6;
+    placement.V7 = 'V4';
+    placement.V8 = 'V5';
+    placement.V9 = 'V6';
+    return placement;
+  }
   if (id === 'ra-la') return swapped('RA', 'LA');
   if (id === 'ra-ll') return swapped('RA', 'LL');
   if (id === 'la-ll') return swapped('LA', 'LL');
@@ -94,7 +126,7 @@ function signature(placement: ElectrodePlacement): string {
 }
 
 const scenarioSignatures = new Map<PlacementScenarioId, string>(
-  (['correct', 'ra-la', 'ra-ll', 'la-ll', 'v1-v2', 'v1-v2-high'] as const)
+  (['correct', 'right-sided', 'posterior', 'ra-la', 'ra-ll', 'la-ll', 'v1-v2', 'v1-v2-high'] as const)
     .map((id) => [id, signature(placementForScenario(id))]),
 );
 
@@ -110,7 +142,11 @@ const leadName = (lead: ECGLead) => lead === 'I' ? 'Ⅰ' : lead === 'II' ? 'Ⅱ'
 export const displayLeadName = leadName;
 
 function preset(lead: ECGLead): ECGWaveformParameters {
-  return presetForLead(leadName(lead)).parameters;
+  const supplementalSource: Partial<Record<SupplementalECGLead, StandardECGLead>> = {
+    V1R: 'V1', V2R: 'V2', V3R: 'V3', V4R: 'V4', V5R: 'V5', V6R: 'V6',
+    V7: 'V6', V8: 'V6', V9: 'V6',
+  };
+  return presetForLead(leadName(supplementalSource[lead as SupplementalECGLead] ?? lead)).parameters;
 }
 
 function inverted(parameters: ECGWaveformParameters): ECGWaveformParameters {

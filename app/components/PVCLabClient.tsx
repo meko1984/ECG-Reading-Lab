@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { InfoCard } from '@/app/components/InfoCard';
+import { LabDisclaimer } from '@/app/components/LabDisclaimer';
 import { PVCOriginDiagram } from '@/app/components/PVCOriginDiagram';
 import { PVCQuickWaveform, PVCWaveform } from '@/app/components/PVCWaveform';
 import { pvcOrigin, pvcPolarityLabel, pvcRegionLocation, type PVCOriginId } from '@/app/domain/pvc';
@@ -69,15 +69,7 @@ export function PVCLabClient() {
           <div><span><i className="pvc-key-right" />右心系</span><span><i className="pvc-key-left" />左心系</span><span><i className="pvc-key-whole" />心臓全体の輪郭</span></div>
         </div>
       </section>
-      <InfoCard title="学習用・非診断用">
-        <p>学習用の代表波形です。同じ部位でも波形は変わり、起源を確定する診断には使えません。</p>
-      </InfoCard>
       <details className="pvc-sources"><summary>図・波形の根拠と表現の範囲</summary>
-        <p>1番の参考例ではⅠが低振幅rS、aVLがQSで、参考書の一括した「陽性」の組合せには当てはまりません。</p>
-        <p>8領域は参考書の簡略化した対応です。同じ領域でも波形は変わり、弁輪と流出路も同一部位ではありません。1番は右室流出路の参考例、ほかは極性を学ぶための代表モデルです。QSの深さだけから起源までの距離を決めることはできません。</p>
-        <p>実際の起源推定には12誘導全体、移行帯、電極位置や心臓の向き、基礎心疾患などを合わせて評価します。このページは起源を確定する診断ツールではありません。</p>
-        <p>参考：提供された参考書の「PVC起源推定の4ステップ」「PVC起源の考え方」と、問題054の右室流出路PVC。書名・版は未確認。波形はその特徴をもとに再構成したもので、写真のデジタルトレースや患者データではありません。振幅・時間の数値も実測値ではありません。</p>
-        <p>解剖図の白い部分は開いた心腔です。心筋の厚さの違い、弁の付着、血管との連続を表現しています。後壁を破線で投影し、弁尖・腱索・肉柱と血管の枝は一部を省略しています。陰影による立体表現は使っていません。</p>
         <ul>
           <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4668306/" target="_blank" rel="noreferrer">心室・弁・流出路の解剖学的位置関係（2015）</a></li>
           <li><a href="https://www.ahajournals.org/doi/pdf/10.1161/01.cir.46.1.138" target="_blank" rel="noreferrer">乳頭筋と僧帽弁腱索の解剖（原著・PDF）</a></li>
@@ -86,6 +78,7 @@ export function PVCLabClient() {
           <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11317726/" target="_blank" rel="noreferrer">JCS/JHRS不整脈の診断とリスク評価：PVCと代償性休止</a></li>
         </ul>
       </details>
+      <LabDisclaimer />
     </div>
   );
 }

@@ -4,7 +4,17 @@ import { PVC_ORIGINS, pvcOrigin, pvcOriginEstimate, pvcPolarityLabel, pvcVentric
 
 test('PVC map exposes eight numbered right and left ventricular regions', () => {
   assert.equal(PVC_ORIGINS.length, 8);
-  assert.deepEqual(PVC_ORIGINS.map((origin) => origin.markerNumber), [1, 2, 3, 4, 5, 6, 7, 8]);
+  assert.deepEqual(PVC_ORIGINS.map((origin) => origin.markerNumber).toSorted((a, b) => a - b), [1, 2, 3, 4, 5, 6, 7, 8]);
+  assert.deepEqual(Object.fromEntries(PVC_ORIGINS.map((origin) => [origin.id, origin.markerNumber])), {
+    'right-upper-outer': 1,
+    'right-upper-inner': 3,
+    'right-lower-outer': 2,
+    'right-apex': 4,
+    'left-upper-outer': 5,
+    'left-upper-inner': 7,
+    'left-lower-outer': 6,
+    'left-apex': 8,
+  });
   assert.equal(PVC_ORIGINS.filter((origin) => origin.ventricle === 'right').length, 4);
   assert.equal(PVC_ORIGINS.filter((origin) => origin.ventricle === 'left').length, 4);
   assert.equal(pvcOrigin('right-apex').siteName, '右室心尖部');
