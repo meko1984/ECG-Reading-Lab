@@ -19,14 +19,14 @@ function Beat({ title, range, rangeLabel, qrsWidth = 44, amplitude = 1, st = 0, 
   </svg>;
 }
 
-function Cycle() {
-  const [phase, setPhase] = useState(0);
+function Cycle({ value, onChange }: { value: number; onChange: (value: number) => void }) {
+  const phase = Math.min(value, 2);
   const phases = [
     { label: 'P波', place: '心房が脱分極', detail: '洞結節を起点に心房へ興奮が広がります。', range: [80, 130] as [number,number] },
     { label: 'QRS', place: '心室が脱分極', detail: '房室結節からHis束・脚・Purkinje線維を経て、心室に広がります。', range: [180, 224] as [number,number] },
     { label: 'T波', place: '心室が再分極', detail: '心室の細胞が電気的に回復する過程です。', range: [268, 374] as [number,number] },
   ];
-  return <><div className={styles.controls} role="group" aria-label="電気活動の段階">{phases.map((p,i) => <button key={p.label} type="button" aria-pressed={phase === i} onClick={() => setPhase(i)}>{p.label}</button>)}</div>
+  return <><div className={styles.controls} role="group" aria-label="電気活動の段階">{phases.map((p,i) => <button key={p.label} type="button" aria-pressed={phase === i} onClick={() => onChange(i)}>{p.label}</button>)}</div>
     <div className={styles.twoColumns}><svg className={styles.diagram} viewBox="0 0 380 315" role="img" aria-label={`電気活動の概念図。${phases[phase].place}。解剖学的な形状の図ではありません。`}>
       <rect x="28" y="25" width="145" height="92" rx="28" fill="var(--anatomy-right-fill)" opacity={phase === 0 ? 1 : .3} /><rect x="200" y="25" width="145" height="92" rx="28" fill="var(--anatomy-left-fill)" opacity={phase === 0 ? 1 : .3} />
       <rect x="28" y="160" width="145" height="135" rx="32" fill="var(--anatomy-right-fill)" opacity={phase > 0 ? 1 : .3} /><rect x="200" y="160" width="145" height="135" rx="32" fill="var(--anatomy-left-fill)" opacity={phase > 0 ? 1 : .3} />
@@ -35,10 +35,10 @@ function Cycle() {
     </svg><div><Beat title={`${phases[phase].label}を強調した模式波形`} range={phases[phase].range} rangeLabel={phases[phase].label} /><p className={styles.lede}>{phases[phase].place}</p><p>{phases[phase].detail}</p></div></div></>;
 }
 
-function LeadView() {
-  const [side,setSide] = useState<'frontal'|'horizontal'>('frontal');
+function LeadView({ value, onChange }: { value: number; onChange: (value: number) => void }) {
+  const side = value === 1 ? 'horizontal' : 'frontal';
   const leadAngles = [{name:'Ⅰ',a:0},{name:'Ⅱ',a:60},{name:'Ⅲ',a:120},{name:'aVF',a:90},{name:'aVL',a:-30},{name:'aVR',a:-150}];
-  return <><div className={styles.controls} role="group" aria-label="誘導が見る面"><button type="button" aria-pressed={side==='frontal'} onClick={()=>setSide('frontal')}>四肢誘導：前額面</button><button type="button" aria-pressed={side==='horizontal'} onClick={()=>setSide('horizontal')}>胸部誘導：水平面</button></div>
+  return <><div className={styles.controls} role="group" aria-label="誘導が見る面"><button type="button" aria-pressed={side==='frontal'} onClick={()=>onChange(0)}>四肢誘導：前額面</button><button type="button" aria-pressed={side==='horizontal'} onClick={()=>onChange(1)}>胸部誘導：水平面</button></div>
     {side==='horizontal' ? <div className={styles.twoColumns}><div style={{maxWidth:320,margin:'0 auto',width:'100%'}}><ElectrodeBodyMap placement={CORRECT_PLACEMENT} selected={null} view="standard" onPlace={()=>{}}/></div><div><h3>胸部は正確な位置に</h3><ol className={styles.stepList}><li>V1・V2：第4肋間の胸骨右縁・左縁</li><li>V4：第5肋間・左鎖骨中線。V3はV2とV4の間</li><li>V5・V6：V4と同じ高さの前腋窩線・中腋窩線</li></ol><p className={styles.note}>図の左右は患者の左右です。胸部誘導は主に水平面の情報を表します。</p></div></div> : <svg className={styles.diagram} viewBox="0 0 520 360" role="img" aria-label="四肢誘導の基準軸。Ⅰ0度、Ⅱ60度、Ⅲ120度、aVF90度、aVLマイナス30度、aVRマイナス150度。">
       <circle cx="260" cy="170" r="115" fill="#f1f8ff" stroke="#b8d6ee" /><ellipse cx="260" cy="170" rx="32" ry="42" fill="var(--anatomy-left-fill)" /><text x="260" y="177" textAnchor="middle" fontSize="17">心臓</text>
       {leadAngles.map(({name,a})=>{const rad=a*Math.PI/180; const x=260+Math.cos(rad)*144,y=170+Math.sin(rad)*144;return <g key={name}><line x1={260+Math.cos(rad)*42} y1={170+Math.sin(rad)*42} x2={x} y2={y} stroke="#146ed6" strokeWidth="2" /><circle cx={x} cy={y} r="20" fill="white" stroke="#146ed6" /><text x={x} y={y+6} textAnchor="middle" fontSize="18">{name}</text></g>;})}
@@ -56,8 +56,7 @@ function Rate() {
     </svg><div className={styles.measureReadout}><span>60 ÷ {rr.toFixed(1)} = 約{Math.round(teachingRate(rr))}/分</span><span>大マス {Number((rr/.2).toFixed(1))}個相当</span></div><p className={styles.note}>等間隔のQRSだけを描いた計算練習です。洞調律を判定する波形ではありません。</p></>;
 }
 
-function Interval({kind}:{kind:'pr'|'qrs'|'st'|'qt'}) {
-  const [selection,setSelection]=useState(0);
+function Interval({kind, value, onChange}:{kind:'pr'|'qrs'|'st'|'qt'; value: number; onChange: (value: number) => void}) {
   const [rr,setRr]=useState(1);
   const [qt,setQt]=useState(400);
   const settings = {
@@ -66,9 +65,10 @@ function Interval({kind}:{kind:'pr'|'qrs'|'st'|'qt'}) {
     st:[{name:'基線・J点',range:[222,226] as [number,number],detail:'QRSの終わりがJ点です。破線は比較する基線を示します。'},{name:'ST上昇の模式',range:[224,268] as [number,number],detail:'基線より高いSTを示します。病因を特定するモデルではありません。'},{name:'ST低下の模式',range:[224,268] as [number,number],detail:'基線より低いSTを示します。波形の分布と背景も必要です。'},{name:'陰性Tの模式',range:[268,374] as [number,number],detail:'T波が基線より下向きです。誘導による正常な違いも考えます。'}],
     qt:[{name:'QT',range:[180,374] as [number,number],detail:'QRSの始まりからTの終わりまでです。'},{name:'U波を分ける',range:[445,485] as [number,number],detail:'Tの後ろのU波。通常、QTへは含めません。'}],
   };
+  const selection = Math.min(value, settings[kind].length - 1);
   const current=settings[kind][selection];
   const corrected=teachingQTc(qt,rr);
-  return <><div className={styles.controls} role="group" aria-label="波形の観察点">{settings[kind].map((s,i)=><button type="button" key={s.name} aria-pressed={selection===i} onClick={()=>setSelection(i)}>{s.name}</button>)}</div>
+  return <><div className={styles.controls} role="group" aria-label="波形の観察点">{settings[kind].map((s,i)=><button type="button" key={s.name} aria-pressed={selection===i} onClick={()=>onChange(i)}>{s.name}</button>)}</div>
     <Beat title={current.name+'を強調した模式波形'} range={current.range} rangeLabel={current.name} qrsWidth={kind==='qrs'&&selection===1?88:44} amplitude={kind==='qrs'&&selection===2?.35:1} st={kind==='st'?(selection===1?25:selection===2?-20:0):0} tSign={kind==='st'&&selection===3?-1:1} u={kind==='qt'}/>
     <p>{current.detail}</p>
     {kind==='qt'&&<><h3>補正式を比べる練習</h3><div className={styles.controls}><label>QT <select value={qt} onChange={e=>setQt(Number(e.target.value))}>{[320,360,400,440,480].map(v=><option key={v} value={v}>{v} ms</option>)}</select></label><label>RR <select value={rr} onChange={e=>setRr(Number(e.target.value))}>{[.6,.8,1,1.2].map(v=><option key={v} value={v}>{v}秒</option>)}</select></label></div><div className={styles.measureReadout}><span>Bazett：約{Math.round(corrected.bazett)} ms</span><span>Fridericia：約{Math.round(corrected.fridericia)} ms</span></div><p className={styles.note}>上の模式波形とは独立した式の練習です。患者の値を入力する診断ツールではなく、正常／異常の判定は行いません。</p></>}
@@ -87,9 +87,9 @@ function Axis() {
     </svg><div className={styles.measureReadout}>{labels.map(({name,value})=><span key={name}>{name}：{Math.abs(value)<.001?'等電位':value>0?'陽性（＋）':'陰性（−）'}</span>)}</div><p className={styles.note}>平均ベクトルを各軸へ投影した原理図です。実心電図の自動判定ではありません。−20°と−40°を比べると、Ⅱの役割が分かります。</p></>;
 }
 
-export function FoundationVisual({kind}:{kind:FoundationKind}) {
+export function FoundationVisual({kind, variant, onVariantChange}:{kind:FoundationKind; variant: number; onVariantChange: (value: number) => void}) {
   return <section className={styles.section}><h2>代表的な波形</h2>
-    {kind==='cycle'?<Cycle/>:kind==='leads'?<LeadView/>:kind==='rate'?<Rate/>:kind==='axis'?<Axis/>:kind==='pr'||kind==='qrs'||kind==='st'||kind==='qt'?<Interval kind={kind}/>:null}
+    {kind==='cycle'?<Cycle value={variant} onChange={onVariantChange}/>:kind==='leads'?<LeadView value={variant} onChange={onVariantChange}/>:kind==='rate'?<Rate/>:kind==='axis'?<Axis/>:kind==='pr'||kind==='qrs'||kind==='st'||kind==='qt'?<Interval kind={kind} value={variant} onChange={onVariantChange}/>:null}
     <p className={styles.note}>ECG lab独自の模式図。波形の振幅・時間・心臓の形は、説明のために簡略化しています。</p>
   </section>;
 }

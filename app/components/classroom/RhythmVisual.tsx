@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import type { RhythmKind } from '@/app/content/classroom/types';
 import { rhythmExamples, type RhythmExample } from '@/app/domain/classroom-rhythms';
 import { ScrollableWaveform } from './ScrollableWaveform';
@@ -20,14 +19,13 @@ function Timing({example}:{example:RhythmExample}) {
   </svg></ScrollableWaveform>;
 }
 
-function Circuit({wpw=false}:{wpw?:boolean}) {
-  const [selected,setSelected]=useState(0);
+function Circuit({wpw=false, selected, onChange}:{wpw?:boolean; selected: number; onChange: (value: number) => void}) {
   const labels=wpw?['通常の経路','早期興奮']:['AVNRT','AVRT','心房頻拍（AT）'];
   const descriptions=wpw?['房室結節を通り、His–Purkinje系から心室へ届きます。','副伝導路でも心室の一部へ先に届きます。通常経路の興奮と融合し、QRSの始まりにデルタ波が生じます。']:['房室結節周辺の速い・遅い経路が回路をつくる代表的なslow–fast型。P′はQRSの中や末尾に重なり得ます。','順行性AVRTの例。房室結節を下り、副伝導路を戻る回路に心房・心室が参加します。','心房内の起源から興奮が生じます。ATには異常自動能やリエントリーなど複数の機序があります。'];
   const waveform = wpw
     ? selected === 0 ? 'M20 110H70q14 -22 28 0H155l8 8 10 -76 13 96 12 -28H270q35 -49 70 0H500' : 'M20 110H70q14 -22 28 0H132q20 -2 31 -22q14 -32 28 -46l12 96 15 -28H285q35 -49 70 0H500'
     : selected === 2 ? 'M20 110H55q12 -24 24 0H105l6 6 8 -68 11 87 10 -25H165q12 -24 24 0H215l6 6 8 -68 11 87 10 -25H275q12 -24 24 0H325l6 6 8 -68 11 87 10 -25H500' : 'M20 110H60l6 6 8 -68 11 87 10 -25H150l6 6 8 -68 11 87 10 -25H240l6 6 8 -68 11 87 10 -25H330l6 6 8 -68 11 87 10 -25H500';
-  return <><div className={styles.controls} role="group" aria-label="興奮経路を選ぶ">{labels.map((label,i)=><button type="button" aria-pressed={selected===i} key={label} onClick={()=>setSelected(i)}>{label}</button>)}</div>
+  return <><div className={styles.controls} role="group" aria-label="興奮経路を選ぶ">{labels.map((label,i)=><button type="button" aria-pressed={selected===i} key={label} onClick={()=>onChange(i)}>{label}</button>)}</div>
     <div className={styles.twoColumns}><svg className={styles.diagram} viewBox="0 0 520 165" role="img" aria-label={labels[selected]+'で見られる代表的な模式波形'}><path d="M20 110H500" stroke="#9db4c7" strokeDasharray="5 5"/><path d={waveform} fill="none" stroke="#0a1f57" strokeWidth="3"/><text x="260" y="155" textAnchor="middle" fontSize="19">{wpw?(selected===0?'比較用の波形':'短いPR・デルタ波の一例'):'規則的な狭いQRS頻拍の一例'}</text></svg>
     <svg className={styles.diagram} viewBox="0 0 540 355" role="img" aria-label={labels[selected]+'の概念図。'+descriptions[selected]}>
       <rect x="150" y="15" width="240" height="58" rx="20" fill="#f8dce6"/><text x="270" y="52" textAnchor="middle" fontSize="25">心房</text>
@@ -39,17 +37,16 @@ function Circuit({wpw=false}:{wpw?:boolean}) {
   </>;
 }
 
-function Ventricular() {
-  const [mode,setMode]=useState(0);
+function Ventricular({ mode, onChange }: { mode: number; onChange: (value: number) => void }) {
   const choices=[{name:'単形性VT',text:'心室由来の速い興奮が連続し、QRSの形がほぼ一定となる概念です。幅広い頻拍の原因は心電図全体で評価します。'},{name:'多形性VT / TdP',text:'拍ごとに形・軸が変化します。TdPはQT延長を背景とする特徴的な多形性VTで、すべての多形性VTと同義ではありません。'},{name:'VF',text:'まとまったQRSを認めない不規則な活動です。アーチファクトとの区別、患者の反応や呼吸・循環の確認が必要です。'},{name:'AIVR',text:'心室固有のリズムが促進された状態です。比較的遅い連続した幅広いQRSを見ます。速度の定義には文献差があり、速さだけでVTと二分しません。'}];
   const path=Array.from({length:641},(_,i)=>{const v=mode===2?Math.sin(i*.14)*25+Math.sin(i*.36)*12+Math.cos(i*.071)*17:0;return `${i?'L':'M'}${30+i} ${120+v}`;}).join(' ');
-  return <><div className={styles.controls} role="group" aria-label="心室性リズムの比較">{choices.map((c,i)=><button type="button" key={c.name} aria-pressed={mode===i} onClick={()=>setMode(i)}>{c.name}</button>)}</div><ScrollableWaveform className={styles.diagramScroll} ariaLabel="心室性リズムの模式図。横にスクロールできます。"><svg className={styles.timeline} viewBox="0 0 700 200" role="img" aria-label={choices[mode].name+'の模式図'}><path d={path} fill="none" stroke={mode===2?'#0a1f57':'#9db4c7'} strokeWidth="2"/>{mode!==2&&Array.from({length:mode===3?5:10},(_,i)=>{const width=mode===3?128:64;const amplitude=mode===1?Math.cos(i*.65)*52:52;return <path key={i} d={`M${32+i*width} 120q${width*.18} ${-amplitude*2} ${width*.33} ${-amplitude*.7}t${width*.23} 0q${width*.14} ${amplitude*1.1} ${width*.4} ${amplitude*.7}`} fill="none" stroke="#0a1f57" strokeWidth="2.5"/>;})}</svg></ScrollableWaveform><p>{choices[mode].text}</p><p className={styles.note}>形と並びだけの独自模式図です。時間・電位の測定や診断分類には使いません。</p></>;
+  return <><div className={styles.controls} role="group" aria-label="心室性リズムの比較">{choices.map((c,i)=><button type="button" key={c.name} aria-pressed={mode===i} onClick={()=>onChange(i)}>{c.name}</button>)}</div><ScrollableWaveform className={styles.diagramScroll} ariaLabel="心室性リズムの模式図。横にスクロールできます。"><svg className={styles.timeline} viewBox="0 0 700 200" role="img" aria-label={choices[mode].name+'の模式図'}><path d={path} fill="none" stroke={mode===2?'#0a1f57':'#9db4c7'} strokeWidth="2"/>{mode!==2&&Array.from({length:mode===3?5:10},(_,i)=>{const width=mode===3?128:64;const amplitude=mode===1?Math.cos(i*.65)*52:52;return <path key={i} d={`M${32+i*width} 120q${width*.18} ${-amplitude*2} ${width*.33} ${-amplitude*.7}t${width*.23} 0q${width*.14} ${amplitude*1.1} ${width*.4} ${amplitude*.7}`} fill="none" stroke="#0a1f57" strokeWidth="2.5"/>;})}</svg></ScrollableWaveform><p>{choices[mode].text}</p><p className={styles.note}>形と並びだけの独自模式図です。時間・電位の測定や診断分類には使いません。</p></>;
 }
 
-export function RhythmVisual({kind}:{kind:RhythmKind}) {
-  const [selected,setSelected]=useState(0);
+export function RhythmVisual({kind, variant, onVariantChange}:{kind:RhythmKind; variant: number; onVariantChange: (value: number) => void}) {
   const examples=rhythmExamples[kind];
+  const selected=Math.min(variant, Math.max(0, (examples?.length ?? (kind === 'ventricular' ? 4 : kind === 'svt' ? 3 : 2)) - 1));
   return <section className={styles.section}><h2>代表的な波形</h2>
-    {kind==='svt'||kind==='wpw'?<Circuit wpw={kind==='wpw'}/>:kind==='ventricular'?<Ventricular/>:examples?<><div className={styles.controls} role="group" aria-label="時間関係の例を選ぶ">{examples.map((e,i)=><button type="button" key={e.label} aria-pressed={selected===i} onClick={()=>setSelected(i)}>{e.label}</button>)}</div><Timing example={examples[selected]}/><p className={styles.lede}>{examples[selected].description}</p><p className={styles.note}>心房と心室を上下に分けた時間関係の図です。細い接続線は伝導を示します。T波を省略し、P・QRSは記号化しています。実際の心電図ではありません。</p></>:null}
+    {kind==='svt'||kind==='wpw'?<Circuit wpw={kind==='wpw'} selected={selected} onChange={onVariantChange}/>:kind==='ventricular'?<Ventricular mode={selected} onChange={onVariantChange}/>:examples?<><div className={styles.controls} role="group" aria-label="時間関係の例を選ぶ">{examples.map((e,i)=><button type="button" key={e.label} aria-pressed={selected===i} onClick={()=>onVariantChange(i)}>{e.label}</button>)}</div><Timing example={examples[selected]}/><p className={styles.lede}>{examples[selected].description}</p><p className={styles.note}>心房と心室を上下に分けた時間関係の図です。細い接続線は伝導を示します。T波を省略し、P・QRSは記号化しています。実際の心電図ではありません。</p></>:null}
   </section>;
 }
