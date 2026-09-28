@@ -32,10 +32,12 @@ function LessonVisual({kind}:{kind:VisualKind}) {
 
 export function LessonPage({lesson}:{lesson:Lesson}) {
   return <ClassroomLayout slug={lesson.slug} references={lesson.sources} labs={lesson.labs}>
-    <LessonVisual kind={lesson.visual}/>
-    {lesson.recordId
-      ? <RecordedECGViewer key={lesson.recordId} recordId={lesson.recordId}/>
-      : lesson.visual !== 'practice' && <TwelveLeadSchematic kind={lesson.visual}/>}
+    {lesson.visual === 'practice' ? <LessonVisual kind={lesson.visual}/> : <div className={styles.waveformStage}>
+      <LessonVisual kind={lesson.visual}/>
+      {lesson.recordId
+        ? <RecordedECGViewer key={lesson.recordId} recordId={lesson.recordId}/>
+        : <TwelveLeadSchematic kind={lesson.visual}/>}
+    </div>}
     <section className={styles.section}>
       <h2>波形の特徴と見方</h2>
       <p className={styles.lede}>{lesson.lead}</p>
