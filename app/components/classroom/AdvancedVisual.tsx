@@ -8,6 +8,21 @@ function Choices({ names, value, onChange, label }: { names: string[]; value: nu
   return <div className={styles.controls} role="group" aria-label={label}>{names.map((name, index) => <button key={name} type="button" aria-pressed={value === index} onClick={() => onChange(index)}>{name}</button>)}</div>;
 }
 
+function RepresentativeTrace({ kind, label }: { kind: 'normal'|'hcm'|'dcm'|'pericarditis'|'low'|'alternans'|'newborn'|'child'|'older'; label: string }) {
+  const paths = {
+    normal: 'M20 110H70q14 -22 28 0H155l8 8 10 -76 13 96 12 -28H270q35 -49 70 0H500',
+    hcm: 'M20 110H70q14 -22 28 0H145l8 20 12 -104 15 132 14 -48H270q35 52 70 0H500',
+    dcm: 'M20 110H70q14 -18 28 0H145q14 -58 35 -13t38 23H282q34 42 68 0H500',
+    pericarditis: 'M20 110H70q14 -20 28 0H142l12 8 10 -75 13 95 12 -27Q245 72 310 78Q352 81 380 110H500',
+    low: 'M20 110H62l5 4 7 -27 8 35 8 -12H145l5 4 7 -25 8 33 8 -12H228l5 4 7 -23 8 31 8 -12H500',
+    alternans: 'M20 110H58l6 7 9 -72 12 91 11 -26H156l5 5 7 -42 10 56 9 -19H246l6 7 9 -72 12 91 11 -26H346l5 5 7 -42 10 56 9 -19H500',
+    newborn: 'M20 110H70q14 -19 28 0H150l8 8 10 -66 13 86 12 -28H270q34 -41 68 0H500',
+    child: 'M20 110H70q14 -19 28 0H150l8 8 10 -58 13 78 12 -28H270q34 42 68 0H500',
+    older: 'M20 110H70q14 -19 28 0H150l8 8 10 -70 13 90 12 -28H270q34 -35 68 0H500',
+  };
+  return <svg className={styles.diagram} viewBox="0 0 520 165" role="img" aria-label={label}><path d="M20 110H500" stroke="#9db4c7" strokeDasharray="5 5"/><path d={paths[kind]} fill="none" stroke="#0a1f57" strokeWidth="3" strokeLinejoin="round"/><text x="260" y="155" textAnchor="middle" fontSize="19">{label}</text></svg>;
+}
+
 function JWave() {
   const [mode, setMode] = useState(0);
   const names = ['J波のノッチ', 'コブド型', 'サドルバック型'];
@@ -27,7 +42,7 @@ function Structure({ amyloid = false }: { amyloid?: boolean }) {
   const dilated = !amyloid && mode === 2;
   const outer = dilated ? 133 : 108;
   const inner = thick ? 55 : dilated ? 110 : 83;
-  return <><Choices names={names} value={mode} onChange={setMode} label={amyloid ? '壁厚と電位の関係' : '心室の構造を比べる'}/><div className={styles.twoColumns}><svg className={styles.diagram} viewBox="0 0 360 340" role="img" aria-label={`左室の断面の概念。${thick ? '厚い壁' : dilated ? '広い内腔' : '比較用の壁と内腔'}。解剖学的縮尺ではありません。`}><circle cx="180" cy="163" r={outer} fill={amyloid ? '#d9c5ef' : '#f3cfda'} stroke="#8f4964" strokeWidth="3"/><circle cx="180" cy="163" r={inner} fill="#fff" stroke="#8f4964" strokeWidth="2"/><text x="180" y="171" textAnchor="middle" fontSize="25">内腔</text><path d={`M${180+inner+4} 163H335`} stroke="#465e7b" strokeWidth="2"/><text x="300" y="145" fontSize="24">壁</text><text x="180" y="320" textAnchor="middle" fontSize="22">左室の断面・概念図</text></svg><div className={styles.point}><h3>{amyloid ? '画像と心電図を見合わせる' : mode === 1 ? '壁の肥厚に注目' : mode === 2 ? '拡大と収縮機能に注目' : '別々に観察する'}</h3>{amyloid ? <><svg className={styles.diagram} viewBox="0 0 340 200" role="img" aria-label={mode === 0 ? '低いQRS電位の概念図' : '保たれたQRS電位の概念図'}><path d="M15 130H325" stroke="#9db4c7" strokeDasharray="5 5"/>{[55,155,255].map(x => <path key={x} d={`M${x-35} 130h20l5 6 6 ${mode===0 ? -27 : -84} 7 ${mode===0 ? 39 : 96} 6 -18h30`} fill="none" stroke="#0a1f57" strokeWidth="3"/>)}<text x="170" y="185" textAnchor="middle" fontSize="22">{mode === 0 ? '壁厚に比べて小さい電位' : '電位が低くない例もある'}</text></svg><p>{mode === 0 ? 'この不釣り合いは心アミロイドーシスを考える手掛かりのひとつです。' : '低電位は必須ではありません。心電図だけで除外しません。'}</p></> : <p>{mode === 1 ? 'HCMでは肥厚の場所や程度に違いがあります。この均一な円は、壁と内腔を区別するための簡略図です。' : mode === 2 ? 'DCMは拡大した心室と収縮機能低下が中心です。「大きな心臓」と「厚い壁」を同じ意味にしません。' : '画像の厚さ・内腔、心電図の電位・形、機能を別の情報として組み合わせます。'}</p>}</div></div></>;
+  return <><Choices names={names} value={mode} onChange={setMode} label={amyloid ? '壁厚と電位の関係' : '心室の構造を比べる'}/><div className={styles.twoColumns}><svg className={styles.diagram} viewBox="0 0 360 340" role="img" aria-label={`左室の断面の概念。${thick ? '厚い壁' : dilated ? '広い内腔' : '比較用の壁と内腔'}。解剖学的縮尺ではありません。`}><circle cx="180" cy="163" r={outer} fill={amyloid ? '#d9c5ef' : '#f3cfda'} stroke="#8f4964" strokeWidth="3"/><circle cx="180" cy="163" r={inner} fill="#fff" stroke="#8f4964" strokeWidth="2"/><text x="180" y="171" textAnchor="middle" fontSize="25">内腔</text><path d={`M${180+inner+4} 163H335`} stroke="#465e7b" strokeWidth="2"/><text x="300" y="145" fontSize="24">壁</text><text x="180" y="320" textAnchor="middle" fontSize="22">左室の断面・概念図</text></svg><div className={styles.point}><h3>{amyloid ? '画像と心電図を見合わせる' : mode === 1 ? '壁の肥厚に注目' : mode === 2 ? '拡大と収縮機能に注目' : '別々に観察する'}</h3>{amyloid ? <><RepresentativeTrace kind={mode===0?'low':'normal'} label={mode===0?'低電位の模式例':'低電位でない例もある'}/><p>{mode === 0 ? 'この不釣り合いは心アミロイドーシスを考える手掛かりのひとつです。' : '低電位は必須ではありません。心電図だけで除外しません。'}</p></> : <><RepresentativeTrace kind={mode===1?'hcm':mode===2?'dcm':'normal'} label={mode===1?'HCMで見られ得る高電位・再分極変化の一例':mode===2?'DCMで見られ得る幅広いQRS・ST–T変化の一例':'比較用の模式波形'}/><p>{mode === 1 ? 'HCMでは肥厚の場所や程度に違いがあり、波形も一様ではありません。高電位や異常Q波、ST–T変化などを組み合わせて見ます。' : mode === 2 ? 'DCMの心電図所見は多様です。伝導障害、QRS幅、ST–Tなどを観察し、画像で構造と機能を確認します。' : '画像の厚さ・内腔、心電図の電位・形、機能を別の情報として組み合わせます。'}</p></>}</div></div></>;
 }
 
 function Takotsubo() {
@@ -44,7 +59,7 @@ function Epsilon() {
 }
 
 function RightHeart() {
-  const [mode, setMode] = useState(0);
+  const [mode, setMode] = useState(1);
   return <><Choices names={['右室から肺へ', 'SⅠQⅢTⅢを分解']} value={mode} onChange={setMode} label="右心負荷の観察"/>{mode === 0 ? <svg className={styles.diagram} viewBox="0 0 520 275" role="img" aria-label="右室から肺血管へ血液が流れる概念図。肺血管の抵抗増大は右室への圧負荷を増す。"><rect x="32" y="76" width="170" height="138" rx="35" fill="var(--anatomy-right-fill)"/><text x="117" y="151" textAnchor="middle" fontSize="30">右室</text><rect x="320" y="76" width="170" height="138" rx="35" fill="#e6effa"/><text x="405" y="151" textAnchor="middle" fontSize="27">肺血管</text><path d="M216 145H302l-17 -12m17 12l-17 12" stroke="#146ed6" strokeWidth="5" fill="none"/><text x="260" y="252" textAnchor="middle" fontSize="22">送り出す先の抵抗にも注目</text></svg> : <svg className={styles.diagram} viewBox="0 0 520 340" role="img" aria-label="SⅠQⅢTⅢの模式図。Ⅰ誘導にS波、Ⅲ誘導にQ波と陰性T波。"><text x="24" y="68" fontSize="26">Ⅰ</text><text x="24" y="221" fontSize="26">Ⅲ</text>{[100,253].map(y=><path key={y} d={`M20 ${y}H500`} stroke="#9db4c7" strokeDasharray="5 5"/>)}<path d="M25 100H112l13 -62 14 114 13 -52H285q38 -65 76 0H500M25 253H110l10 24 12 -72 14 63 10 -15H285q38 65 76 0H500" stroke="#0a1f57" strokeWidth="3" fill="none"/><text x="156" y="159" fontSize="24">S</text><text x="87" y="307" fontSize="24">Q</text><text x="351" y="319" fontSize="24">陰性T</text></svg>}<p>{mode === 0 ? '右心の構造や圧は心電図だけでは測れません。新しい変化と、以前からの所見も分けて考えます。' : '数字は誘導名です。「SⅠSⅡSⅢ」とは別の組み合わせ。所見だけで肺塞栓症を確定・除外しません。'}</p></>;
 }
 
@@ -52,7 +67,7 @@ function Pericardium() {
   const [mode, setMode] = useState(0);
   const names = ['炎症', '液の貯留', '充満が妨げられる'];
   const notes = ['心膜の炎症。広い誘導のST上昇やPR低下が手掛かりになることがあります。', '周囲に液が貯まること。液の量と、循環への影響は別に評価します。', '周囲からの圧で拡張時に血液を受け入れにくくなり、心拍出へ影響します。'];
-  return <><Choices names={names} value={mode} onChange={setMode} label="心膜・液・循環を分ける"/><svg className={styles.diagram} viewBox="0 0 520 325" role="img" aria-label={names[mode]+'の概念図。'+notes[mode]}><ellipse cx="260" cy="164" rx="166" ry="129" fill={mode > 0 ? '#e1f2ff' : '#fff8f4'} stroke={mode === 0 ? '#b34a55' : '#607891'} strokeWidth={mode === 0 ? 8 : 4}/><ellipse cx="260" cy="175" rx={mode === 2 ? 66 : 115} ry="89" fill="#f2c9d8" stroke="#8f4964" strokeWidth="3"/><text x="260" y="185" textAnchor="middle" fontSize="28">心臓</text><text x="416" y="37" fontSize="24">心膜</text><path d="M421 44l-27 38" stroke="#607891" strokeWidth="2"/>{mode > 0 && <text x="119" y="179" fontSize="24">液</text>}{mode === 2 && <><path d="M156 220h27l-10 -9m10 9l-10 9M364 220h-27l10 -9m-10 9l10 9" stroke="#b34a55" strokeWidth="4" fill="none"/><text x="260" y="313" textAnchor="middle" fontSize="22">血液を受け入れにくい</text></>}</svg><p>{notes[mode]}</p><p className={styles.note}>3つの概念の比較です。この順序で必ず進むという意味ではありません。</p></>;
+  return <><Choices names={names} value={mode} onChange={setMode} label="心膜・液・循環を分ける"/><div className={styles.twoColumns}><RepresentativeTrace kind={mode===0?'pericarditis':mode===1?'low':'alternans'} label={mode===0?'広い誘導のST上昇・PR低下の一例':mode===1?'低電位の一例':'電気的交互脈の一例'}/><svg className={styles.diagram} viewBox="0 0 520 325" role="img" aria-label={names[mode]+'の概念図。'+notes[mode]}><ellipse cx="260" cy="164" rx="166" ry="129" fill={mode > 0 ? '#e1f2ff' : '#fff8f4'} stroke={mode === 0 ? '#b34a55' : '#607891'} strokeWidth={mode === 0 ? 8 : 4}/><ellipse cx="260" cy="175" rx={mode === 2 ? 66 : 115} ry="89" fill="#f2c9d8" stroke="#8f4964" strokeWidth="3"/><text x="260" y="185" textAnchor="middle" fontSize="28">心臓</text><text x="416" y="37" fontSize="24">心膜</text><path d="M421 44l-27 38" stroke="#607891" strokeWidth="2"/>{mode > 0 && <text x="119" y="179" fontSize="24">液</text>}{mode === 2 && <><path d="M156 220h27l-10 -9m10 9l-10 9M364 220h-27l10 -9m-10 9l10 9" stroke="#b34a55" strokeWidth="4" fill="none"/><text x="260" y="313" textAnchor="middle" fontSize="22">血液を受け入れにくい</text></>}</svg></div><p>{notes[mode]}</p><p className={styles.note}>波形は見られ得る一例です。3つの概念がこの順序で必ず進むという意味ではありません。</p></>;
 }
 
 function Position() {
@@ -70,7 +85,7 @@ function Pediatric() {
   const rotation = [110,80,55][mode];
   const endX = 163+80*Math.cos(rotation*Math.PI/180);
   const endY = 141+80*Math.sin(rotation*Math.PI/180);
-  return <><Choices names={names} value={mode} onChange={setMode} label="年齢と心電図の変化"/><div className={styles.twoColumns}><svg className={styles.diagram} viewBox="0 0 330 315" role="img" aria-label="成長につれて右室優位から変わる電気軸の概念。角度は正常値ではありません。"><circle cx="163" cy="141" r="103" stroke="#bed4e8" strokeWidth="2" fill="#f3f9ff"/><path d="M39 141H286M163 20V267" stroke="#9db4c7"/><path d={`M163 141L${endX} ${endY}`} stroke="#146ed6" strokeWidth="6"/><circle cx={endX} cy={endY} r="8" fill="#146ed6"/><text x="20" y="128" fontSize="21">−Ⅰ</text><text x="277" y="128" fontSize="21">＋Ⅰ</text><text x="176" y="266" fontSize="21">＋aVF</text><text x="163" y="308" textAnchor="middle" fontSize="21">変化の方向・正常範囲ではない</text></svg><div className={styles.point}><h3>{names[mode]}の見方</h3><p>{notes[mode]}</p><p>日齢・年齢 → 記録条件 → 年齢別の基準 → 症状・家族歴</p></div></div></>;
+  return <><Choices names={names} value={mode} onChange={setMode} label="年齢と心電図の変化"/><div className={styles.twoColumns}><svg className={styles.diagram} viewBox="0 0 330 315" role="img" aria-label="成長につれて右室優位から変わる電気軸の概念。角度は正常値ではありません。"><circle cx="163" cy="141" r="103" stroke="#bed4e8" strokeWidth="2" fill="#f3f9ff"/><path d="M39 141H286M163 20V267" stroke="#9db4c7"/><path d={`M163 141L${endX} ${endY}`} stroke="#146ed6" strokeWidth="6"/><circle cx={endX} cy={endY} r="8" fill="#146ed6"/><text x="20" y="128" fontSize="21">−Ⅰ</text><text x="277" y="128" fontSize="21">＋Ⅰ</text><text x="176" y="266" fontSize="21">＋aVF</text><text x="163" y="308" textAnchor="middle" fontSize="21">変化の方向・正常範囲ではない</text></svg><div className={styles.point}><h3>{names[mode]}のV1模式例</h3><RepresentativeTrace kind={mode===0?'newborn':mode===1?'child':'older'} label={mode===0?'出生直後：右室優位とT波の一例':mode===1?'小児：V1陰性Tの一例':'成長後：成人に近づく一例'}/><p>{notes[mode]}</p><p>日齢・年齢 → 記録条件 → 年齢別の基準 → 症状・家族歴</p></div></div></>;
 }
 
 export function AdvancedVisual({ kind }: { kind: AdvancedKind }) {
@@ -78,5 +93,5 @@ export function AdvancedVisual({ kind }: { kind: AdvancedKind }) {
     'j-wave': <JWave/>, structure: <Structure/>, takotsubo: <Takotsubo/>, epsilon: <Epsilon/>, amyloid: <Structure amyloid/>,
     'right-heart': <RightHeart/>, pericardium: <Pericardium/>, position: <Position/>, pediatric: <Pediatric/>,
   };
-  return <section className={styles.section}><h2>図で比較する</h2>{visuals[kind]}<p className={styles.note}>独自に作成した学習用の模式図です。寸法・振幅・角度は概念の比較用で、実記録や診断の基準値ではありません。</p></section>;
+  return <section className={styles.section}><h2>代表的な波形</h2>{visuals[kind]}<p className={styles.note}>独自に作成した学習用の模式図です。寸法・振幅・角度は概念の比較用で、実記録や診断の基準値ではありません。</p></section>;
 }

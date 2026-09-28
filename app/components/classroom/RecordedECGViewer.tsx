@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { decodeRecord, displayLead, parseRecordHeader, recordPath, type RecordedECG } from '@/app/domain/recorded-ecg';
 import { teachingRecords } from '@/app/content/classroom/records';
 import { appPath } from '@/app/domain/paths';
+import { ScrollableWaveform } from './ScrollableWaveform';
 import styles from './Classroom.module.css';
 
 const assetBase = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
@@ -60,12 +61,12 @@ export function RecordedECGViewer({ recordId = '00293', instanceId = 'record' }:
   }, [data, lead]);
 
   return <section className={styles.section} aria-labelledby={`${uid}-heading`}>
-    <h2 id={`${uid}-heading`}>{record.title}</h2><p>{record.purpose}</p>
+    <h2 id={`${uid}-heading`}>代表的な波形</h2><h3>{record.title}</h3><p>{record.purpose}</p>
     {!data && !error && <p role="status">実記録を読み込んでいます…</p>}
     {error && <div className={styles.error} role="alert"><p>実記録を読み込めませんでした。記録の説明と出典は下で確認できます。</p><button type="button" className={styles.reveal} onClick={() => { setError(false); setAttempt((value) => value + 1); }}>読み込み直す</button></div>}
     {drawing && data && <>
       <p className={styles.caption}>実記録・12誘導 ／ 25 mm/s・10 mm/mV相当 ／ 各誘導の最初の2.5秒を同じ時刻で比較</p>
-      <div className={styles.paperScroll} tabIndex={0} role="region" aria-label="12誘導の全体像。横にスクロールできます">
+      <ScrollableWaveform className={styles.paperScroll} ariaLabel="12誘導の全体像。横にスクロールできます">
         <svg className={styles.overview} viewBox={`0 0 1320 ${drawing.height * 3}`} role="img" aria-label="12誘導の同時刻の波形。行はⅠ・aVR・V1・V4、Ⅱ・aVL・V2・V5、Ⅲ・aVF・V3・V6。すべて同じ時間・電位の倍率です。">
           <ECGGrid id={`${uid}-overview`} /><rect width="1320" height={drawing.height * 3} fill={`url(#${uid}-overview-large)`} />
           {drawing.channels.map((channel, index) => <g key={channel.name} transform={`translate(${(index % 4) * 330} ${Math.floor(index / 4) * drawing.height})`}>
@@ -74,11 +75,11 @@ export function RecordedECGViewer({ recordId = '00293', instanceId = 'record' }:
             <path d={`M330 0V${drawing.height}M0 ${drawing.height}H330`} stroke="#b8a0ab" fill="none" strokeWidth=".7" />
           </g>)}
         </svg>
-      </div>
+      </ScrollableWaveform>
       <div className={styles.controls}><label htmlFor={`${uid}-lead`}>拡大する誘導 <select id={`${uid}-lead`} value={lead} onChange={(event) => setLead(event.target.value)}>{data.signals.map((signal) => <option key={signal.name} value={signal.name.toUpperCase()}>{displayLead(signal.name)}</option>)}</select></label><label htmlFor={`${uid}-zoom`}>拡大率 <select id={`${uid}-zoom`} value={zoom} onChange={(event) => setZoom(Number(event.target.value))}><option value={1}>1倍</option><option value={1.5}>1.5倍</option><option value={2}>2倍</option></select></label><label><input type="checkbox" checked={annotated} onChange={(event) => setAnnotated(event.target.checked)} />目盛り・観察の注釈</label></div>
       <p className={styles.caption}>{displayLead(lead)}誘導・全{drawing.duration}秒。波形の枠を横に動かして観察できます。拡大しても縦横の比率は変わりません。</p>
-      <div className={styles.paperScroll} tabIndex={0} role="region" aria-label={`${displayLead(lead)}誘導の全記録。横スクロールで時間を移動`}>
-        <svg className={styles.strip} width={(drawing.duration * 100 + 100) * zoom} height={(drawing.height + 50) * zoom} viewBox={`0 0 ${drawing.duration * 100 + 100} ${drawing.height + 50}`} role="img" aria-label={`${displayLead(lead)}誘導、${drawing.duration}秒、校正1ミリボルト。小マスは0.04秒と0.1ミリボルト相当。`}>
+      <ScrollableWaveform className={styles.paperScroll} ariaLabel={`${displayLead(lead)}誘導の全記録。横スクロールで時間を移動`}>
+        <svg className={styles.strip} data-zoom={zoom} width={(drawing.duration * 100 + 100) * zoom} height={(drawing.height + 50) * zoom} viewBox={`0 0 ${drawing.duration * 100 + 100} ${drawing.height + 50}`} role="img" aria-label={`${displayLead(lead)}誘導、${drawing.duration}秒、校正1ミリボルト。小マスは0.04秒と0.1ミリボルト相当。`}>
           <ECGGrid id={`${uid}-strip`} /><rect width={drawing.duration * 100 + 100} height={drawing.height} fill={`url(#${uid}-strip-large)`} />
           <text x="12" y="24" className={styles.waveText}>{displayLead(lead)}</text><Calibration x={12} y={drawing.halfHeight} />
           <path d={drawing.strip} transform={`translate(70 ${drawing.halfHeight})`} fill="none" stroke="#0a1f57" strokeWidth="1.3" />
@@ -87,7 +88,7 @@ export function RecordedECGViewer({ recordId = '00293', instanceId = 'record' }:
             {record.annotations?.filter(a=>a.lead===lead).map(a=><g key={a.seconds}><line x1={70+a.seconds*100} y1="68" x2={70+a.seconds*100} y2={drawing.height-16} stroke="#8c5a00" strokeDasharray="4 4"/><text x={78+a.seconds*100} y="66" className={styles.waveText}>{a.label}</text></g>)}
           </g>}
         </svg>
-      </div>
+      </ScrollableWaveform>
     </>}
     <ol className={styles.stepList} style={{ marginTop: 20 }}>{record.observations.map((observation) => <li key={observation}>{observation}</li>)}</ol>
     <details className={styles.source}><summary>この記録の所見と限界</summary><p>{record.limits}</p><a href={`${base}.json`}>選定時のメタデータ・原ファイルの照合情報</a></details>

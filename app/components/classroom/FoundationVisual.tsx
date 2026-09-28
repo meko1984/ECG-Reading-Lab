@@ -88,7 +88,7 @@ function Axis() {
 }
 
 export function FoundationVisual({kind}:{kind:FoundationKind}) {
-  return <section className={styles.section}><h2>図で確かめる</h2>
+  return <section className={styles.section}><h2>代表的な波形</h2>
     {kind==='cycle'?<Cycle/>:kind==='leads'?<LeadView/>:kind==='rate'?<Rate/>:kind==='axis'?<Axis/>:kind==='pr'||kind==='qrs'||kind==='st'||kind==='qt'?<Interval kind={kind}/>:null}
     <p className={styles.note}>ECG lab独自の模式図。波形の振幅・時間・心臓の形は、説明のために簡略化しています。</p>
   </section>;

@@ -10,7 +10,7 @@ export function PaperLesson() {
   const time = (squares * .04).toFixed(2);
   const voltage = (squares * .1).toFixed(1);
   return <section className={styles.section} aria-labelledby="paper-heading">
-    <h2 id="paper-heading">横は時間。縦は電位。</h2>
+    <h2 id="paper-heading">説明：横は時間、縦は電位</h2>
     <div className={styles.twoColumns}><div>
       <svg className={styles.diagram} viewBox="0 0 500 340" role="img" aria-label={`25 mm毎秒、10 mm毎ミリボルト相当の目盛り。${squares}小マスは${axis === 'time' ? `${time}秒` : `${voltage}ミリボルト`}。`}>
         <defs><pattern id={`${gridId}-small`} width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0H0V20" fill="none" stroke="#eed4de" strokeWidth="1" /></pattern><pattern id={`${gridId}-big`} width="100" height="100" patternUnits="userSpaceOnUse"><rect width="100" height="100" fill={`url(#${gridId}-small)`} /><path d="M100 0H0V100" fill="none" stroke="#ce9aae" strokeWidth="1.4" /></pattern></defs>

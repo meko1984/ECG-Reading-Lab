@@ -6,7 +6,6 @@ import { ConditionVisual } from './ConditionVisual';
 import { DeviceVisual } from './DeviceVisual';
 import { PracticeVisual } from './PracticeVisual';
 import { AdvancedVisual } from './AdvancedVisual';
-import { KnowledgeCheck } from './KnowledgeCheck';
 import { RecordedECGViewer } from './RecordedECGViewer';
 import styles from './Classroom.module.css';
 
@@ -32,11 +31,15 @@ function LessonVisual({kind}:{kind:VisualKind}) {
 
 export function LessonPage({lesson}:{lesson:Lesson}) {
   return <ClassroomLayout slug={lesson.slug} references={lesson.sources} labs={lesson.labs}>
-    <p className={styles.lede}>{lesson.lead}</p>
     <LessonVisual kind={lesson.visual}/>
-    <section className={styles.section}><h2>観察の順番</h2><div className={styles.threeColumns}>{lesson.points.map(point=><div className={styles.point} key={point.title}><h3>{point.title}</h3><p>{point.body}</p></div>)}</div></section>
     {lesson.recordId&&<RecordedECGViewer key={lesson.recordId} recordId={lesson.recordId}/>}
-    <section className={styles.section}><h2>ここは取り違えない</h2><ol className={styles.stepList}>{lesson.pitfalls.map(pitfall=><li key={pitfall}>{pitfall}</li>)}</ol></section>
-    <KnowledgeCheck question={lesson.question.prompt} answers={lesson.question.answers} correctIndex={lesson.question.correct} explanation={lesson.question.explanation}/>
+    <section className={styles.section}>
+      <h2>波形の特徴と見方</h2>
+      <p className={styles.lede}>{lesson.lead}</p>
+      <ul className={styles.explanationList}>
+        {lesson.points.map(point=><li key={point.title}><strong>{point.title}</strong><span>{point.body}</span></li>)}
+        {lesson.pitfalls.map(pitfall=><li className={styles.cautionItem} key={pitfall}><strong>注意</strong><span>{pitfall}</span></li>)}
+      </ul>
+    </section>
   </ClassroomLayout>;
 }

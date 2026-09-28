@@ -35,7 +35,9 @@ for (const [number, room] of classrooms.entries()) {
   assert.ok(index.includes(`href="/${filename}"`), `Index link missing: ${room.slug}`);
   const html = fs.readFileSync(path.join(root, filename), 'utf8');
   assert.ok(html.includes(`<h1>${room.title}</h1>`), `Wrong heading: ${room.slug}`);
-  assert.ok(html.includes('ひとつ確かめる'), `Question missing: ${room.slug}`);
+  assert.ok(html.includes('代表的な波形'), `Representative waveform missing: ${room.slug}`);
+  assert.ok(!html.includes('ひとつ確かめる'), `Obsolete quiz remains: ${room.slug}`);
+  assert.ok(html.includes('関連項目・研究室'), `Related section missing: ${room.slug}`);
   assert.ok(html.includes('参考資料'), `References missing: ${room.slug}`);
   assert.ok(html.includes('href="/classroom.html"'), `Return link missing: ${room.slug}`);
   assert.ok(html.includes('aria-label="教室を移動"'), `Navigation missing: ${room.slug}`);
