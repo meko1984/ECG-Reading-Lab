@@ -132,6 +132,11 @@ button { color: inherit; }
   margin-top: 30px;
 }
 
+@media (min-width: 700px) {
+  .home-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .home-action { min-height: 112px; }
+}
+
 .home-action {
   display: grid;
   min-height: 74px;

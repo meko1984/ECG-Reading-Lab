@@ -3,8 +3,9 @@ import { appPath } from '@/app/domain/paths';
 export const dynamic = 'force-static';
 
 const actions = [
-  { href: '/waveforms', icon: '⌁', label: '基本波形を見る' },
+  { href: '/waveforms', icon: '⌁', label: '基本波形をみる' },
   { href: '/labs', icon: '▣', label: '研究室' },
+  { href: '/classroom', icon: '▤', label: '教室' },
   { href: '/contact', icon: '✉', label: 'お問い合わせ' },
 ];
 
@@ -43,7 +44,7 @@ export default function Home() {
           ))}
         </nav>
 
-        <p className="model-note">学習用の模式図・波形。診断には使えません。</p>
+        <p className="model-note">図と波形で学ぶ教材。診断には使えません。</p>
 
         <footer className="home-footer">
           <p>version 0.1.5</p>

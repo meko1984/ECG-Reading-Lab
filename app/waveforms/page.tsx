@@ -10,7 +10,7 @@ export default function WaveformsPage() {
     <AppShell title="基本波形">
       <header className="page-header">
         <p className="eyebrow">12誘導を見比べる</p>
-        <h1>基本波形を見る</h1>
+        <h1>基本波形をみる</h1>
         <p className="page-lead">12方向の波形を見比べる。</p>
       </header>
 
