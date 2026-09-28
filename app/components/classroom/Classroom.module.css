@@ -43,7 +43,7 @@ a.card:hover { border-color: var(--blue); background: #f5fcff; }
 .diagramScroll { width: 100%; overflow-x: auto; overscroll-behavior-x: contain; background: #fbfdff; border: 1px solid #d4e2ef; border-radius: 10px; }
 .scrollFrame { position: relative; width: 100%; min-width: 0; }
 .scrollHint { display: none; position: absolute; left: 50%; bottom: 14px; z-index: 2; transform: translateX(-50%); align-items: center; gap: 7px; padding: 8px 13px; border-radius: 999px; background: rgba(10,31,87,.9); color: white; box-shadow: 0 3px 12px rgba(10,31,87,.2); font-size: .78rem; pointer-events: none; white-space: nowrap; }
-.scrollHint span:first-child { font-size: 1.3rem; line-height: 1; }
+.swipeIcon { width: 44px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .timeline { display: block; width: 100%; min-width: 620px; height: auto; }
 .timeline text { font-family: inherit; fill: var(--navy); }
 .leadGrid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 8px; }
@@ -61,6 +61,7 @@ a.card:hover { border-color: var(--blue); background: #f5fcff; }
 .measureReadout span { background: #e7f2ff; padding: 8px 12px; border-radius: 8px; font-weight: 700; font-size: .9rem; }
 .paperScroll { width: 100%; max-width: 100%; overflow-x: auto; overscroll-behavior-x: contain; border: 1px solid #ddbdc9; border-radius: 9px; background: #fffafb; }
 .overview { display: block; width: 100%; min-width: 680px; height: auto; }
+.schematicOverview { background: #fffafb; }
 .strip { display: block; max-width: none; }
 .waveText { font-family: inherit; font-size: 15px; fill: #0a1f57; }
 .caption { color: #465e7b; font-size: .8rem; line-height: 1.8; margin: 10px 0; }

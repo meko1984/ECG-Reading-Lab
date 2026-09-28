@@ -7,6 +7,7 @@ import { DeviceVisual } from './DeviceVisual';
 import { PracticeVisual } from './PracticeVisual';
 import { AdvancedVisual } from './AdvancedVisual';
 import { RecordedECGViewer } from './RecordedECGViewer';
+import { TwelveLeadSchematic } from './TwelveLeadSchematic';
 import styles from './Classroom.module.css';
 
 function LessonVisual({kind}:{kind:VisualKind}) {
@@ -32,7 +33,9 @@ function LessonVisual({kind}:{kind:VisualKind}) {
 export function LessonPage({lesson}:{lesson:Lesson}) {
   return <ClassroomLayout slug={lesson.slug} references={lesson.sources} labs={lesson.labs}>
     <LessonVisual kind={lesson.visual}/>
-    {lesson.recordId&&<RecordedECGViewer key={lesson.recordId} recordId={lesson.recordId}/>}
+    {lesson.recordId
+      ? <RecordedECGViewer key={lesson.recordId} recordId={lesson.recordId}/>
+      : lesson.visual !== 'practice' && <TwelveLeadSchematic kind={lesson.visual}/>}
     <section className={styles.section}>
       <h2>波形の特徴と見方</h2>
       <p className={styles.lede}>{lesson.lead}</p>
